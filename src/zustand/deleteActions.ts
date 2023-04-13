@@ -1,0 +1,64 @@
+import { StateKeys, ZustandSetAction, ZustandState } from './interface';
+
+export const handleDeleteDocument = (
+  set: ZustandSetAction,
+  id: string,
+  collection: StateKeys
+) => {
+  set((state: ZustandState) => {
+    let deletedItem = {};
+
+    const remainingItems = state[collection]?.data?.filter(
+      (data: any, index) => {
+        if (data.id == id) {
+          deletedItem = { ...data, dataIndex: index };
+          return false;
+        }
+        return true;
+      }
+    );
+
+    return {
+      temp: [...state.temp, deletedItem],
+      [collection]: { data: remainingItems },
+    };
+  });
+};
+
+export const handleDeleteDocumentSuccess = (
+  set: ZustandSetAction,
+  id: string
+) => {
+  set((state: ZustandState) => {
+    const filteredTemp = state.temp.filter((t) => t.id !== id);
+    return {
+      temp: filteredTemp,
+    };
+  });
+};
+
+export const handleDeleteDocumentError = (
+  set: ZustandSetAction,
+  id: string,
+  collection: StateKeys
+) => {
+  set((state: ZustandState) => {
+    const deletedItem = state.temp.find((data: any) => data.id === id);
+
+    if (!deletedItem) {
+      return state;
+    }
+
+    const index = deletedItem.dataIndex;
+    let updatedCollection: { [key: string]: any }[] = [];
+    if (collection in state) {
+      updatedCollection = [...(state[collection]?.data || [])];
+      updatedCollection.splice(index, 0, deletedItem);
+    }
+
+    return {
+      temp: state.temp.filter((data: any) => data.id !== id),
+      [collection]: { data: updatedCollection },
+    };
+  });
+};
