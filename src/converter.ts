@@ -1,12 +1,11 @@
 import fs from 'fs';
 // import path from 'path';
-import rootPath from 'app-root-path'
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 // const schemaFilePath = process.cwd()
 // process.chdir('/temp')
-console.log(__dirname, "rootPath======", rootPath.path)
+console.log(__dirname)
 const schemaStr = fs.readFileSync(process.argv[process.argv.length - 1], {encoding:"utf-8"})
 const schema = JSON.parse(schemaStr)
 const types = {
