@@ -3,9 +3,9 @@ import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 const schemaFilePath = process.cwd()
+console.log(schemaFilePath)
 const schemaStr = fs.readFileSync(process.argv[process.argv.length - 1], {encoding:"utf-8"})
 const schema = JSON.parse(schemaStr)
-console.log(schemaFilePath)
 const types = {
   int: 'number',
   float: 'number',
