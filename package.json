@@ -17,7 +17,6 @@
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
-    "postinstall": "yarn generate:typedefs fqlx.schema.json",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
