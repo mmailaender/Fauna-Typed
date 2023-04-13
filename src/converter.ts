@@ -1,7 +1,9 @@
 import fs from 'fs';
-import { schema } from './schema/schema';
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
+
+const schemaStr = fs.readFileSync(process.argv[process.argv.length - 1], {encoding:"utf-8"})
+const schema = JSON.parse(schemaStr)
 
 const types = {
   int: 'number',
@@ -43,7 +45,7 @@ const createInterface = (key: string, fields: object) => {
       createInterface(fieldKey, fieldValue);
 
       queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-        `${fieldKeyPascalCase}:  PaginateData<${fieldKeyPascalCase}> & ${fieldKeyPascalCase}Methods;\n`
+        `${fieldKeyPascalCase}:  ${fieldKeyPascalCase}Methods;\n`
       );
     }
 
@@ -75,7 +77,7 @@ const generateTypeDefs = () => {
     const keyInPascalCase = getPascalCaseString(key);
 
     queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-      `${keyInPascalCase}: PaginateData<${keyInPascalCase}> & ${keyInPascalCase}Methods;\n`
+      `${keyInPascalCase}: ${keyInPascalCase}Methods;\n`
     );
     createInterface(key, schema[key as keyof typeof schema].fields);
   });

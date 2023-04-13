@@ -13,10 +13,10 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "generate:typedefs": "ts-node src/converter.ts",
+    "generate:typedefs": "ts-node src/converter.ts schema.example.json",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepare": "yarn generate:typedefs fqlx.schema.json && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },

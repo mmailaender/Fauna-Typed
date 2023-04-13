@@ -32,12 +32,6 @@ export const useQuery = (): UseQueryReturnType => {
             {
               get(_lvlOneTarget: { [key: string]: any }, lvlOneKey: string) {
                 switch (lvlOneKey) {
-                  case 'data':
-                    return storeStates[collectionName]?.data;
-                  case 'after':
-                    return storeStates[collectionName]?.after;
-                  case 'before':
-                    return storeStates[collectionName]?.before;
                   case 'all':
                     return new AllActions(collectionName).all;
                   case 'create':
