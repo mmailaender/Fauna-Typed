@@ -5,8 +5,8 @@ import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 // const schemaFilePath = process.cwd()
 // process.chdir('/temp')
-console.log(__dirname, "rootPath======", process.cwd(),"process.argv=======", process.argv, "envs=======", process.env)
-const schemaStr = fs.readFileSync(`${process.argv[process.argv.length - 1]}`, {encoding:"utf-8"})
+console.log("filepath=======", `${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`, __dirname, "rootPath======", process.cwd(),"process.argv=======", process.argv, "envs=======", process.env, )
+const schemaStr = fs.readFileSync(`${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`, {encoding:"utf-8"})
 const schema = JSON.parse(schemaStr)
 const types = {
   int: 'number',
