@@ -13,7 +13,7 @@ const useFqlxStore = create<FqlxStore>((set) => ({
 }));
 
 export const FqlxProvider = ({ config, children }: {config: {fqlxSecret: string},children: React.ReactElement}):JSX.Element => {
-  const { setFqlxSecret } = useFqlxStore(state => state);
+  const { setFqlxSecret } = useFqlxStore((state:FqlxStore) => state);
 
   useMemo(() => {
     setFqlxSecret(config.fqlxSecret)
