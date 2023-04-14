@@ -5,9 +5,22 @@ import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 // const schemaFilePath = process.cwd()
 // process.chdir('/temp')
-console.log("filepath=======", `${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`, __dirname, "rootPath======", process.cwd(),"process.argv=======", process.argv, "envs=======", process.env, )
-const schemaStr = fs.readFileSync(`${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`, {encoding:"utf-8"})
-const schema = JSON.parse(schemaStr)
+console.log(
+  'filepath=======',
+  `${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`,
+  __dirname,
+  'rootPath======',
+  process.cwd(),
+  'process.argv=======',
+  process.argv,
+  'envs=======',
+  process.env
+);
+const schemaStr = fs.readFileSync(
+  `${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`,
+  { encoding: 'utf-8' }
+);
+const schema = JSON.parse(schemaStr);
 const types = {
   int: 'number',
   float: 'number',
@@ -36,7 +49,7 @@ const createInterface = (key: string, fields: object) => {
   let mainInterfaceKeyValue = '';
   let inputInterfaceKeyValue = '';
 
-  fieldsEntries.forEach((fieldEntry) => {
+  fieldsEntries.forEach(fieldEntry => {
     const fieldValue = fieldEntry[1];
     const fieldKey = fieldEntry[0];
 
@@ -92,10 +105,14 @@ const generateTypeDefs = () => {
 
 generateTypeDefs();
 
-fs.writeFileSync(
-  './src/generated/typedefs.ts',
-  TopLevelInterfaces.concat(typeSchema),
-  {
-    encoding: 'utf-8',
-  }
-);
+try {
+  fs.writeFileSync(
+    './src/generated/typedefs.ts',
+    TopLevelInterfaces.concat(typeSchema),
+    {
+      encoding: 'utf-8',
+    }
+  );
+} catch (error) {
+  console.log('Erorr on creating typedefs file');
+}
