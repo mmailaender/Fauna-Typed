@@ -21,6 +21,7 @@ export const FqlxProvider = ({
   const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
 
   useMemo(() => {
+    console.log("updating secret===========",config.fqlxSecret)
     setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
 
