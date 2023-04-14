@@ -4,7 +4,7 @@ import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
 import rc from 'rc'
 
-const rcConfig = rc('.fqlxrc', {})
+const rcConfig = rc('.fqlx', {})
 
 console.log("rc config=========",JSON.stringify(rcConfig))
 
