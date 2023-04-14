@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
@@ -17,7 +17,7 @@ export const FqlxProvider = ({
   children,
 }: {
   config: { fqlxSecret: string };
-  children: React.ReactNode;
+  children: React.ReactElement;
 }): JSX.Element => {
   const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
   console.log('config===========', config.fqlxSecret);
@@ -25,7 +25,7 @@ export const FqlxProvider = ({
   useEffect(() => {
     console.log('updating secret===========', config.fqlxSecret);
     setFqlxSecret(config.fqlxSecret);
-  }, [config.fqlxSecret]);
+  });
 
-  return <>{children}</>;
+  return useMemo(() => children, [config]);
 };
