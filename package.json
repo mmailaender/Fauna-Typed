@@ -16,7 +16,7 @@
     "generate:typedefs": "ts-node src/converter.ts schema.example.json",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "echo running prepare && yarn run generate:typedefs fqlx.schema.json && tsdx build",
+    "prepare": "yarn run generate:typedefs fqlx.schema.json && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -49,7 +49,6 @@
   ],
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.2.4",
-    "@types/rc": "^1.2.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/uuid": "^9.0.1",
@@ -66,7 +65,6 @@
     "buffer": "^6.0.3",
     "fauna": "github:Dechea/fauna-js",
     "module": "^1.2.5",
-    "rc": "^1.2.8",
     "stream": "^0.0.2",
     "typescript-json-schema": "^0.55.0",
     "uuid": "^9.0.0",

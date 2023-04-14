@@ -1,26 +1,6 @@
 import fs from 'fs';
-// import path from 'path';
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
-import rc from 'rc'
-
-const rcConfig = rc('.fqlx', {})
-
-console.log("rc config=========",JSON.stringify(rcConfig))
-
-// const schemaFilePath = process.cwd()
-// process.chdir('/temp')
-// console.log(
-//   'filepath=======',
-//   `../../../../../../../${process.env.SCHEMA_PATH}/${process.argv[process.argv.length - 1]}`,
-//   __dirname,
-//   'rootPath======',
-//   process.cwd(),
-//   'process.argv=======',
-//   process.argv,
-//   'envs=======',
-//   process.env
-// );
 
 const schemaStr = fs.readFileSync(
   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
