@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
@@ -16,15 +17,15 @@ export const FqlxProvider = ({
   children,
 }: {
   config: { fqlxSecret: string };
-  children: React.ReactElement;
+  children: React.ReactNode;
 }): JSX.Element => {
   const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
-  console.log("config===========",config.fqlxSecret)
+  console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
-    console.log("updating secret===========",config.fqlxSecret)
+    console.log('updating secret===========', config.fqlxSecret);
     setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
 
-  return children;
+  return <>{children}</>;
 };
