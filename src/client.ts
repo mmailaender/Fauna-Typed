@@ -1,29 +1,8 @@
 import { Client, endpoints } from 'fauna';
-import React, { useMemo } from 'react';
-import { create } from 'zustand';
-
-interface FqlxStore {
-  fqlxSecret: string;
-  setFqlxSecret(secret: string): void
-}
-
-const useFqlxStore = create<FqlxStore>((set) => ({
-  fqlxSecret: '',
-  setFqlxSecret: (secret:string) => set(() => ({ fqlxSecret: secret })),
-}));
-
-export const FqlxProvider = ({ config, children }: {config: {fqlxSecret: string},children: React.ReactElement}):JSX.Element => {
-  const { setFqlxSecret } = useFqlxStore((state:FqlxStore) => state);
-
-  useMemo(() => {
-    setFqlxSecret(config.fqlxSecret)
-  }, [config.fqlxSecret]);
-
-  return children;
-};
+import { useFqlxStore } from './FqlxProvider';
 
 class FqlxClient {
-  static client: Client
+  static client: Client;
 
   static getClient() {
     if (!this.client) {
@@ -33,11 +12,11 @@ class FqlxClient {
       });
     }
 
-    return this.client
+    return this.client;
   }
 }
 
-export const fqlxClient = FqlxClient.getClient()
+export const fqlxClient = FqlxClient.getClient();
 
 export const callFqlxQuery = async (query: string) => {
   try {

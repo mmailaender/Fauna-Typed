@@ -1,0 +1,28 @@
+import { useMemo } from 'react';
+import { create } from 'zustand';
+
+export interface FqlxStore {
+  fqlxSecret: string;
+  setFqlxSecret(secret: string): void;
+}
+
+export const useFqlxStore = create<FqlxStore>(set => ({
+  fqlxSecret: '',
+  setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
+}));
+
+export const FqlxProvider = ({
+  config,
+  children,
+}: {
+  config: { fqlxSecret: string };
+  children: React.ReactElement;
+}): JSX.Element => {
+  const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
+
+  useMemo(() => {
+    setFqlxSecret(config.fqlxSecret);
+  }, [config.fqlxSecret]);
+
+  return children;
+};
