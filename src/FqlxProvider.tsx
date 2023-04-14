@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 
 export interface FqlxStore {
@@ -21,7 +21,7 @@ export const FqlxProvider = ({
   const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
   console.log("config===========",config.fqlxSecret)
 
-  useMemo(() => {
+  useEffect(() => {
     console.log("updating secret===========",config.fqlxSecret)
     setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
