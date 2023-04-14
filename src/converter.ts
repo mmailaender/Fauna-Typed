@@ -2,6 +2,11 @@ import fs from 'fs';
 // import path from 'path';
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
+import rc from 'rc'
+
+const rcConfig = rc('.fqlxrc', {})
+
+console.log("rc config=========",JSON.stringify(rcConfig))
 
 // const schemaFilePath = process.cwd()
 // process.chdir('/temp')
