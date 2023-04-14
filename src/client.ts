@@ -6,10 +6,14 @@ class FqlxClient {
 
   static getClient() {
     if (!this.client) {
-      this.client = new Client({
-        endpoint: endpoints.preview,
-        secret: useFqlxStore.getState().fqlxSecret,
-      });
+      const secret = useFqlxStore.getState().fqlxSecret;
+      console.log('========secret=====', secret);
+      if (secret) {
+        this.client = new Client({
+          endpoint: endpoints.preview,
+          secret,
+        });
+      }
     }
 
     return this.client;
