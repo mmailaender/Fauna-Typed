@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 import { create } from 'zustand';
 
 export interface FqlxStore {
@@ -18,13 +18,13 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
+//   const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
   console.log("config===========",config.fqlxSecret)
 
-  useMemo(() => {
-    console.log("updating secret===========",config.fqlxSecret)
-    setFqlxSecret(config.fqlxSecret);
-  }, [config.fqlxSecret]);
+//   useMemo(() => {
+//     console.log("updating secret===========",config.fqlxSecret)
+//     setFqlxSecret(config.fqlxSecret);
+//   }, [config.fqlxSecret]);
 
   return children;
 };
