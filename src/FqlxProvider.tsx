@@ -25,7 +25,7 @@ export const FqlxProvider = ({
   useEffect(() => {
     console.log('updating secret===========', config.fqlxSecret);
     setFqlxSecret(config.fqlxSecret);
-  });
+  }, [config.fqlxSecret]);
 
   return useMemo(() => children, [config]);
 };
