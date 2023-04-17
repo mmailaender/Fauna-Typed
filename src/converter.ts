@@ -4,7 +4,7 @@ import {cosmiconfig} from 'cosmiconfig'
 // import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 const explorer = cosmiconfig('fqlx');
-
+console.log("running convertor========")
 explorer.search()
   .then((result) => {
     console.log("==========result=======", result)
