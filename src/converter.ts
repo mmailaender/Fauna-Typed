@@ -1,4 +1,4 @@
-// import fs from 'fs';
+import fs from 'fs';
 import {cosmiconfig} from 'cosmiconfig'
 // import { getPascalCaseString } from './helper';
 // import { TopLevelInterfaces, createTypedefsMethods } from './util';
@@ -17,10 +17,10 @@ explorer.search()
     // Do something constructive.
   });
 
-// const schemaStr = fs.readFileSync(
-//   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
-//   { encoding: 'utf-8' }
-// );
+const schemaStr = fs.readFileSync(
+  `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
+  { encoding: 'utf-8' }
+);
 // const schema = JSON.parse(schemaStr);
 // const types = {
 //   int: 'number',
