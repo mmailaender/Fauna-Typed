@@ -21,7 +21,8 @@ const schemaStr = fs.readFileSync(
   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
   { encoding: 'utf-8' }
 );
-// const schema = JSON.parse(schemaStr);
+const schema = JSON.parse(schemaStr);
+console.log(schema)
 // const types = {
 //   int: 'number',
 //   float: 'number',
