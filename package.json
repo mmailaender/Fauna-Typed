@@ -18,8 +18,7 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why",
-    "postinstall": "yarn run generate:typedefs"
+    "analyze": "size-limit --why"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -71,5 +70,5 @@
     "typescript-json-schema": "^0.55.0",
     "uuid": "^9.0.0",
     "zustand": "^4.3.6"
-  }
+  } 
 }
