@@ -4,7 +4,7 @@ import {cosmiconfig} from 'cosmiconfig'
 // import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 const explorer = cosmiconfig('fqlx');
-console.log("running convertor========")
+console.log("running convertor start========")
 explorer.search()
   .then((result) => {
     console.log("==========result=======", result)
@@ -16,6 +16,7 @@ explorer.search()
     console.log("==========error=======", error)
     // Do something constructive.
   });
+  console.log("running convertor end========")
 
 const schemaStr = fs.readFileSync(
   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
