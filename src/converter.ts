@@ -1,4 +1,4 @@
-import fs from 'fs';
+// import fs from 'fs';
 import {cosmiconfig} from 'cosmiconfig'
 // import { getPascalCaseString } from './helper';
 // import { TopLevelInterfaces, createTypedefsMethods } from './util';
@@ -18,12 +18,12 @@ explorer.search()
   });
   console.log("running convertor end========")
 
-const schemaStr = fs.readFileSync(
-  `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
-  { encoding: 'utf-8' }
-);
-const schema = JSON.parse(schemaStr);
-console.log(schema)
+// const schemaStr = fs.readFileSync(
+//   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
+//   { encoding: 'utf-8' }
+// );
+// const schema = JSON.parse(schemaStr);
+// console.log(schema)
 // const types = {
 //   int: 'number',
 //   float: 'number',
