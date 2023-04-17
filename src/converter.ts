@@ -1,32 +1,20 @@
 import fs from 'fs';
+import path from 'path';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
-const cjsRequire = globalThis.require
-const cjsLoader = (filePath: string) => {
-  return cjsRequire(filePath);
-};
+// const cjsRequire = globalThis.require;
 
-console.log('running convertor start========');
-const explorerSync = cosmiconfigSync('fqlx',{
-  searchPlaces: ['fqlx.config.cjs', 'fqlx.config.js', 'package.json'],
-  loaders: {
-    '.cjs': cjsLoader,
-    '.js': cjsLoader,
-  },
+// const cjsLoader = (filePath: string) => {
+//   return cjsRequire(filePath);
+// };
+
+const explorerSync = cosmiconfigSync('fqlx', {
+  searchPlaces: ['fqlx.schema.json'],
 });
-const schema = explorerSync.search()?.config
-console.log('explorerSync.search=========', explorerSync.search());
+const schema = explorerSync.search()?.config;
 
-console.log('running convertor end========');
-
-// const schemaStr = fs.readFileSync(
-//   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
-//   { encoding: 'utf-8' }
-// );
-// const schema = JSON.parse(schemaStr);
-console.log(schema)
 const types = {
   int: 'number',
   float: 'number',
@@ -111,10 +99,26 @@ const generateTypeDefs = () => {
 
 generateTypeDefs();
 
-fs.writeFileSync(
-  './src/generated/typedefs.ts',
-  TopLevelInterfaces.concat(typeSchema),
-  {
-    encoding: 'utf-8',
-  }
-);
+if (fs.existsSync(
+  `${process.env?.PWD}/node_modules/fqlx-client/dist/generated/typedefs.d.ts`
+)) {
+  fs.writeFileSync(
+    path.resolve(
+      process.env?.PWD || '',
+      `node_modules/fqlx-client/dist/generated/typedefs.d.ts`
+    ) ,
+    TopLevelInterfaces.concat(typeSchema),
+    {
+      encoding: 'utf-8',
+    }
+  );
+  
+} else {
+  fs.writeFileSync(
+   './src/generated/typedefs.ts',
+    TopLevelInterfaces.concat(typeSchema),
+    {
+      encoding: 'utf-8',
+    }
+  );
+}
