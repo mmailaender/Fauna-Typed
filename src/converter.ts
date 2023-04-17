@@ -1,14 +1,21 @@
 import fs from 'fs';
 import { cosmiconfigSync } from 'cosmiconfig';
-import path from "path";
 import { getPascalCaseString } from './helper';
 import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
+const cjsRequire = globalThis.require
+const cjsLoader = (filePath: string) => {
+  return cjsRequire(filePath);
+};
 
-const appDir = path.dirname(require?.main?.filename || '');
-
-console.log('running convertor start========',appDir, "require?.main?.filename=========",require?.main?.filename);
-const explorerSync = cosmiconfigSync('fqlx');
+console.log('running convertor start========');
+const explorerSync = cosmiconfigSync('fqlx',{
+  searchPlaces: ['fqlx.config.cjs', 'fqlx.config.js', 'package.json'],
+  loaders: {
+    '.cjs': cjsLoader,
+    '.js': cjsLoader,
+  },
+});
 const schema = explorerSync.search()?.config
 console.log('explorerSync.search=========', explorerSync.search());
 
