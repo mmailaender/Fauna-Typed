@@ -1,22 +1,39 @@
-// import fs from 'fs';
-import {cosmiconfig} from 'cosmiconfig'
+import fs from 'fs';
+import { cosmiconfig } from 'cosmiconfig';
 // import { getPascalCaseString } from './helper';
 // import { TopLevelInterfaces, createTypedefsMethods } from './util';
 
 const explorer = cosmiconfig('fqlx');
-console.log("running convertor start========")
-explorer.search()
-  .then((result) => {
-    console.log("==========result=======", result)
+console.log('running convertor start========');
+explorer
+  .search()
+  .then(result => {
+    console.log('==========result=======', result);
+    const schemaStr = fs.readFileSync(
+      `../../../../../..${process.env.INIT_CWD}/${
+        process.argv[process.argv.length - 1]
+      }`,
+      { encoding: 'utf-8' }
+    );
+    const schema = JSON.parse(schemaStr);
+    console.log(schema);
     // result.config is the parsed configuration object.
     // result.filepath is the path to the config file that was found.
     // result.isEmpty is true if there was nothing to parse in the config file.
   })
-  .catch((error) => {
-    console.log("==========error=======", error)
+  .catch(error => {
+    console.log('==========error=======', error);
+    const schemaStr = fs.readFileSync(
+      `../../../../../..${process.env.INIT_CWD}/${
+        process.argv[process.argv.length - 1]
+      }`,
+      { encoding: 'utf-8' }
+    );
+    const schema = JSON.parse(schemaStr);
+    console.log(schema);
     // Do something constructive.
   });
-  console.log("running convertor end========")
+console.log('running convertor end========');
 
 // const schemaStr = fs.readFileSync(
 //   `../../../../../..${process.env.INIT_CWD}/${process.argv[process.argv.length - 1]}`,
