@@ -10,7 +10,7 @@ const appDir = path.dirname(require?.main?.filename || '');
 console.log('running convertor start========',appDir, "require?.main?.filename=========",require?.main?.filename);
 const explorerSync = cosmiconfigSync('fqlx');
 const schema = explorerSync.search()?.config
-console.log('explorerSync.search=========', );
+console.log('explorerSync.search=========', explorerSync.search());
 
 console.log('running convertor end========');
 
