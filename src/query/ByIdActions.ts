@@ -2,7 +2,7 @@ import {
   ByIdMethods,
   DeleteMethods,
   UpdateMethods,
-} from '../generated/typedefs';
+} from '../interfaces/topLevelTypedefs';
 import zustandStore from '../zustand/store';
 import { StateKeys } from '../zustand/interface';
 import { callFqlxQuery } from '../client';

@@ -2,17 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { getKeyType, getPascalCaseString } from './helper';
-import { TopLevelInterfaces, createTypedefsMethods } from './util';
+import { topLevelInterfaces, createTypedefsMethods } from './util';
 
-// const cjsRequire = globalThis.require;
-
-// const cjsLoader = (filePath: string) => {
-//   return cjsRequire(filePath);
-// };
+console.log(
+  process.env.NODE_ENV,
+  'process.env?.PWD==========',
+  process.env?.PWD
+);
 
 const explorerSync = cosmiconfigSync('fqlx', {
   searchPlaces: ['fqlx.schema.json'],
 });
+
 const schema = explorerSync.search()?.config;
 
 let typeSchema = '';
@@ -82,27 +83,15 @@ const generateTypeDefs = () => {
 
 generateTypeDefs();
 
-if (
-  fs.existsSync(
-    `${process.env?.PWD}/node_modules/fqlx-client/dist/generated/typedefs.d.ts`
-  )
-) {
-  fs.writeFileSync(
-    path.resolve(
-      process.env?.PWD || '',
-      `node_modules/fqlx-client/dist/generated/typedefs.d.ts`
-    ),
-    TopLevelInterfaces.concat(typeSchema),
-    {
-      encoding: 'utf-8',
-    }
-  );
-} else {
-  fs.writeFileSync(
-    './src/generated/typedefs.ts',
-    TopLevelInterfaces.concat(typeSchema),
-    {
-      encoding: 'utf-8',
-    }
-  );
+const dir = `${process.env?.PWD}/fqlx-generated`;
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
 }
+
+fs.writeFileSync(
+  path.resolve(process.env?.PWD as string, `fqlx-generated/typedefs.ts`),
+  topLevelInterfaces.concat(typeSchema),
+  {
+    encoding: 'utf-8',
+  }
+);

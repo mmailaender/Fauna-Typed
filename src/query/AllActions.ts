@@ -3,9 +3,9 @@ import {
   FirstMethods,
   PaginateData,
   WhereMethods,
-} from '../generated/typedefs';
+} from '../interfaces/topLevelTypedefs';
 import zustandStore from '../zustand/store';
-import { StateKeys } from '../zustand/interface';
+import { StateKeys, ZustandState } from '../zustand/interface';
 import { callFqlxQuery } from '../client';
 
 export class AllActions<T> {
@@ -30,16 +30,18 @@ export class AllActions<T> {
       // Add query as active in state
       this.store.setState({
         activeQuery: { ...this.store.getState().activeQuery, [query]: true },
-      });
+      } as ZustandState);
 
       // Calling Fqlx API
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({ fetchingPromise: { current: req } });
+      this.store.setState({
+        fetchingPromise: { current: req },
+      } as ZustandState);
 
       req
-        .then((res) => {
+        .then(res => {
           // Storing API res in local state
           this.store.setState({
             [this.collectionName]: {
@@ -48,18 +50,18 @@ export class AllActions<T> {
               before: res?.before,
             },
             fetchingPromise: {},
-          });
+          } as ZustandState);
         })
-        .catch((error) => {
+        .catch(error => {
           // Update value of query as inactive in state
           this.store.setState({
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: false,
             },
-          });
+          } as ZustandState);
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} });
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
 
           throw error;
         });
@@ -82,23 +84,25 @@ export class AllActions<T> {
       // Checking, query is already executed
       if (this.store.getState().activeQuery[query]) {
         // Return data from state
-        return (this.store.getState()[this.collectionName]?.data?.[0] ||
-          {}) as unknown as T;
+        return ((this.store.getState()[this.collectionName]?.data?.[0] ||
+          {}) as unknown) as T;
       }
 
       // Add query as active in state
       this.store.setState({
         activeQuery: { ...this.store.getState().activeQuery, [query]: true },
-      });
+      } as ZustandState);
 
       // Calling Fqlx API
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({ fetchingPromise: { current: req } });
+      this.store.setState({
+        fetchingPromise: { current: req },
+      } as ZustandState);
 
       req
-        .then((res) => {
+        .then(res => {
           if (res) {
             // Storing API res in local state
             this.store.setState({
@@ -108,17 +112,17 @@ export class AllActions<T> {
             });
           }
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} });
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
         })
-        .catch((error) => {
+        .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} });
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
 
           throw error;
         });
 
-      return (this.store.getState()[this.collectionName]?.data[0] ||
-        {}) as unknown as T;
+      return ((this.store.getState()[this.collectionName]?.data[0] ||
+        {}) as unknown) as T;
     };
 
     return {
@@ -140,16 +144,18 @@ export class AllActions<T> {
       // Add query as active in state
       this.store.setState({
         activeQuery: { ...this.store.getState().activeQuery, [query]: true },
-      });
+      } as ZustandState);
 
       // Calling Fqlx API
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({ fetchingPromise: { current: req } });
+      this.store.setState({
+        fetchingPromise: { current: req },
+      } as ZustandState);
 
       req
-        .then((res) => {
+        .then(res => {
           // Storing API res in local state
           this.store.setState({
             [this.collectionName]: {
@@ -158,11 +164,11 @@ export class AllActions<T> {
               before: res?.before,
             },
             fetchingPromise: {},
-          });
+          } as ZustandState);
         })
-        .catch((error) => {
+        .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} });
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
 
           throw error;
         });

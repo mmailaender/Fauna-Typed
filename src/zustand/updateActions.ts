@@ -20,7 +20,7 @@ export const handleUpdateDocument = <T>(
     return {
       temp: [...state.temp, currentData],
       [collection]: { data: updatedState },
-    };
+    } as unknown as ZustandState;
   });
 };
 
@@ -32,7 +32,7 @@ export const handleUpdateDocumentSuccess = (
     const filteredTemp = state.temp.filter((t) => t.id !== id);
     return {
       temp: filteredTemp,
-    };
+    } as ZustandState;
   });
 };
 
@@ -54,6 +54,6 @@ export const handleUpdateDocumentError = (
     return {
       temp: filteredTemp,
       [collection]: { data: validStates },
-    };
+    } as unknown as ZustandState;
   });
 };

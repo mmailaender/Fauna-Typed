@@ -10,7 +10,7 @@ export const handleCreateDocument = <T>(
     [collection]: {
       data: [inputData, ...(state[collection]?.data || [])],
     },
-  }));
+  }) as ZustandState);
 };
 
 export const handleCreateDocumentSuccess = (
@@ -29,7 +29,7 @@ export const handleCreateDocumentSuccess = (
 
     return {
       [collection]: { data: validData },
-    };
+    } as ZustandState;
   });
 };
 
@@ -46,6 +46,6 @@ export const handleCreateDocumentFailed = (
       [collection]: {
         data: validStates,
       },
-    };
+    } as ZustandState;
   });
 };

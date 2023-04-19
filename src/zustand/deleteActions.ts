@@ -21,8 +21,8 @@ export const handleDeleteDocument = (
     return {
       temp: [...state.temp, deletedItem],
       [collection]: { data: remainingItems },
-    };
-  });
+    } as unknown as ZustandState;
+  }) ;
 };
 
 export const handleDeleteDocumentSuccess = (
@@ -33,7 +33,7 @@ export const handleDeleteDocumentSuccess = (
     const filteredTemp = state.temp.filter((t) => t.id !== id);
     return {
       temp: filteredTemp,
-    };
+    } as ZustandState;
   });
 };
 
@@ -46,7 +46,7 @@ export const handleDeleteDocumentError = (
     const deletedItem = state.temp.find((data: any) => data.id === id);
 
     if (!deletedItem) {
-      return state;
+      return state as ZustandState;
     }
 
     const index = deletedItem.dataIndex;
@@ -59,6 +59,6 @@ export const handleDeleteDocumentError = (
     return {
       temp: state.temp.filter((data: any) => data.id !== id),
       [collection]: { data: updatedCollection },
-    };
+    } as unknown as ZustandState;
   });
 };

@@ -1,14 +1,12 @@
 import { useMemo } from 'react';
-import { Query } from '../generated/typedefs';
 import zustandStore from '../zustand/store';
 import { StateKeys, ZustandStore } from '../zustand/interface';
 import { AllActions } from './AllActions';
 import { CreateActions } from './CreateActions';
 import { ByIdActions } from './ByIdActions';
 
-type UseQueryReturnType = Query;
 
-export const useQuery = (): UseQueryReturnType => {
+export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
   const storeStates = useStore((state) => state);
 
@@ -25,7 +23,7 @@ export const useQuery = (): UseQueryReturnType => {
   return useMemo(
     () =>
       new Proxy(storeStates, {
-        get(_target: { [key: string]: any }, collectionName: StateKeys) {
+        get(_target: { [key: string]: any }, collectionName: string) {
           createStateInStore(collectionName);
           return new Proxy(
             {},
@@ -45,7 +43,7 @@ export const useQuery = (): UseQueryReturnType => {
             }
           );
         },
-      }) as UseQueryReturnType,
+      }) as T,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [storeStates]
   );

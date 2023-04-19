@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { CreateMethods } from '../generated/typedefs';
+import { CreateMethods } from '../interfaces/topLevelTypedefs';
 import { StateKeys } from '../zustand/interface';
 import zustandStore from '../zustand/store';
 import { callFqlxQuery } from '../client';
