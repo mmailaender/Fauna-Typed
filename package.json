@@ -56,7 +56,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "size-limit": "^8.2.4",
-    "ts-node": "^10.9.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
     "typescript": "^5.0.2"
@@ -70,6 +69,7 @@
     "stream": "^0.0.2",
     "typescript-json-schema": "^0.55.0",
     "uuid": "^9.0.0",
+    "ts-node": "^10.9.1",
     "zustand": "^4.3.6"
   }
 }
