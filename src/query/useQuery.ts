@@ -1,3 +1,5 @@
+"use client"
+
 import { useMemo } from 'react';
 import zustandStore from '../zustand/store';
 import { StateKeys, ZustandStore } from '../zustand/interface';
