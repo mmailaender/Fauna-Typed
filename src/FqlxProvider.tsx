@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
@@ -39,5 +39,5 @@ export const FqlxProvider = ({
     return <div>Loading...</div>;
   }
 
-  return useMemo(() => children, [config]);
+  return children;
 };
