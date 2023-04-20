@@ -3,6 +3,7 @@ import path from 'path';
 import { getKeyType, getPascalCaseString } from './helper';
 import { topLevelInterfaces, createTypedefsMethods } from './util';
 import { getSchema } from './schema';
+import { getCollectionsWithFields } from './collectionsWithFields';
 
 const schema = getSchema();
 
@@ -81,6 +82,17 @@ if (!fs.existsSync(dir)) {
 fs.writeFileSync(
   path.resolve(process.env?.PWD as string, `fqlx-generated/typedefs.ts`),
   topLevelInterfaces.concat(typeSchema),
+  {
+    encoding: 'utf-8',
+  }
+);
+
+fs.writeFileSync(
+  path.resolve(
+    process.env?.PWD as string,
+    `fqlx-generated/collectionsWithFields.ts`
+  ),
+  `export const collectionsWithFields = ${JSON.stringify(getCollectionsWithFields(schema))}`,
   {
     encoding: 'utf-8',
   }
