@@ -3,6 +3,9 @@ import {
   FirstMethods,
   PaginateData,
   WhereMethods,
+  FirstWhereMethods,
+  OrderMethods,
+  OrderMethodInput,
 } from '../interfaces/topLevelTypedefs';
 import zustandStore from '../zustand/store';
 import { StateKeys, ZustandState } from '../zustand/interface';
@@ -11,6 +14,7 @@ import { callFqlxQuery } from '../client';
 export class AllActions<T> {
   protected collectionName: StateKeys;
   private store = zustandStore.getStore();
+  private whereQuery = '';
 
   constructor(collectionName: StateKeys) {
     this.collectionName = collectionName;
@@ -72,6 +76,7 @@ export class AllActions<T> {
     return {
       exec: executor,
       first: this.first,
+      firstWhere: this.firstWhere,
       where: this.where,
     };
   };
@@ -133,6 +138,110 @@ export class AllActions<T> {
   // This Creates query for Fqlx `all().where()` and returns methods for the same
   public where = (input: (data: T) => boolean): WhereMethods<T> => {
     const query = `${this.collectionName}.all().where(${input.toString()})`;
+    this.whereQuery = input.toString();
+
+    const executor = (): PaginateData<T> => {
+      // Checking, query is already executed
+      if (this.store.getState().activeQuery[query]) {
+        // Return data from state
+        return this.store.getState()[this.collectionName] as PaginateData<T>;
+      }
+
+      // Add query as active in state
+      this.store.setState({
+        activeQuery: { ...this.store.getState().activeQuery, [query]: true },
+      } as ZustandState);
+
+      // Calling Fqlx API
+      const req = callFqlxQuery(query);
+
+      // Updating fetchingPromise in state
+      this.store.setState({
+        fetchingPromise: { current: req },
+      } as ZustandState);
+
+      req
+        .then(res => {
+          // Storing API res in local state
+          this.store.setState({
+            [this.collectionName]: {
+              data: res?.data,
+              after: res?.after,
+              before: res?.before,
+            },
+            fetchingPromise: {},
+          } as ZustandState);
+        })
+        .catch(error => {
+          // Reset fetchingPromise in state
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
+
+          throw error;
+        });
+
+      return this.store.getState()[this.collectionName] as PaginateData<T>;
+    };
+
+    return {
+      exec: executor,
+      order: this.order,
+    };
+  };
+
+  // This Creates query for Fqlx `all().firstWhere()` and returns methods for the same
+  public firstWhere = (input: (data: T) => boolean): FirstWhereMethods<T> => {
+    const query = `${this.collectionName
+      }.all().firstWhere(${input.toString()})`;
+
+    const executor = (): T => {
+      // Checking, query is already executed
+      if (this.store.getState().activeQuery[query]) {
+        // Return data from state
+        return this.store.getState()[this.collectionName] as T;
+      }
+
+      // Add query as active in state
+      this.store.setState({
+        activeQuery: { ...this.store.getState().activeQuery, [query]: true },
+      } as ZustandState);
+
+      // Calling Fqlx API
+      const req = callFqlxQuery(query);
+
+      // Updating fetchingPromise in state
+      this.store.setState({
+        fetchingPromise: { current: req },
+      } as ZustandState);
+
+      req
+        .then(res => {
+          // Storing API res in local state
+          this.store.setState({
+            [this.collectionName]: {
+              data: res?.data,
+              after: res?.after,
+              before: res?.before,
+            },
+            fetchingPromise: {},
+          } as ZustandState);
+        })
+        .catch(error => {
+          // Reset fetchingPromise in state
+          this.store.setState({ fetchingPromise: {} } as ZustandState);
+
+          throw error;
+        });
+
+      return (this.store.getState()[this.collectionName]?.data[0] || {}) as T;
+    };
+
+    return {
+      exec: executor,
+    };
+  };
+
+  public order = (orderInput: OrderMethodInput<T>): OrderMethods<T> => {
+    const query = `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput}`;
 
     const executor = (): PaginateData<T> => {
       // Checking, query is already executed

@@ -22,13 +22,38 @@ export interface ExecMethods<T> {
 
 export interface CreateMethods<T> extends PromisifyExecMethods<T> {}
 
-export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {}
+// @ts-ignore
+export type OrderMethodInput<T> = `asc(.${keyof T})` | `desc(.${keyof T})`
 
-export interface FirstMethods<T> extends ExecMethods<T> {}
+export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
+  /**
+   * 
+   * order method creates a Set by applying an Ordering to the values of this Set, and returns the new Set.
+   * 
+   * @param {"asc(.key)" | "desc(.key)"} inputOrder creates Set with ordering applied.
+   * 
+   * @returns {OrderMethods<T>} returns the new Set with ordering applied.
+   * 
+   * @example
+   * query.Address.all().where((data) => data.id != 123).order("asc(.id)").exec()
+   * query.Address.all().where((data) => data.id != 123).order("desc(.id)").exec()
+   * 
+   * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/order#signature See more...}
+   *
+   */
+  // @ts-ignore
+  order(inputOrder: OrderMethodInput<T>): OrderMethods<T>;
+}
 
-export interface DeleteMethods<T> extends PromisifyExecMethods<T> {}
+export interface FirstWhereMethods<T> extends ExecMethods<T> { }
 
-export interface UpdateMethods<T> extends PromisifyExecMethods<T> {}
+export interface FirstMethods<T> extends ExecMethods<T> { }
+
+export interface OrderMethods<T> extends ExecMethods<PaginateData<T>> { }
+
+export interface DeleteMethods<T> extends PromisifyExecMethods<T> { }
+
+export interface UpdateMethods<T> extends PromisifyExecMethods<T> { }
 
 export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
   /**
@@ -44,6 +69,20 @@ export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/first#signature See more...}
    */
   first(): FirstMethods<T>;
+
+  /**
+   * first where method get the first matching value from the Set.
+   *
+   * @param {(inputCondition: (data: T) => boolean)} function takes in a document of type T and returns a boolean
+   *
+   * @returns {FirstWhereMethods<T>}  returns the first matching value in the Set, or null if the Set is empty or no values match.
+   * 
+   * @example
+   * query.Address.all().firstWhere((data) => data.country == 'uk').exec()
+   *
+   * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/firstwhere#description See more...}
+   */
+  firstWhere(inputCondition: (data: T) => boolean): FirstWhereMethods<T>;
 
   /**
    * where method set a subset of matching Set values.
