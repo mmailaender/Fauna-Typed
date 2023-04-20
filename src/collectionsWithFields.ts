@@ -1,3 +1,5 @@
+import process from 'process'
+
 type CollectionsWithFieldsType = {
   name: string;
   fields: { name: string; type: string }[];
