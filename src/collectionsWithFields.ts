@@ -1,34 +1,38 @@
-import { getSchema } from './schema';
-
 type CollectionsWithFieldsType = {
   name: string;
   fields: { name: string; type: string }[];
 };
 
-export const getCollectionsWithFields = (): CollectionsWithFieldsType[] => {
-  const schema = getSchema();
+export const getCollectionsWithFields = (): Promise<CollectionsWithFieldsType[]> => {
+  return import(`${`${process.env?.PWD}/fqlx.schema.json`}`)
+    .then(data => {
+      const schema = data.default;
 
-  return Object.keys(schema).map(collectionName => {
-    const fields = schema[collectionName as keyof typeof schema].fields;
+      return Object.keys(schema).map(collectionName => {
+        const fields = schema[collectionName as keyof typeof schema].fields;
 
-    const mappedFields = Object.keys(fields).map(fieldKey => {
-      const fieldValue = fields[fieldKey as keyof typeof fields];
+        const mappedFields = Object.keys(fields).map(fieldKey => {
+          const fieldValue = fields[fieldKey as keyof typeof fields];
 
-      if (typeof fieldValue === 'object') {
+          if (typeof fieldValue === 'object') {
+            return {
+              name: fieldKey,
+              type: 'object',
+            };
+          }
+          return {
+            name: fieldKey,
+            type: fieldValue,
+          };
+        });
+
         return {
-          name: fieldKey,
-          type: 'object',
+          name: collectionName,
+          fields: mappedFields,
         };
-      }
-      return {
-        name: fieldKey,
-        type: fieldValue,
-      };
+      });
+    })
+    .catch(err => {
+      throw err;
     });
-
-    return {
-      name: collectionName,
-      fields: mappedFields,
-    };
-  });
 };
