@@ -4,12 +4,7 @@ type CollectionsWithFieldsType = {
 };
 
 export const getCollectionsWithFields = (): Promise<CollectionsWithFieldsType[]> => {
-  console.log(
-    'window.process====',
-    window.process,
-    'procss======',
-    process.env
-  );
+  console.log('window.process====', window.process);
   return import(`${`${window.process.env?.PWD}/fqlx.schema.json`}`)
     .then(data => {
       const schema = data.default;
