@@ -1,3 +1,4 @@
+export * from './interfaces/topLevelTypedefs';
 export { useQuery } from './query/useQuery';
 export { FqlxProvider } from './FqlxProvider';
-export * from './interfaces/topLevelTypedefs'
+export { getCollectionsWithFields } from './collectionsWithFields';

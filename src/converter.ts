@@ -1,20 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { cosmiconfigSync } from 'cosmiconfig';
 import { getKeyType, getPascalCaseString } from './helper';
 import { topLevelInterfaces, createTypedefsMethods } from './util';
+import { getSchema } from './schema';
 
-console.log(
-  process.env.NODE_ENV,
-  'process.env?.PWD==========',
-  process.env?.PWD
-);
-
-const explorerSync = cosmiconfigSync('fqlx', {
-  searchPlaces: ['fqlx.schema.json'],
-});
-
-const schema = explorerSync.search()?.config;
+const schema = getSchema();
 
 let typeSchema = '';
 let queryInterfaceKeyValue = '';
