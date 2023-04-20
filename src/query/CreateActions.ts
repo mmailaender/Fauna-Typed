@@ -1,3 +1,5 @@
+'use client';
+
 import { v4 as uuid } from 'uuid';
 import { CreateMethods } from '../interfaces/topLevelTypedefs';
 import { StateKeys } from '../zustand/interface';

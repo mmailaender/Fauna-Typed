@@ -1,4 +1,6 @@
-import React, { useMemo } from 'react';
+'use client';
+
+import React from 'react';
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
@@ -19,13 +21,23 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const { setFqlxSecret } = useFqlxStore((state: FqlxStore) => state);
+  const { setFqlxSecret, fqlxSecret } = useFqlxStore(
+    (state: FqlxStore) => state
+  );
   console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
     console.log('updating secret===========', config.fqlxSecret);
+    if (!config.fqlxSecret) {
+      throw new Error('Missing Fauna Secret');
+    }
+
     setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
 
-  return useMemo(() => children, [config]);
+  if (!fqlxSecret) {
+    return <div>Loading...</div>;
+  }
+
+  return children;
 };

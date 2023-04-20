@@ -1,3 +1,5 @@
+'use client';
+
 import { StateKeys } from './interface';
 
 export const handleGetStateById = <T>(

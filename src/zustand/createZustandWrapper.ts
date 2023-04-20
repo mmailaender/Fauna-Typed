@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 import { StateKeys, ZustandState, ZustandStore } from './interface';
 import {

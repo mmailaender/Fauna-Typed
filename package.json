@@ -55,6 +55,7 @@
     "husky": "^8.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-banner2": "^1.2.2",
     "size-limit": "^8.2.4",
     "tsdx": "^0.14.1",
     "tslib": "^2.5.0",

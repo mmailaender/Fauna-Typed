@@ -1,3 +1,5 @@
+'use client';
+
 import { createZustandWrapper } from './createZustandWrapper';
 import { ZustandStore } from './interface';
 
