@@ -1,4 +1,5 @@
 import process from 'process'
+import { getSchema } from './schema';
 
 type CollectionsWithFieldsType = {
   name: string;
@@ -6,7 +7,7 @@ type CollectionsWithFieldsType = {
 };
 
 export const getCollectionsWithFields = (): Promise<CollectionsWithFieldsType[]> => {
-  console.log('window.process====', process.env, "process.env?.PWD", process.env?.PWD);
+  console.log('window.process====', getSchema());
   return import(`${`${process.env?.PWD}/fqlx.schema.json`}`)
     .then(data => {
       const schema = data.default;
