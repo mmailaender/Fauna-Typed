@@ -1,3 +1,5 @@
+'use client';
+
 import { Client, endpoints } from 'fauna';
 import { useFqlxStore } from './FqlxProvider';
 

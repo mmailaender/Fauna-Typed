@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useMemo } from 'react';
 import zustandStore from '../zustand/store';
@@ -7,10 +7,9 @@ import { AllActions } from './AllActions';
 import { CreateActions } from './CreateActions';
 import { ByIdActions } from './ByIdActions';
 
-
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
-  const storeStates = useStore((state) => state);
+  const storeStates = useStore(state => state);
 
   if (storeStates.fetchingPromise?.current) {
     throw storeStates.fetchingPromise?.current;

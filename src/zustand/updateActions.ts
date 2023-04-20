@@ -1,3 +1,5 @@
+'use client';
+
 import { StateKeys, ZustandSetAction, ZustandState } from './interface';
 
 export const handleUpdateDocument = <T>(
