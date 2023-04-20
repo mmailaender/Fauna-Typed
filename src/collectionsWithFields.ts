@@ -1,4 +1,4 @@
-import process from 'process';
+// import process from 'process';
 
 type CollectionsWithFieldsType = {
   name: string;
@@ -6,14 +6,9 @@ type CollectionsWithFieldsType = {
 };
 
 export const getCollectionsWithFields = (): Promise<CollectionsWithFieldsType[]> => {
+  //   return import(`${process.env?.PWD}/fqlx.schema.json`)
   // @ts-ignore
-  console.log('process?.browser====', process?.browser);
-  return import(
-	  `${`${
-		// @ts-ignore
-      process?.browser ? '../../../fqlx.schema.json' : process.env?.PWD
-    }/fqlx.schema.json`}`
-  )
+  return import('../../../fqlx.schema.json')
     .then(data => {
       const schema = data.default;
 
