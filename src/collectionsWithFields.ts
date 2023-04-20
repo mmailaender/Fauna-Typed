@@ -8,9 +8,9 @@ type CollectionsWithFieldsType = {
 export const getCollectionsWithFields = (): Promise<CollectionsWithFieldsType[]> => {
   // @ts-ignore
   console.log('process?.browser====', process?.browser);
-  // @ts-ignore
   return import(
-    `${`${
+	  `${`${
+		// @ts-ignore
       process?.browser ? '../../../fqlx.schema.json' : process.env?.PWD
     }/fqlx.schema.json`}`
   )
