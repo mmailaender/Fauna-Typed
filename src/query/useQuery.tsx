@@ -13,7 +13,7 @@ export const useQuery = <T,>(): T => {
 
   if (storeStates.fetchingPromise?.current) {
     // throw storeStates.fetchingPromise?.current;
-    return (<div>...Loading</div>) as T;
+    return (<div>...Loading</div>) as unknown as T;
   }
 
   const createStateInStore = (collectionName: StateKeys) => {
