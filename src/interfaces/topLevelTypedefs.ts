@@ -41,7 +41,6 @@ export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/order#signature See more...}
    *
    */
-  // @ts-ignore
   order(inputOrder: OrderMethodInput<T>): OrderMethods<T>;
 }
 
