@@ -22,8 +22,7 @@ export interface ExecMethods<T> {
 
 export interface CreateMethods<T> extends PromisifyExecMethods<T> {}
 
-// @ts-ignore
-export type OrderMethodInput<T> = `asc(.${keyof T})` | `desc(.${keyof T})`
+export type OrderMethodInput<T> = `asc(.${string & keyof T})` | `desc(.${string & keyof T})`
 
 export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
   /**
