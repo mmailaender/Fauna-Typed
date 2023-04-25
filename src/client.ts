@@ -1,14 +1,14 @@
 'use client';
 
 import { Client, endpoints } from 'fauna';
-import { useFqlxStore } from './FqlxProvider';
+import { fqlxStore } from './FqlxProvider';
 
 class FqlxClient {
   static client: Client;
 
   static getClient() {
     if (!this.client) {
-      const secret = useFqlxStore.getState().fqlxSecret;
+      const secret = fqlxStore.getState().fqlxSecret;
       console.log('========secret=====', secret);
       if (secret) {
       console.log('========new client creating=====', secret);

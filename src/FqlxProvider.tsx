@@ -2,17 +2,33 @@
 
 import React from 'react';
 import { useEffect } from 'react';
-import { create } from 'zustand';
+import { StoreApi, UseBoundStore, create } from 'zustand';
 
-export interface FqlxStore {
+export interface FqlxState {
   fqlxSecret: string;
   setFqlxSecret(secret: string): void;
 }
 
-export const useFqlxStore = create<FqlxStore>(set => ({
+export type Store = UseBoundStore<StoreApi<FqlxState>> 
+
+const useFqlxStore = create<FqlxState>(set => ({
   fqlxSecret: '',
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
 }));
+
+class FqlxStore {
+  store: Store | undefined
+
+  getStore(): Store {
+    if (this.store) {
+      this.store = useFqlxStore;    
+    }
+
+    return this.store as Store
+  }
+}
+
+export const fqlxStore = new FqlxStore().getStore()
 
 export const FqlxProvider = ({
   config,
@@ -21,8 +37,8 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const { setFqlxSecret, fqlxSecret } = useFqlxStore(
-    (state: FqlxStore) => state
+  const { setFqlxSecret, fqlxSecret } = fqlxStore(
+    (state: FqlxState) => state
   );
   console.log('config===========', config.fqlxSecret);
 
