@@ -20,7 +20,7 @@ class FqlxStore {
   store: Store | undefined
 
   getStore(): Store {
-    if (this.store) {
+    if (!this.store) {
       this.store = useFqlxStore;    
     }
 
