@@ -218,7 +218,8 @@ export class AllActions<T> {
       // Checking, query is already executed
       if (this.store.getState().activeQuery[query]) {
         // Return data from state
-        return this.store.getState()[this.collectionName] as T;
+        return (this.store.getState()[this.collectionName]?.data?.[0] ||
+          {}) as T;
       }
 
       // Add query as active in state
