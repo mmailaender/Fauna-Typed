@@ -146,8 +146,9 @@ export class AllActions<T> {
   };
 
   // This Creates query for Fqlx `all().where()` and returns methods for the same
-  public where = (input: (data: T) => boolean): WhereMethods<T> => {
-    const query = `${this.collectionName}.all().where(${input.toString()})`;
+  public where = (input: ((data: T) => boolean) | string): WhereMethods<T> => {
+    const condition = typeof input === 'function' ? input.toString() : input;
+    const query = `${this.collectionName}.all().where(${condition})`;
     this.whereQuery = input.toString();
 
     const executor = (): PaginateData<T> => {
@@ -206,11 +207,12 @@ export class AllActions<T> {
   };
 
   // This Creates query for Fqlx `all().firstWhere()` and returns methods for the same
-  public firstWhere = (input: (data: T) => boolean): FirstWhereMethods<T> => {
-    console.log({ input });
-    const query = `${
-      this.collectionName
-    }.all().firstWhere(${input.toString()})`;
+  public firstWhere = (
+    input: ((data: T) => boolean) | string
+  ): FirstWhereMethods<T> => {
+    const condition = typeof input === 'function' ? input.toString() : input;
+
+    const query = `${this.collectionName}.all().firstWhere(${condition})`;
 
     const executor = (): T => {
       // Checking, query is already executed

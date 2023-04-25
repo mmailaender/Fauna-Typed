@@ -45,7 +45,9 @@ export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
 
 export interface FirstWhereMethods<T> extends ExecMethods<T> { }
 
+
 export interface FirstMethods<T> extends ExecMethods<T> { }
+
 
 export interface OrderMethods<T> extends ExecMethods<PaginateData<T>> { }
 
@@ -71,30 +73,34 @@ export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
   /**
    * first where method get the first matching value from the Set.
    *
-   * @param {(inputCondition: (data: T) => boolean)} function takes in a document of type T and returns a boolean
+   * @param {(inputCondition: ((data: T) => boolean) | string)} function takes in a document of type T and returns a boolean
    *
    * @returns {FirstWhereMethods<T>}  returns the first matching value in the Set, or null if the Set is empty or no values match.
    * 
    * @example
-   * query.Address.all().firstWhere((data) => data.country == 'uk').exec()
+   * query.Address.all().firstWhere((data) => data.country == 'uk').exec();
+   * OR
+   * query.Address.all().firstWhere(`(data) => data.${dynamicKey} == ${dynamicValueToCheck}`).exec();
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/firstwhere#description See more...}
    */
-  firstWhere(inputCondition: (data: T) => boolean): FirstWhereMethods<T>;
+  firstWhere(inputCondition: ((data: T) => boolean) | string): FirstWhereMethods<T>;
 
   /**
    * where method set a subset of matching Set values.
    *
-   * @param {(inputCondition: (data: T) => boolean)} function takes in a document of type T and returns a boolean
+   * @param {(inputCondition: ((data: T) => boolean) | string) } function takes in a document of type T and returns a boolean
    *
    * @returns {WhereMethods<T>} return Set representing the Set values that match the predicate Function.
    *
    * @example
-   * query.Address.all().where((data) => data.country == 'uk').exec()
-   *
+   * query.Address.all().where((data) => data.country == 'uk').exec();
+   * OR
+   * query.Address.all().where(`(data) => data.${dynamicKey} == ${dynamicValueToCheck}`).exec();
+   * 
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/where#signature See more...}
    */
-  where(inputCondition: (data: T) => boolean): WhereMethods<T>;
+  where(inputCondition: ((data: T) => boolean) | string): WhereMethods<T>;
 }
 
 export interface PaginateData<T> {
