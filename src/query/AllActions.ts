@@ -60,14 +60,18 @@ export class AllActions<T> {
         })
         .catch(error => {
           // Update value of query as inactive in state
-          this.store.setState({
+          this.store.setState(({
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: false,
             },
-          } as ZustandState);
-          // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
+            [this.collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            fetchingPromise: {},
+          } as unknown) as ZustandState);
 
           throw error;
         });
@@ -116,14 +120,18 @@ export class AllActions<T> {
               [this.collectionName]: {
                 data: res ? [res] : [],
               },
-            });
+              fetchingPromise: {},
+            } as ZustandState);
           }
-          // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
         })
         .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
+          this.store.setState(({
+            [this.collectionName]: {
+              data: [],
+            },
+            fetchingPromise: {},
+          } as unknown) as ZustandState);
 
           throw error;
         });
@@ -176,7 +184,14 @@ export class AllActions<T> {
         })
         .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
+          this.store.setState(({
+            [this.collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            fetchingPromise: {},
+          } as unknown) as ZustandState);
 
           throw error;
         });
@@ -192,8 +207,10 @@ export class AllActions<T> {
 
   // This Creates query for Fqlx `all().firstWhere()` and returns methods for the same
   public firstWhere = (input: (data: T) => boolean): FirstWhereMethods<T> => {
-    const query = `${this.collectionName
-      }.all().firstWhere(${input.toString()})`;
+    console.log({ input });
+    const query = `${
+      this.collectionName
+    }.all().firstWhere(${input.toString()})`;
 
     const executor = (): T => {
       // Checking, query is already executed
@@ -220,16 +237,23 @@ export class AllActions<T> {
           // Storing API res in local state
           this.store.setState({
             [this.collectionName]: {
-              data: res?.data,
-              after: res?.after,
-              before: res?.before,
+              data: res ? [res] : [],
+              after: null,
+              before: null,
             },
             fetchingPromise: {},
           } as ZustandState);
         })
         .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
+          this.store.setState(({
+            [this.collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            fetchingPromise: {},
+          } as unknown) as ZustandState);
 
           throw error;
         });
@@ -279,7 +303,14 @@ export class AllActions<T> {
         })
         .catch(error => {
           // Reset fetchingPromise in state
-          this.store.setState({ fetchingPromise: {} } as ZustandState);
+          this.store.setState(({
+            [this.collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            fetchingPromise: {},
+          } as unknown) as ZustandState);
 
           throw error;
         });
