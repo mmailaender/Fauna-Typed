@@ -80,7 +80,7 @@ export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
    * @example
    * query.Address.all().firstWhere((data) => data.country == 'uk').exec();
    * OR
-   * query.Address.all().firstWhere(`(data) => data.${dynamicKey} == ${dynamicValueToCheck}`).exec();
+   * query.Address.all().firstWhere(`(data) => data.${dynamicKey} == "${dynamicValueToCheck}"`).exec();
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/firstwhere#description See more...}
    */
@@ -96,7 +96,7 @@ export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
    * @example
    * query.Address.all().where((data) => data.country == 'uk').exec();
    * OR
-   * query.Address.all().where(`(data) => data.${dynamicKey} == ${dynamicValueToCheck}`).exec();
+   * query.Address.all().where(`(data) => data.${dynamicKey} == "${dynamicValueToCheck}"`).exec();
    * 
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/where#signature See more...}
    */
