@@ -116,7 +116,7 @@ export class AllActions<T> {
               data: res ? [res] : [],
             },
             fetchingPromise: {},
-            activeQuery: { ...this.store.getState().activeQuery, [query]: res },
+            activeQuery: { ...this.store.getState().activeQuery, [query]: res || {} },
           } as ZustandState);
         })
         .catch(error => {
@@ -244,7 +244,7 @@ export class AllActions<T> {
               before: null,
             },
             fetchingPromise: {},
-            activeQuery: { ...this.store.getState().activeQuery, [query]: res },
+            activeQuery: { ...this.store.getState().activeQuery, [query]: res || {} },
           } as ZustandState);
         })
         .catch(error => {
