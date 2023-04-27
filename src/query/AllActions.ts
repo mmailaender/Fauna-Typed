@@ -274,7 +274,7 @@ export class AllActions<T> {
   };
 
   public order = (orderInput: OrderMethodInput<T>): OrderMethods<T> => {
-    const query = `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput}`;
+    const query = `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput})`;
 
     const executor = (): PaginateData<T> => {
       // Checking, query is already executed
