@@ -34,6 +34,8 @@ export interface FqlxOrder<T> extends ExecMethods<PaginateData<T>> {
    * @returns {OrderMethods<T>} returns the new Set with ordering applied.
    * 
    * @example
+   * query.Address.all().order("asc(.id)").exec()
+   * query.Address.all().order("desc(.id)").exec()
    * query.Address.all().where((data) => data.id != 123).order("asc(.id)").exec()
    * query.Address.all().where((data) => data.id != 123).order("desc(.id)").exec()
    * 
