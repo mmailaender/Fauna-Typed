@@ -24,7 +24,7 @@ export interface CreateMethods<T> extends PromisifyExecMethods<T> {}
 
 export type OrderMethodInput<T> = `asc(.${string & keyof T})` | `desc(.${string & keyof T})`
 
-export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
+export interface FqlxOrder<T> extends ExecMethods<PaginateData<T>> {
   /**
    * 
    * order method creates a Set by applying an Ordering to the values of this Set, and returns the new Set.
@@ -43,6 +43,8 @@ export interface WhereMethods<T> extends ExecMethods<PaginateData<T>> {
   order(inputOrder: OrderMethodInput<T>): OrderMethods<T>;
 }
 
+export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {}
+
 export interface FirstWhereMethods<T> extends ExecMethods<T> { }
 
 
@@ -55,7 +57,7 @@ export interface DeleteMethods<T> extends PromisifyExecMethods<T> { }
 
 export interface UpdateMethods<T> extends PromisifyExecMethods<T> { }
 
-export interface AllMethods<T> extends ExecMethods<PaginateData<T>> {
+export interface AllMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {
   /**
    * first method get the first value in the Set, or null if the Set is empty.
    *

@@ -86,6 +86,7 @@ export class AllActions<T> {
       first: this.first,
       firstWhere: this.firstWhere,
       where: this.where,
+      order: this.order,
     };
   };
 
@@ -116,7 +117,10 @@ export class AllActions<T> {
               data: res ? [res] : [],
             },
             fetchingPromise: {},
-            activeQuery: { ...this.store.getState().activeQuery, [query]: res || {} },
+            activeQuery: {
+              ...this.store.getState().activeQuery,
+              [query]: res || {},
+            },
           } as ZustandState);
         })
         .catch(error => {
@@ -244,7 +248,10 @@ export class AllActions<T> {
               before: null,
             },
             fetchingPromise: {},
-            activeQuery: { ...this.store.getState().activeQuery, [query]: res || {} },
+            activeQuery: {
+              ...this.store.getState().activeQuery,
+              [query]: res || {},
+            },
           } as ZustandState);
         })
         .catch(error => {
@@ -274,7 +281,9 @@ export class AllActions<T> {
   };
 
   public order = (orderInput: OrderMethodInput<T>): OrderMethods<T> => {
-    const query = `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput})`;
+    const query = this.whereQuery
+      ? `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput})`
+      : `${this.collectionName}.all().order(${orderInput})`;
 
     const executor = (): PaginateData<T> => {
       // Checking, query is already executed
