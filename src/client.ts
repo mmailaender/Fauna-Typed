@@ -4,10 +4,10 @@ import { Client, endpoints } from 'fauna';
 import { fqlxStore } from './FqlxProvider';
 
 class FqlxClient {
-  static client: Client;
-  static store = fqlxStore.getStore();
+  private client: Client | undefined;
+  private store = fqlxStore.getStore();
 
-  static getClient() {
+  getClient(): Client {
     if (!this.client) {
       console.log('fqlxStore.getState()========', this.store.getState());
       const secret = this.store.getState().fqlxSecret;
@@ -22,13 +22,15 @@ class FqlxClient {
       }
     }
 
-    return this.client;
+    return this.client as Client;
   }
 }
 
+const fqlxClient = new FqlxClient();
+
 export const callFqlxQuery = async (query: string) => {
   try {
-    return await (await FqlxClient.getClient().query({ query })).data;
+    return await (await fqlxClient.getClient().query({ query })).data;
   } catch (error) {
     console.error(error);
     throw error;
