@@ -2,14 +2,12 @@
 
 import { create } from 'zustand';
 
-export interface FqlxState {
+export interface configState {
   fqlxSecret: string;
   setFqlxSecret(secret: string): void;
 }
 
-// type Store = UseBoundStore<StoreApi<FqlxState>>;
-
-export const useFqlxStore = create<FqlxState>(set => ({
+export const useConfigStore = create<configState>(set => ({
   fqlxSecret: '',
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
 }));

@@ -1,16 +1,13 @@
-import { Client, endpoints } from 'fauna';
-import { useFqlxStore } from './store';
-import { configs } from './FqlxProvider';
+'use client';
 
-console.log(
-  '===========secret in client======',
-  configs,
-  useFqlxStore.getState()
-);
+import { Client, endpoints } from 'fauna';
+import { useConfigStore } from './configStore';
+
+console.log('===========secret in client======', useConfigStore.getState());
 
 class FqlxClient {
   private client: Client | undefined;
-  private store = useFqlxStore;
+  private store = useConfigStore;
 
   getClient(): Client {
     if (!this.client) {

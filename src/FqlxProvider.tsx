@@ -1,41 +1,7 @@
 'use client';
 
 import React from 'react';
-// import { useEffect } from 'react';
-// import { StoreApi, UseBoundStore, create } from 'zustand';
-import { FqlxState, useFqlxStore } from './store';
-
-export const configs = {
-  secret: '',
-};
-
-// export interface FqlxState {
-//   fqlxSecret: string;
-//   setFqlxSecret(secret: string): void;
-// }
-
-// export type Store = UseBoundStore<StoreApi<FqlxState>>;
-
-// export const useFqlxStore = create<FqlxState>(set => ({
-//   fqlxSecret: '',
-//   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
-// }));
-
-// class FqlxStore {
-//   store: Store | undefined;
-
-//   getStore(): Store {
-//     console.log('in store');
-//     if (!this.store) {
-//       console.log('creating new store');
-//       this.store = useFqlxStore;
-//     }
-
-//     return this.store as Store;
-//   }
-// }
-
-// export const fqlxStore = Object.freeze(new FqlxStore().getStore());
+import { configState, useConfigStore } from './configStore';
 
 export const FqlxProvider = ({
   config,
@@ -44,9 +10,8 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  // const useStore = fqlxStore;
-  const { setFqlxSecret, fqlxSecret } = useFqlxStore(
-    (state: FqlxState) => state
+  const { setFqlxSecret, fqlxSecret } = useConfigStore(
+    (state: configState) => state
   );
   console.log('config===========', config.fqlxSecret);
 
@@ -58,20 +23,11 @@ export const FqlxProvider = ({
     setFqlxSecret(config.fqlxSecret);
   }
 
-  // useEffect(() => {
-  //   console.log('updating secret===========', config.fqlxSecret);
-  //   if (!config.fqlxSecret) {
-  //     throw new Error('Missing Fauna Secret');
-  //   }
-  //   configs.secret = config.fqlxSecret;
-  //   setFqlxSecret(config.fqlxSecret);
-  // }, [config.fqlxSecret]);
-
   if (!fqlxSecret) {
     return <div>Loading...</div>;
   }
 
-  console.log('secret in store========', fqlxSecret, configs.secret);
+  console.log('secret in store========', fqlxSecret);
 
   return children;
 };
