@@ -1,4 +1,4 @@
-import { StoreApi, UseBoundStore, create } from 'zustand';
+import { create } from 'zustand';
 
 export interface FqlxState {
   fqlxSecret: string;
