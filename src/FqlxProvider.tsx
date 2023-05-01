@@ -9,7 +9,7 @@ export interface FqlxState {
   setFqlxSecret(secret: string): void;
 }
 
-export type Store = UseBoundStore<StoreApi<FqlxState>> 
+export type Store = UseBoundStore<StoreApi<FqlxState>>;
 
 const useFqlxStore = create<FqlxState>(set => ({
   fqlxSecret: '',
@@ -17,18 +17,18 @@ const useFqlxStore = create<FqlxState>(set => ({
 }));
 
 class FqlxStore {
-  store: Store | undefined
+  store: Store | undefined;
 
   getStore(): Store {
     if (!this.store) {
-      this.store = useFqlxStore;    
+      this.store = useFqlxStore;
     }
 
-    return this.store as Store
+    return this.store as Store;
   }
 }
 
-export const fqlxStore = new FqlxStore().getStore()
+export const fqlxStore = new FqlxStore();
 
 export const FqlxProvider = ({
   config,
@@ -37,7 +37,7 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const { setFqlxSecret, fqlxSecret } = fqlxStore(
+  const { setFqlxSecret, fqlxSecret } = fqlxStore.getStore()(
     (state: FqlxState) => state
   );
   console.log('config===========', config.fqlxSecret);

@@ -8,8 +8,11 @@ class FqlxClient {
 
   static getClient() {
     if (!this.client) {
-      console.log('fqlxStore.getState()========', fqlxStore.getState());
-      const secret = fqlxStore.getState().fqlxSecret;
+      console.log(
+        'fqlxStore.getState()========',
+        fqlxStore.getStore().getState()
+      );
+      const secret = fqlxStore.getStore().getState().fqlxSecret;
       console.log('========secret=====', secret);
       if (secret) {
         console.log('========new client creating=====', secret);
