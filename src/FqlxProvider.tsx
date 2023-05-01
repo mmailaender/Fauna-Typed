@@ -3,7 +3,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 // import { StoreApi, UseBoundStore, create } from 'zustand';
-// import { FqlxState, useFqlxStore } from './store';
+import { FqlxState, useFqlxStore } from './store';
 
 export const configs = {
   secret: '',
@@ -45,9 +45,9 @@ export const FqlxProvider = ({
   children: React.ReactElement;
 }): JSX.Element => {
   // const useStore = fqlxStore;
-  // const { setFqlxSecret, fqlxSecret } = useFqlxStore(
-  //   (state: FqlxState) => state
-  // );
+  const { setFqlxSecret, fqlxSecret } = useFqlxStore(
+    (state: FqlxState) => state
+  );
   console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
@@ -56,14 +56,14 @@ export const FqlxProvider = ({
       throw new Error('Missing Fauna Secret');
     }
     configs.secret = config.fqlxSecret;
-    // setFqlxSecret(config.fqlxSecret);
+    setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
 
-  if (!configs.secret) {
+  if (!fqlxSecret) {
     return <div>Loading...</div>;
   }
 
-  console.log('secret in store========', configs.secret);
+  console.log('secret in store========', fqlxSecret, configs.secret);
 
   return children;
 };
