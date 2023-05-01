@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 import { StoreApi, UseBoundStore, create } from 'zustand';
 
@@ -58,5 +58,5 @@ export const FqlxProvider = ({
 
   console.log('secret in store========', fqlxSecret);
 
-  return children;
+  return useMemo(() => children, [fqlxSecret]);
 };
