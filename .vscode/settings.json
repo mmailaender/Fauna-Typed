@@ -1,0 +1,29 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "gitlens.showWelcomeOnInstall": false,
+    "gitlens.showWhatsNewAfterUpgrades": true,
+    "gitlens.virtualRepositories.enabled": false,
+    "files.autoSave": "onFocusChange",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "javascript.suggest.paths": false,
+    "typescript.suggest.paths": false,
+    "editor.linkedEditing": true,
+  
+    // Customizations for Blockman
+    "editor.inlayHints.enabled": "off",
+    "editor.guides.indentation": false,
+    "editor.guides.bracketPairs": false,
+    "editor.wordWrap": "off",
+    "diffEditor.wordWrap": "off",
+    "workbench.colorCustomizations": {
+      "editor.lineHighlightBorder": "#9fced11f",
+      "editor.lineHighlightBackground": "#1073cf2d"
+    },
+    "blockman.n35A01DisableRecommendationDialog": true,
+  
+    // Intellisense - Complete function calls: .map(x => x)
+    "javascript.suggest.completeFunctionCalls": true,
+    "typescript.suggest.completeFunctionCalls": true
+  }

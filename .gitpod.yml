@@ -1,0 +1,26 @@
+tasks:
+  - init: yarn install && yarn run build
+    command: yarn run start
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: false
+    # add a check to pull requests (defaults to true)
+    addCheck: prevent-merge-on-error
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: true
+vscode:
+  extensions:
+    - christian-kohler.npm-intellisense
+    - eamodio.gitlens
+    - genuitecllc.codetogether
+    - esbenp.prettier-vscode
+    - christian-kohler.path-intellisense
+    - aaron-bond.better-comments
+    - leodevbro.blockman
+    - meganrogge.template-string-converter
+    - rangav.vscode-thunder-client
+    - Gruntfuggly.todo-tree
