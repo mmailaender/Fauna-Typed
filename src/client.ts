@@ -1,7 +1,7 @@
 'use client';
 
 import { Client, endpoints } from 'fauna';
-import { useFqlxStore } from './FqlxProvider';
+import { useFqlxStore } from './store';
 
 console.log('===========secret in client======', useFqlxStore.getState());
 
