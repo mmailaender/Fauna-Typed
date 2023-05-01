@@ -1,11 +1,11 @@
 'use client';
 
 import { Client, endpoints } from 'fauna';
-import { fqlxStore } from './FqlxProvider';
+import { useFqlxStore } from './FqlxProvider';
 
 class FqlxClient {
   private client: Client | undefined;
-  private store = fqlxStore;
+  private store = useFqlxStore;
 
   getClient(): Client {
     if (!this.client) {

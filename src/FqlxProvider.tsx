@@ -11,7 +11,7 @@ export interface FqlxState {
 
 export type Store = UseBoundStore<StoreApi<FqlxState>>;
 
-const useFqlxStore = create<FqlxState>(set => ({
+export const useFqlxStore = create<FqlxState>(set => ({
   fqlxSecret: '',
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
 }));
@@ -39,8 +39,10 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const useStore = fqlxStore;
-  const { setFqlxSecret, fqlxSecret } = useStore((state: FqlxState) => state);
+  // const useStore = fqlxStore;
+  const { setFqlxSecret, fqlxSecret } = useFqlxStore(
+    (state: FqlxState) => state
+  );
   console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
