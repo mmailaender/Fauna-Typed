@@ -40,7 +40,7 @@ export const FqlxProvider = ({
   const { setFqlxSecret, fqlxSecret } = fqlxStore.getStore()(
     (state: FqlxState) => state
   );
-  console.log('config===========', config.fqlxSecret, fqlxSecret);
+  console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
     console.log('updating secret===========', config.fqlxSecret);
@@ -54,6 +54,8 @@ export const FqlxProvider = ({
   if (!fqlxSecret) {
     return <div>Loading...</div>;
   }
+
+  console.log('secret in store========', fqlxSecret);
 
   return children;
 };
