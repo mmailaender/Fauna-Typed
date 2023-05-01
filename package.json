@@ -71,7 +71,7 @@
     "ts-node": "^10.9.1",
     "typescript-json-schema": "^0.55.0",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.6"
+    "zustand": "4.3.6"
   },
   "resolutions": {
     "**/typescript": "^5.0.2"
