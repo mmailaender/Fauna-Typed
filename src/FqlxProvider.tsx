@@ -20,7 +20,9 @@ class FqlxStore {
   store: Store | undefined;
 
   getStore(): Store {
+    console.log('in store');
     if (!this.store) {
+      console.log('creating new store');
       this.store = useFqlxStore;
     }
 
@@ -28,7 +30,7 @@ class FqlxStore {
   }
 }
 
-export const fqlxStore = new FqlxStore().getStore();
+export const fqlxStore = new FqlxStore();
 
 export const FqlxProvider = ({
   config,
@@ -37,7 +39,8 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const { setFqlxSecret, fqlxSecret } = fqlxStore((state: FqlxState) => state);
+  const useStore = fqlxStore.getStore();
+  const { setFqlxSecret, fqlxSecret } = useStore((state: FqlxState) => state);
   console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
