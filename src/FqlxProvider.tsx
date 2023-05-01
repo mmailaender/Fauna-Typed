@@ -16,8 +16,6 @@ const useFqlxStore = create<FqlxState>(set => ({
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
 }));
 
-let store;
-
 class FqlxStore {
   store: Store | undefined;
 
