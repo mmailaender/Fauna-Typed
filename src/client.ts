@@ -5,7 +5,7 @@ import { fqlxStore } from './FqlxProvider';
 
 class FqlxClient {
   private client: Client | undefined;
-  private store = fqlxStore.getStore();
+  private store = fqlxStore;
 
   getClient(): Client {
     if (!this.client) {

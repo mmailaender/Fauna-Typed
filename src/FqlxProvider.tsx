@@ -16,6 +16,8 @@ const useFqlxStore = create<FqlxState>(set => ({
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
 }));
 
+let store;
+
 class FqlxStore {
   store: Store | undefined;
 
@@ -30,7 +32,7 @@ class FqlxStore {
   }
 }
 
-export const fqlxStore = Object.freeze(new FqlxStore());
+export const fqlxStore = Object.freeze(new FqlxStore().getStore());
 
 export const FqlxProvider = ({
   config,
@@ -39,7 +41,7 @@ export const FqlxProvider = ({
   config: { fqlxSecret: string };
   children: React.ReactElement;
 }): JSX.Element => {
-  const useStore = fqlxStore.getStore();
+  const useStore = fqlxStore;
   const { setFqlxSecret, fqlxSecret } = useStore((state: FqlxState) => state);
   console.log('config===========', config.fqlxSecret);
 
