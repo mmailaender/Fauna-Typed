@@ -2,8 +2,13 @@
 
 import { Client, endpoints } from 'fauna';
 import { useFqlxStore } from './store';
+import { configs } from './FqlxProvider';
 
-console.log('===========secret in client======', useFqlxStore.getState());
+console.log(
+  '===========secret in client======',
+  configs,
+  useFqlxStore.getState()
+);
 
 class FqlxClient {
   private client: Client | undefined;
