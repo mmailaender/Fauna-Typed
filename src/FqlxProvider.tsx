@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 // import { StoreApi, UseBoundStore, create } from 'zustand';
 import { FqlxState, useFqlxStore } from './store';
 
@@ -50,14 +50,22 @@ export const FqlxProvider = ({
   );
   console.log('config===========', config.fqlxSecret);
 
-  useEffect(() => {
-    console.log('updating secret===========', config.fqlxSecret);
-    if (!config.fqlxSecret) {
-      throw new Error('Missing Fauna Secret');
-    }
-    configs.secret = config.fqlxSecret;
+  if (!config.fqlxSecret) {
+    throw new Error('Missing Fauna Secret');
+  }
+
+  if (config.fqlxSecret !== fqlxSecret) {
     setFqlxSecret(config.fqlxSecret);
-  }, [config.fqlxSecret]);
+  }
+
+  // useEffect(() => {
+  //   console.log('updating secret===========', config.fqlxSecret);
+  //   if (!config.fqlxSecret) {
+  //     throw new Error('Missing Fauna Secret');
+  //   }
+  //   configs.secret = config.fqlxSecret;
+  //   setFqlxSecret(config.fqlxSecret);
+  // }, [config.fqlxSecret]);
 
   if (!fqlxSecret) {
     return <div>Loading...</div>;
