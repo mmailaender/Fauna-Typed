@@ -1,4 +1,6 @@
-import { create } from 'zustand';
+'use client';
+
+import create from 'zustand/vanilla';
 
 export interface FqlxState {
   fqlxSecret: string;
