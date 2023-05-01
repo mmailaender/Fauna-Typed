@@ -30,7 +30,7 @@ class FqlxStore {
   }
 }
 
-export const fqlxStore = new FqlxStore();
+export const fqlxStore = Object.freeze(new FqlxStore());
 
 export const FqlxProvider = ({
   config,
