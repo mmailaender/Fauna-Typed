@@ -83,7 +83,7 @@ export class AllActions<T> {
 
     return {
       exec: executor,
-      first: this.first,
+      first: this.first(query),
       firstWhere: this.firstWhere,
       where: this.where,
       order: this.order,
@@ -91,8 +91,8 @@ export class AllActions<T> {
   };
 
   // This Creates query for Fqlx `all().first()` and returns returns methods for the same
-  public first = (): FirstMethods<T> => {
-    const query = `${this.collectionName}.all().first()`;
+  public first = (queryPrefix: string) => (): FirstMethods<T> => {
+    const query = `${queryPrefix}.first()`;
 
     const executor = (): T => {
       // Checking, query is already executed
@@ -342,6 +342,7 @@ export class AllActions<T> {
 
     return {
       exec: executor,
+      first: this.first(query),
     };
   };
 }

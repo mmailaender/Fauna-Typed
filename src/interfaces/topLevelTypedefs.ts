@@ -45,21 +45,7 @@ export interface FqlxOrder<T> extends ExecMethods<PaginateData<T>> {
   order(inputOrder: OrderMethodInput<T>): OrderMethods<T>;
 }
 
-export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {}
-
-export interface FirstWhereMethods<T> extends ExecMethods<T> { }
-
-
-export interface FirstMethods<T> extends ExecMethods<T> { }
-
-
-export interface OrderMethods<T> extends ExecMethods<PaginateData<T>> { }
-
-export interface DeleteMethods<T> extends PromisifyExecMethods<T> { }
-
-export interface UpdateMethods<T> extends PromisifyExecMethods<T> { }
-
-export interface AllMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {
+export interface FqlxFirst<T> {
   /**
    * first method get the first value in the Set, or null if the Set is empty.
    *
@@ -73,8 +59,23 @@ export interface AllMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/first#signature See more...}
    */
   first(): FirstMethods<T>;
+}
 
-  /**
+export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {}
+
+export interface FirstWhereMethods<T> extends ExecMethods<T> { }
+
+
+export interface FirstMethods<T> extends ExecMethods<T> { }
+
+export interface OrderMethods<T> extends  FqlxFirst<T>, ExecMethods<PaginateData<T>> { }
+
+export interface DeleteMethods<T> extends PromisifyExecMethods<T> { }
+
+export interface UpdateMethods<T> extends PromisifyExecMethods<T> { }
+
+export interface AllMethods<T> extends FqlxOrder<T>, FqlxFirst<T>, ExecMethods<PaginateData<T>> {
+   /**
    * first where method get the first matching value from the Set.
    *
    * @param {(inputCondition: ((data: T) => boolean) | string)} function takes in a document of type T and returns a boolean
