@@ -6,6 +6,7 @@ import { StateKeys, ZustandStore } from '../zustand/interface';
 import { AllActions } from './AllActions';
 import { CreateActions } from './CreateActions';
 import { ByIdActions } from './ByIdActions';
+import { FirstWhereActions } from './FirstWhereActions';
 
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
@@ -37,6 +38,8 @@ export const useQuery = <T>(): T => {
                     return new CreateActions(collectionName).create;
                   case 'byId':
                     return new ByIdActions(collectionName).byId;
+                  case 'firstWhere':
+                    return new FirstWhereActions(collectionName).firstWhere;
                   default:
                     return {};
                 }
