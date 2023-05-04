@@ -12,6 +12,7 @@ export const topLevelInterfaces = `
     ExecMethods,
     PromisifyExecMethods,
     UpdateMethods,
+    FirstWhereMethods
   } from 'fqlx-client'
   \n`;
 
@@ -91,5 +92,21 @@ export const createTypedefsMethods = (
        * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/collection/instance-byid#signature See more...}
        */
        byId(id: string): ByIdMethods<${key}, ${key}Input>
+
+       /**
+        * first where method get the first matching value from the Set.
+        * 
+        * @param {(inputCondition: ((data: T) => boolean) | string)} function takes in a document of type T and returns a boolean
+        * 
+        * @returns {FirstWhereMethods<T>}  returns the first matching value in the Set, or null if the Set is empty or no values match.
+        * 
+        * @example
+        * query.Address.all().firstWhere((data) => data.country == 'uk').exec();
+        * OR
+        * query.Address.all().firstWhere(\`(data) => data.\${dynamicKey}\ == "\${dynamicValueToCheck}\"\`).exec();
+        * 
+        * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/firstwhere#description See more...}
+        */
+       firstWhere(inputCondition: ((data: ${key}) => boolean) | string): FirstWhereMethods<${key}>;
     }\n\n`;
 };
