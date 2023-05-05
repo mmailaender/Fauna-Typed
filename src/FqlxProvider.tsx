@@ -24,7 +24,7 @@ export const FqlxProvider = ({
   }
 
   if (!fqlxSecret) {
-    throw Promise;
+    throw new Promise(_resolve => {});
   }
 
   console.log('secret in store========', fqlxSecret);
