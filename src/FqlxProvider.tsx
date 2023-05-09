@@ -22,17 +22,19 @@ export const FqlxProvider = ({
     throw new Error('Missing Fauna Secret');
   }
 
+  if (!fqlxSecret) {
+    console.log('============loading');
+    return <div>Loading...</div>;
+  }
+
   useEffect(() => {
+    console.log('============in useEffect');
+
     if (config.fqlxSecret !== fqlxSecret) {
       console.log('============updating secret');
       setFqlxSecret(config.fqlxSecret);
     }
   }, [config.fqlxSecret]);
-
-  if (!fqlxSecret) {
-    console.log('============loading');
-    return <div>Loading...</div>;
-  }
 
   console.log('secret in store========', fqlxSecret);
 
