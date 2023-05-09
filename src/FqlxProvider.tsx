@@ -31,12 +31,12 @@ export const FqlxProvider = ({
     throw new Error('Missing Fauna Secret');
   }
 
-  if (!fqlxSecret) {
-    console.log('============loading');
-    return <div>Loading...</div>;
-  }
+  // if (!fqlxSecret) {
+  //   console.log('============loading');
+  //   return <div>Loading...</div>;
+  // }
 
   console.log('secret in store========', fqlxSecret);
 
-  return children;
+  return <div>{!fqlxSecret ? children : 'Loading...'}</div>;
 };
