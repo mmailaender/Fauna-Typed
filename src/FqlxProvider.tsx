@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { configState, useConfigStore } from './configStore';
 
 export const FqlxProvider = ({
@@ -22,10 +22,12 @@ export const FqlxProvider = ({
     throw new Error('Missing Fauna Secret');
   }
 
-  if (config.fqlxSecret !== fqlxSecret) {
-    console.log('============updating secret');
-    setFqlxSecret(config.fqlxSecret);
-  }
+  useEffect(() => {
+    if (config.fqlxSecret !== fqlxSecret) {
+      console.log('============updating secret');
+      setFqlxSecret(config.fqlxSecret);
+    }
+  }, [config.fqlxSecret]);
 
   if (!fqlxSecret) {
     console.log('============loading');
