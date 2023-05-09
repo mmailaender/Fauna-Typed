@@ -34,7 +34,7 @@ export const FqlxProvider = ({
       console.log('============updating secret');
       setFqlxSecret(config.fqlxSecret);
     }
-  }, [config.fqlxSecret]);
+  }, [config]);
 
   console.log('secret in store========', fqlxSecret);
 
