@@ -5,13 +5,13 @@ import { configState, useConfigStore } from './configStore';
 
 export const FqlxProvider = ({
   config,
-  // loader,
-  children,
-}: {
+}: // loader,
+// children,
+{
   config: { fqlxSecret: string };
   // loader: React.ReactElement;
-  children: React.ReactElement;
-}): JSX.Element => {
+  // children: React.ReactElement;
+}) => {
   const { setFqlxSecret, fqlxSecret } = useConfigStore(
     (state: configState) => state
   );
@@ -38,5 +38,6 @@ export const FqlxProvider = ({
 
   console.log('secret in store========', fqlxSecret);
 
-  return children;
+  return <div>Hello</div>;
+  // return children;
 };
