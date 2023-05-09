@@ -20,11 +20,11 @@ export const FqlxProvider = ({
   useEffect(() => {
     console.log('============in useEffect');
 
-    if (config.fqlxSecret !== fqlxSecret) {
+    if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
       console.log('============updating secret');
       setFqlxSecret(config.fqlxSecret);
     }
-  }, [config]);
+  }, []);
 
   if (!config.fqlxSecret) {
     console.log('============missing secret');
