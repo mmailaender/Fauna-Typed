@@ -38,5 +38,5 @@ export const FqlxProvider = ({
 
   console.log('secret in store========', fqlxSecret);
 
-  return <div>{!fqlxSecret ? children : 'Loading...'}</div>;
+  return <div>{!fqlxSecret ? 'Loading...' : children}</div>;
 };
