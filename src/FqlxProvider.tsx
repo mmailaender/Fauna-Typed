@@ -17,6 +17,15 @@ export const FqlxProvider = ({
   );
   console.log('config===========', config.fqlxSecret);
 
+  useEffect(() => {
+    console.log('============in useEffect');
+
+    if (config.fqlxSecret !== fqlxSecret) {
+      console.log('============updating secret');
+      setFqlxSecret(config.fqlxSecret);
+    }
+  }, [config]);
+
   if (!config.fqlxSecret) {
     console.log('============missing secret');
     throw new Error('Missing Fauna Secret');
@@ -26,15 +35,6 @@ export const FqlxProvider = ({
     console.log('============loading');
     return <div>Loading...</div>;
   }
-
-  useEffect(() => {
-    console.log('============in useEffect');
-
-    if (config.fqlxSecret !== fqlxSecret) {
-      console.log('============updating secret');
-      setFqlxSecret(config.fqlxSecret);
-    }
-  }, [config]);
 
   console.log('secret in store========', fqlxSecret);
 
