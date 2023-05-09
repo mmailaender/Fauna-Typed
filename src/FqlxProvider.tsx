@@ -18,14 +18,17 @@ export const FqlxProvider = ({
   console.log('config===========', config.fqlxSecret);
 
   if (!config.fqlxSecret) {
+    console.log('============missing secret');
     throw new Error('Missing Fauna Secret');
   }
 
   if (config.fqlxSecret !== fqlxSecret) {
+    console.log('============updating secret');
     setFqlxSecret(config.fqlxSecret);
   }
 
   if (!fqlxSecret) {
+    console.log('============loading');
     return <div>Loading...</div>;
   }
 
