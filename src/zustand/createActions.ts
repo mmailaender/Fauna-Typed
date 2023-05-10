@@ -11,7 +11,7 @@ export const handleCreateDocument = <T>(
     (state: ZustandState) =>
       ({
         [collection]: {
-          data: [inputData, ...(state[collection]?.data || [])],
+          data: [...(state[collection]?.data || []), inputData],
         },
       } as ZustandState)
   );
