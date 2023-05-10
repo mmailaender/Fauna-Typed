@@ -16,7 +16,10 @@ export const FqlxProvider = ({
     (state: configState) => state
   );
 
+  console.log('========config=', config);
+
   useEffect(() => {
+    console.log('in useEffect======', config.fqlxSecret);
     if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
       setFqlxSecret(config.fqlxSecret);
     }
