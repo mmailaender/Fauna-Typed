@@ -10,7 +10,7 @@ export const FqlxProvider = ({
 }: {
   config: { fqlxSecret: string; endpoint?: URL };
   loader: React.ReactElement;
-  children: React.ReactNode;
+  children: React.ReactElement;
 }) => {
   const { setFqlxSecret, fqlxSecret, setFqlxEndpoint } = useConfigStore(
     (state: configState) => state
