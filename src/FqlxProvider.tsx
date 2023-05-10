@@ -8,7 +8,7 @@ export const FqlxProvider = ({
   children,
   loader,
 }: {
-  config: { fqlxSecret: string; endpoint: string };
+  config: { fqlxSecret: string; endpoint?: string };
   loader: React.ReactElement;
   children: React.ReactElement;
 }) => {
