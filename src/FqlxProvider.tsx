@@ -15,7 +15,6 @@ export const FqlxProvider = ({
   const { setFqlxSecret, fqlxSecret, setFqlxEndpoint } = useConfigStore(
     (state: configState) => state
   );
-  console.log('config===========', config.fqlxSecret);
 
   useEffect(() => {
     if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
@@ -30,8 +29,6 @@ export const FqlxProvider = ({
   if (!config.fqlxSecret) {
     throw new Error('Missing Fauna Secret');
   }
-
-  console.log('secret in store========', fqlxSecret);
 
   return <div>{!fqlxSecret ? loader : children}</div>;
 };

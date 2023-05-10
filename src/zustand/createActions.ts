@@ -7,12 +7,14 @@ export const handleCreateDocument = <T>(
   inputData: T,
   collection: StateKeys
 ) => {
-  console.log('inside createAddAction ', collection, inputData);
-  set((state: ZustandState) => ({
-    [collection]: {
-      data: [inputData, ...(state[collection]?.data || [])],
-    },
-  }) as ZustandState);
+  set(
+    (state: ZustandState) =>
+      ({
+        [collection]: {
+          data: [inputData, ...(state[collection]?.data || [])],
+        },
+      } as ZustandState)
+  );
 };
 
 export const handleCreateDocumentSuccess = (
