@@ -9,9 +9,8 @@ class FqlxClient {
 
   getClient(): Client {
     if (!this.client) {
-      console.log('store======', useConfigStore.getState());
       const secret = this.store.getState().fqlxSecret;
-      const endpoint = (this.store.getState().fqlxEndpoint as unknown) as URL;
+      const endpoint = this.store.getState().fqlxEndpoint;
 
       if (secret) {
         this.client = new Client({
@@ -28,11 +27,9 @@ class FqlxClient {
 const fqlxClient = new FqlxClient();
 
 export const callFqlxQuery = async (query: string) => {
-  console.log({ query });
   try {
     return await (await fqlxClient.getClient().query({ query })).data;
   } catch (error) {
-    console.error(error);
-    // throw error;
+    throw error;
   }
 };

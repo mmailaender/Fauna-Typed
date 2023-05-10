@@ -8,18 +8,15 @@ export const FqlxProvider = ({
   children,
   loader,
 }: {
-  config: { fqlxSecret: string; endpoint?: string };
+  config: { fqlxSecret: string; endpoint?: URL };
   loader: React.ReactElement;
-  children: React.ReactElement;
+  children: React.ReactNode;
 }) => {
   const { setFqlxSecret, fqlxSecret, setFqlxEndpoint } = useConfigStore(
     (state: configState) => state
   );
 
-  console.log('========config=', config);
-
   useEffect(() => {
-    console.log('in useEffect======', config.fqlxSecret);
     if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
       setFqlxSecret(config.fqlxSecret);
     }
@@ -32,8 +29,6 @@ export const FqlxProvider = ({
   if (!config.fqlxSecret) {
     throw new Error('Missing Fauna Secret');
   }
-
-  console.log('==========fqlxSecret====', fqlxSecret);
 
   return !fqlxSecret ? loader : children;
 };
