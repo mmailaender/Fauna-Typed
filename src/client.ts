@@ -27,10 +27,11 @@ class FqlxClient {
 const fqlxClient = new FqlxClient();
 
 export const callFqlxQuery = async (query: string) => {
+  console.log({ query });
   try {
     return await (await fqlxClient.getClient().query({ query })).data;
   } catch (error) {
     console.error(error);
-    throw error;
+    // throw error;
   }
 };
