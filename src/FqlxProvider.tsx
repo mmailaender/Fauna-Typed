@@ -8,11 +8,11 @@ export const FqlxProvider = ({
   children,
   loader,
 }: {
-  config: { fqlxSecret: string };
+  config: { fqlxSecret: string; endpoint: string };
   loader: React.ReactElement;
   children: React.ReactElement;
 }) => {
-  const { setFqlxSecret, fqlxSecret } = useConfigStore(
+  const { setFqlxSecret, fqlxSecret, setFqlxEndpoint } = useConfigStore(
     (state: configState) => state
   );
   console.log('config===========', config.fqlxSecret);
@@ -20,6 +20,10 @@ export const FqlxProvider = ({
   useEffect(() => {
     if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
       setFqlxSecret(config.fqlxSecret);
+    }
+
+    if (config.endpoint) {
+      setFqlxEndpoint(config.endpoint);
     }
   }, []);
 

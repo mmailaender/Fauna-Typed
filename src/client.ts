@@ -1,6 +1,6 @@
 'use client';
 
-import { Client, endpoints } from 'fauna';
+import { Client } from 'fauna';
 import { useConfigStore } from './configStore';
 
 console.log('===========secret in client======', useConfigStore.getState());
@@ -13,12 +13,13 @@ class FqlxClient {
     if (!this.client) {
       console.log('fqlxStore.getState()========', this.store.getState());
       const secret = this.store.getState().fqlxSecret;
+      const endpoint = (this.store.getState().fqlxEndpoint as unknown) as URL;
       console.log('========secret=====', secret);
       if (secret) {
         console.log('========new client creating=====', secret);
 
         this.client = new Client({
-          endpoint: endpoints.preview,
+          endpoint,
           secret,
         });
       }
