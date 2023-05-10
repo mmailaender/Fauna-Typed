@@ -9,6 +9,7 @@ class FqlxClient {
 
   getClient(): Client {
     if (!this.client) {
+      console.log('store======', this.store.getState());
       const secret = this.store.getState().fqlxSecret;
       const endpoint = (this.store.getState().fqlxEndpoint as unknown) as URL;
 
