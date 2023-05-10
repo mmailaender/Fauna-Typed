@@ -24,7 +24,7 @@ export const FqlxProvider = ({
       setFqlxSecret(config.fqlxSecret);
     }
 
-    if (config.endpoint) {
+    if (config?.endpoint) {
       setFqlxEndpoint(config.endpoint);
     }
   }, []);
@@ -32,6 +32,8 @@ export const FqlxProvider = ({
   if (!config.fqlxSecret) {
     throw new Error('Missing Fauna Secret');
   }
+
+  console.log('==========fqlxSecret====', fqlxSecret);
 
   return !fqlxSecret ? loader : children;
 };
