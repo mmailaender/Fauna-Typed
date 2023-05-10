@@ -30,5 +30,5 @@ export const FqlxProvider = ({
     throw new Error('Missing Fauna Secret');
   }
 
-  return <div>{!fqlxSecret ? loader : children}</div>;
+  return !fqlxSecret ? loader : children;
 };
