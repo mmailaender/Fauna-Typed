@@ -42,7 +42,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
       })
       .catch(err => {
         console.log({ err });
-        error = err?.message;
+        error = err;
         if (!err?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
           store.setState(({
