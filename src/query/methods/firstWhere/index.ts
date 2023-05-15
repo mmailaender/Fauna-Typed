@@ -37,19 +37,21 @@ export default function firstWhere<T>(collectionName: string, query: string) {
         } as ZustandState);
       })
       .catch(error => {
-        // Reset fetchingPromise in state
-        store.setState(({
-          [collectionName]: {
-            data: [],
-            after: null,
-            before: null,
-          },
-          fetchingPromise: {},
-          activeQuery: {
-            ...store.getState().activeQuery,
-            [query]: false,
-          },
-        } as unknown) as ZustandState);
+        if (!error?.message?.includes('NetworkError')) {
+          // Reset fetchingPromise in state
+          store.setState(({
+            [collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            fetchingPromise: {},
+            activeQuery: {
+              ...store.getState().activeQuery,
+              [query]: false,
+            },
+          } as unknown) as ZustandState);
+        }
 
         throw error;
       });

@@ -62,21 +62,23 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          // Update value of query as inactive in state
-          this.store.setState(({
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: false,
-            },
-            [this.collectionName]: {
-              data: [],
-              after: null,
-              before: null,
-            },
-            fetchingPromise: {},
-          } as unknown) as ZustandState);
+          if (!error?.message?.includes('NetworkError')) {
+            // Update value of query as inactive in state
+            this.store.setState(({
+              activeQuery: {
+                ...this.store.getState().activeQuery,
+                [query]: false,
+              },
+              [this.collectionName]: {
+                data: [],
+                after: null,
+                before: null,
+              },
+              fetchingPromise: {},
+            } as unknown) as ZustandState);
 
-          throw error;
+            throw error;
+          }
         });
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
@@ -125,17 +127,19 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          // Reset fetchingPromise in state
-          this.store.setState(({
-            [this.collectionName]: {
-              data: [],
-            },
-            fetchingPromise: {},
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: false,
-            },
-          } as unknown) as ZustandState);
+          if (!error?.message?.includes('NetworkError')) {
+            // Reset fetchingPromise in state
+            this.store.setState(({
+              [this.collectionName]: {
+                data: [],
+              },
+              fetchingPromise: {},
+              activeQuery: {
+                ...this.store.getState().activeQuery,
+                [query]: false,
+              },
+            } as unknown) as ZustandState);
+          }
 
           throw error;
         });
@@ -190,19 +194,21 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          // Reset fetchingPromise in state
-          this.store.setState(({
-            [this.collectionName]: {
-              data: [],
-              after: null,
-              before: null,
-            },
-            fetchingPromise: {},
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: false,
-            },
-          } as unknown) as ZustandState);
+          if (!error?.message?.includes('NetworkError')) {
+            // Reset fetchingPromise in state
+            this.store.setState(({
+              [this.collectionName]: {
+                data: [],
+                after: null,
+                before: null,
+              },
+              fetchingPromise: {},
+              activeQuery: {
+                ...this.store.getState().activeQuery,
+                [query]: false,
+              },
+            } as unknown) as ZustandState);
+          }
 
           throw error;
         });
@@ -267,19 +273,21 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          // Reset fetchingPromise in state
-          this.store.setState(({
-            [this.collectionName]: {
-              data: [],
-              after: null,
-              before: null,
-            },
-            fetchingPromise: {},
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: false,
-            },
-          } as unknown) as ZustandState);
+          if (!error?.message?.includes('NetworkError')) {
+            // Reset fetchingPromise in state
+            this.store.setState(({
+              [this.collectionName]: {
+                data: [],
+                after: null,
+                before: null,
+              },
+              fetchingPromise: {},
+              activeQuery: {
+                ...this.store.getState().activeQuery,
+                [query]: false,
+              },
+            } as unknown) as ZustandState);
+          }
 
           throw error;
         });

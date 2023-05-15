@@ -30,7 +30,6 @@ export const callFqlxQuery = async (query: string) => {
   try {
     return await (await fqlxClient.getClient().query({ query })).data;
   } catch (error) {
-    console.log({ error });
-    // throw error;
+    throw error;
   }
 };
