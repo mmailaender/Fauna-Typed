@@ -21,12 +21,15 @@ export default function firstWhere<T>(collectionName: string, query: string) {
       fetchingPromise: { current: req },
     } as ZustandState);
 
+    // @ts-expect-error
     const runQuery = () => {
-      let error = null;
+      let error = '';
+      let status = 'pending';
 
-      return req
+      req
         .then(res => {
           console.log({ fqlxRes: res });
+          status = 'success';
           // Storing API res in local state
           store.setState({
             [collectionName]: {
@@ -44,9 +47,10 @@ export default function firstWhere<T>(collectionName: string, query: string) {
           return (store.getState()[collectionName]?.data[0] || {}) as T;
         })
         .catch(err => {
-          throw new Error(err);
+          status = 'error';
+          error = err?.message;
+          // throw new Error(err);
           console.log({ err });
-          error = err;
           if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             store.setState(({
@@ -68,14 +72,20 @@ export default function firstWhere<T>(collectionName: string, query: string) {
         }) as T;
       console.log('========error========', error);
 
-      if (error) {
+      if (status === 'pending') {
+        throw req;
+      }
+
+      if (status === 'error') {
         throw new Error(error);
       }
 
-      return (store.getState()[collectionName]?.data[0] || {}) as T;
+      if (status === 'success') {
+        return (store.getState()[collectionName]?.data[0] || {}) as T;
+      }
     };
 
-    return runQuery();
+    return runQuery() as T;
   };
 
   return {
