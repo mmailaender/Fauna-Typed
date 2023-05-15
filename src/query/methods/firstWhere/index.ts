@@ -61,6 +61,8 @@ export default function firstWhere<T>(collectionName: string, query: string) {
         store.setState(({
           fetchingPromise: {},
         } as unknown) as ZustandState);
+
+        throw new Error(err);
       });
 
     console.log('========error========', error);
