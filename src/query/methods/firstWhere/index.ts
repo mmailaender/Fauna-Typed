@@ -42,6 +42,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
       })
       .catch(err => {
         console.log({ err });
+        error = err?.message;
         if (!err?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
           store.setState(({
@@ -57,8 +58,6 @@ export default function firstWhere<T>(collectionName: string, query: string) {
             },
           } as unknown) as ZustandState);
         }
-
-        error = err;
       });
 
     console.log('========error========', error);
