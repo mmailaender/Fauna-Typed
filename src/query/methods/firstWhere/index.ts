@@ -24,7 +24,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
     const runQuery = () => {
       let error = null;
 
-      req
+      return req
         .then(res => {
           console.log({ fqlxRes: res });
           // Storing API res in local state
