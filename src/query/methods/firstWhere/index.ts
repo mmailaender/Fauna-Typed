@@ -23,7 +23,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
 
     let error = null;
 
-    req
+    return req
       .then(res => {
         console.log({ fqlxRes: res });
         // Storing API res in local state
@@ -39,8 +39,11 @@ export default function firstWhere<T>(collectionName: string, query: string) {
             [query]: res || {},
           },
         } as ZustandState);
+
+        return (store.getState()[collectionName]?.data[0] || {}) as T;
       })
       .catch(err => {
+        throw new Error(err);
         console.log({ err });
         error = err;
         if (!err?.message?.includes(NETWORK_ERROR)) {
@@ -61,9 +64,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
         store.setState(({
           fetchingPromise: {},
         } as unknown) as ZustandState);
-
-        throw new Error(err);
-      });
+      }) as T;
 
     console.log('========error========', error);
 
