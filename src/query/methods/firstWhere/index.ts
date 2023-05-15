@@ -1,4 +1,5 @@
 import { callFqlxQuery } from '../../../client';
+import { NETWORK_ERROR } from '../../../error';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
 
@@ -37,7 +38,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
         } as ZustandState);
       })
       .catch(error => {
-        if (!error?.message?.includes('NetworkError')) {
+        if (!error?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
           store.setState(({
             [collectionName]: {

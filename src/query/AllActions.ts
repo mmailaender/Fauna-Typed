@@ -13,6 +13,7 @@ import zustandStore from '../zustand/store';
 import { StateKeys, ZustandState } from '../zustand/interface';
 import { callFqlxQuery } from '../client';
 import firstWhereMethod from './methods/firstWhere';
+import { NETWORK_ERROR } from '../error';
 
 export class AllActions<T> {
   protected collectionName: StateKeys;
@@ -62,7 +63,7 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          if (!error?.message?.includes('NetworkError')) {
+          if (!error?.message?.includes(NETWORK_ERROR)) {
             // Update value of query as inactive in state
             this.store.setState(({
               activeQuery: {
@@ -127,7 +128,7 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          if (!error?.message?.includes('NetworkError')) {
+          if (!error?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
@@ -194,7 +195,7 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          if (!error?.message?.includes('NetworkError')) {
+          if (!error?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
@@ -273,7 +274,7 @@ export class AllActions<T> {
           } as ZustandState);
         })
         .catch(error => {
-          if (!error?.message?.includes('NetworkError')) {
+          if (!error?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
