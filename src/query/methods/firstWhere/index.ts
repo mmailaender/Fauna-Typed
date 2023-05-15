@@ -21,58 +21,61 @@ export default function firstWhere<T>(collectionName: string, query: string) {
       fetchingPromise: { current: req },
     } as ZustandState);
 
-    let error = null;
+    const runQuery = () => {
+      let error = null;
 
-    return req
-      .then(res => {
-        console.log({ fqlxRes: res });
-        // Storing API res in local state
-        store.setState({
-          [collectionName]: {
-            data: res ? [res] : [],
-            after: null,
-            before: null,
-          },
-          fetchingPromise: {},
-          activeQuery: {
-            ...store.getState().activeQuery,
-            [query]: res || {},
-          },
-        } as ZustandState);
-
-        return (store.getState()[collectionName]?.data[0] || {}) as T;
-      })
-      .catch(err => {
-        throw new Error(err);
-        console.log({ err });
-        error = err;
-        if (!err?.message?.includes(NETWORK_ERROR)) {
-          // Reset fetchingPromise in state
-          store.setState(({
+      req
+        .then(res => {
+          console.log({ fqlxRes: res });
+          // Storing API res in local state
+          store.setState({
             [collectionName]: {
-              data: [],
+              data: res ? [res] : [],
               after: null,
               before: null,
             },
+            fetchingPromise: {},
             activeQuery: {
               ...store.getState().activeQuery,
-              [query]: false,
+              [query]: res || {},
             },
+          } as ZustandState);
+
+          return (store.getState()[collectionName]?.data[0] || {}) as T;
+        })
+        .catch(err => {
+          throw new Error(err);
+          console.log({ err });
+          error = err;
+          if (!err?.message?.includes(NETWORK_ERROR)) {
+            // Reset fetchingPromise in state
+            store.setState(({
+              [collectionName]: {
+                data: [],
+                after: null,
+                before: null,
+              },
+              activeQuery: {
+                ...store.getState().activeQuery,
+                [query]: false,
+              },
+            } as unknown) as ZustandState);
+          }
+
+          store.setState(({
+            fetchingPromise: {},
           } as unknown) as ZustandState);
-        }
+        }) as T;
+      console.log('========error========', error);
 
-        store.setState(({
-          fetchingPromise: {},
-        } as unknown) as ZustandState);
-      }) as T;
+      if (error) {
+        throw new Error(error);
+      }
 
-    console.log('========error========', error);
+      return (store.getState()[collectionName]?.data[0] || {}) as T;
+    };
 
-    if (error) {
-      throw new Error(error);
-    }
-
-    return (store.getState()[collectionName]?.data[0] || {}) as T;
+    return runQuery();
   };
 
   return {
