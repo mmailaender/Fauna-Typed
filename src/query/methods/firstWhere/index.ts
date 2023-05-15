@@ -54,7 +54,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
           } as unknown) as ZustandState);
         }
 
-        throw error;
+        throw new Error(error);
       });
 
     return (store.getState()[collectionName]?.data[0] || {}) as T;

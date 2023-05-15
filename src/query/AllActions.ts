@@ -78,7 +78,7 @@ export class AllActions<T> {
               fetchingPromise: {},
             } as unknown) as ZustandState);
 
-            throw error;
+            throw new Error(error);
           }
         });
 
@@ -142,7 +142,7 @@ export class AllActions<T> {
             } as unknown) as ZustandState);
           }
 
-          throw error;
+          throw new Error(error);
         });
 
       return ((this.store.getState()[this.collectionName]?.data[0] ||
@@ -211,7 +211,7 @@ export class AllActions<T> {
             } as unknown) as ZustandState);
           }
 
-          throw error;
+          throw new Error(error);
         });
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
@@ -290,7 +290,7 @@ export class AllActions<T> {
             } as unknown) as ZustandState);
           }
 
-          throw error;
+          throw new Error(error);
         });
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
