@@ -45,6 +45,8 @@ export class AllActions<T> {
         fetchingPromise: { current: req },
       } as ZustandState);
 
+      let error = null;
+
       req
         .then(res => {
           const resData = {
@@ -62,8 +64,8 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(error => {
-          if (!error?.message?.includes(NETWORK_ERROR)) {
+        .catch(err => {
+          if (!err?.message?.includes(NETWORK_ERROR)) {
             // Update value of query as inactive in state
             this.store.setState(({
               activeQuery: {
@@ -78,9 +80,13 @@ export class AllActions<T> {
               fetchingPromise: {},
             } as unknown) as ZustandState);
 
-            throw new Error(error);
+            error = err;
           }
         });
+
+      if (error) {
+        throw new Error(error);
+      }
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
     };
@@ -113,6 +119,8 @@ export class AllActions<T> {
         fetchingPromise: { current: req },
       } as ZustandState);
 
+      let error = null;
+
       req
         .then(res => {
           // Storing API res in local state
@@ -127,8 +135,8 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(error => {
-          if (!error?.message?.includes(NETWORK_ERROR)) {
+        .catch(err => {
+          if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
@@ -142,8 +150,12 @@ export class AllActions<T> {
             } as unknown) as ZustandState);
           }
 
-          throw new Error(error);
+          error = err;
         });
+
+      if (error) {
+        throw new Error(error);
+      }
 
       return ((this.store.getState()[this.collectionName]?.data[0] ||
         {}) as unknown) as T;
@@ -177,6 +189,8 @@ export class AllActions<T> {
         fetchingPromise: { current: req },
       } as ZustandState);
 
+      let error = null;
+
       req
         .then(res => {
           const resData = {
@@ -194,8 +208,8 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(error => {
-          if (!error?.message?.includes(NETWORK_ERROR)) {
+        .catch(err => {
+          if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
@@ -211,8 +225,12 @@ export class AllActions<T> {
             } as unknown) as ZustandState);
           }
 
-          throw new Error(error);
+          error = err;
         });
+
+      if (error) {
+        throw new Error(error);
+      }
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
     };
@@ -256,6 +274,8 @@ export class AllActions<T> {
         fetchingPromise: { current: req },
       } as ZustandState);
 
+      let error = null;
+
       req
         .then(res => {
           const resData = {
@@ -273,8 +293,8 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(error => {
-          if (!error?.message?.includes(NETWORK_ERROR)) {
+        .catch(err => {
+          if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
             this.store.setState(({
               [this.collectionName]: {
@@ -288,10 +308,14 @@ export class AllActions<T> {
                 [query]: false,
               },
             } as unknown) as ZustandState);
-          }
 
-          throw new Error(error);
+            error = err;
+          }
         });
+
+      if (error) {
+        throw new Error(error);
+      }
 
       return this.store.getState()[this.collectionName] as PaginateData<T>;
     };

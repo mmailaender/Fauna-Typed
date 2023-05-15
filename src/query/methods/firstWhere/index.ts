@@ -21,6 +21,8 @@ export default function firstWhere<T>(collectionName: string, query: string) {
       fetchingPromise: { current: req },
     } as ZustandState);
 
+    let error = null;
+
     req
       .then(res => {
         // Storing API res in local state
@@ -37,8 +39,8 @@ export default function firstWhere<T>(collectionName: string, query: string) {
           },
         } as ZustandState);
       })
-      .catch(error => {
-        if (!error?.message?.includes(NETWORK_ERROR)) {
+      .catch(err => {
+        if (!err?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
           store.setState(({
             [collectionName]: {
@@ -54,8 +56,12 @@ export default function firstWhere<T>(collectionName: string, query: string) {
           } as unknown) as ZustandState);
         }
 
-        throw new Error(error);
+        error = err;
       });
+
+    if (error) {
+      throw new Error(error);
+    }
 
     return (store.getState()[collectionName]?.data[0] || {}) as T;
   };
