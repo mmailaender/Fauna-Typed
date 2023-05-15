@@ -56,8 +56,12 @@ export default function firstWhere<T>(collectionName: string, query: string) {
           } as unknown) as ZustandState);
         }
 
+        console.log({ err });
+
         error = err;
       });
+
+    console.log('========error========', error);
 
     if (error) {
       throw new Error(error);
