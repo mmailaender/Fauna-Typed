@@ -2,6 +2,7 @@
 
 ```bash
 pnpm install github:mmailaender/Fauna-React
+pnpm install ts-node
 ```
 
 # Create schema 
