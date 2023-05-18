@@ -14,6 +14,7 @@ Example schema
 {
   "Car": {
     "fields": {
+      "plate": "string",
       "brand": "string",
       "owner": "Customer"
     }
@@ -85,10 +86,30 @@ export default function RootLayout({
 }
 ```
 
-# FqlxProvider
+## FqlxProvider
 
 | Property   | Mandatory? | Description | Example |
 |------------|------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------|
 | fqlxSecret | ✔️         | The secret to authenticate with Fauna. Recommended to use an <br> accessToken from your users, that you received after user login | `fqlxSecret: useAuth()` |
 | loader     | 🗙          | You can provide a skeleton loader component that displays <br> automatically that component during suspense.                      | `loader: {<Skeleton />}` |
 | endpoint   | 🗙          | Specify the Fauna endpoint. Default is Fauna cloud `https://db.fauna.com`. If you're not a Fauna Beta tester, or using the Fauna Docker version you don't need this | `endpoint: new URL('https://db.fauna-preview.com')` |
+
+# Use Client
+
+```tsx
+import { useQuery as query } from 'fqlx-client';
+
+const OwnedCars = (customerId) => {
+  return ({
+    query.Customer.firstWhere((customer) => {customer.id == customerId}).cars.exec().map((car) => {
+        return (
+          <div>
+            {car.plate}
+          </div>
+        )
+      });
+  });
+}
+
+export default OwnedCars;
+```
