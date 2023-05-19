@@ -1,11 +1,21 @@
-# Install
+# Motivation
+
+Fauna provides with FQL.X a typescipt like languange and offers build in typesafety with Schema enforcement (TODO: Link). This client streamlines the typesafe experience between Fauna and your React project by 
+- syncing the types from Fauna to your Typescript project
+- transform and compose your typessafe functions on the fly to FQL.X post Requests .
+
+![image](https://github.com/mmailaender/Fauna-React/assets/87228994/5260ec7e-9ae5-453f-a996-9fdaaff70cdf)
+
+
+# Getting Started
+## Install
 
 ```bash
 pnpm install github:mmailaender/Fauna-React
 pnpm install ts-node
 ```
 
-# Create schema 
+## Create schema 
 1. Create `fqlx.schema.json` file on root level (same level like `package.json`)
 2. And add your schema into the file:
 
@@ -28,7 +38,7 @@ Example schema
 }
 ```
 
-# Extend `package.json`
+## Extend `package.json`
 
 ```
 "scripts": {
@@ -37,7 +47,7 @@ Example schema
 },
 ```
 
-# Generate TS interfaces
+## Generate TS interfaces
 ```
 pnpm fqlx:generate
 ```
@@ -49,11 +59,11 @@ You should see the following folder structure as output
 | |- typedefs.ts
 ```
 
-# Configure Client
+## Configure Client
 
 Wrap your App with the `<FqlxProvider>`
 
-## Nextjs
+### Nextjs
 ```tsx
 import { FqlxProvider } from 'fqlx-client';
 import './globals.css';
@@ -81,7 +91,7 @@ export default function RootLayout({
 }
 ```
 
-## FqlxProvider
+### FqlxProvider
 
 | Property   | Mandatory? | Description | Example |
 |------------|------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------|
@@ -89,7 +99,7 @@ export default function RootLayout({
 | loader     | 🗙          | You can provide a skeleton loader component that displays <br> automatically that component during suspense.                      | `loader: {<Skeleton />}` |
 | endpoint   | 🗙          | Specify the Fauna endpoint. Default is Fauna cloud `https://db.fauna.com`. If you're not a Fauna Beta tester, or using the Fauna Docker version you don't need this | `endpoint: new URL('https://db.fauna-preview.com')` |
 
-# Use Client
+## Use Client
 
 ```tsx
 import { useQuery as query } from 'fqlx-client';
