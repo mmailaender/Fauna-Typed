@@ -7,7 +7,7 @@ pnpm install ts-node
 
 # Create schema 
 1. Create `fqlx.schema.json` file on root level (same level like `package.json`)
-2. Add your schema
+2. And add your schema into the file:
 
 Example schema
 ```json
@@ -27,7 +27,6 @@ Example schema
   }
 }
 ```
-
 
 # Extend `package.json`
 
@@ -52,7 +51,7 @@ You should see the following folder structure as output
 
 # Configure Client
 
-Wrap your App
+Wrap your App with the `<FqlxProvider>`
 
 ## Nextjs
 ```tsx
@@ -73,13 +72,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <FqlxProvider
-              config={{
-                fqlxSecret: <userFaunaAccessToken>,
-              }}
-              
-            >
+        <FqlxProvider config={{ fqlxSecret: <userFaunaAccessToken> }} >
           {children}
+        </FqlxProvider>
       </body>
     </html>
   );
