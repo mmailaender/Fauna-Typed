@@ -126,4 +126,4 @@ For that we use the
 .exec()
 ```
 function. Put it at the end of your query, were you want to have a handover from `Fauna` to `Browser/Edge/Node` side. <br>
-Everything **before** `.exec()` will run on `Fauna` side. Everything **after** `.exec()` will run on `Browser/Edge/Node` side.
+> Everything **before** `.exec()` will run on `Fauna` side. Everything **after** `.exec()` will run on `Browser/Edge/Node` side.
