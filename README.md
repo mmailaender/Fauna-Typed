@@ -2,9 +2,13 @@
 
 Fauna provides with FQL.X a typescipt like languange and offers build in typesafety with Schema enforcement (TODO: Link). This client streamlines the typesafe experience between Fauna and your React project by 
 - syncing the types from Fauna to your Typescript project
-- transform and compose your typessafe functions on the fly to FQL.X post Requests .
+- transform and compose your typessafe functions on the fly to FQL.X post Requests
 
 ![image](https://github.com/mmailaender/Fauna-React/assets/87228994/5260ec7e-9ae5-453f-a996-9fdaaff70cdf)
+
+- Typesafe
+- State Management built in for Optimistic Response
+- [TODO] Isomorphic (Code can run on Fauna or in Typescript runtime)
 
 
 # Getting Started
