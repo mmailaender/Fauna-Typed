@@ -1,9 +1,17 @@
 import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
+import {
+  FirstWhereMethods,
+  ProjectionFieldsInputType,
+} from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
+import projection from '../projection';
 
-export default function firstWhere<T>(collectionName: string, query: string) {
+export default function firstWhere<T>(
+  collectionName: string,
+  query: string
+): FirstWhereMethods<T> {
   const store = zustandStore.getStore();
 
   // @ts-expect-error
@@ -87,5 +95,7 @@ export default function firstWhere<T>(collectionName: string, query: string) {
 
   return {
     exec: executor,
+    project: (projectionFields: ProjectionFieldsInputType<T>) =>
+      projection<T>(collectionName, query, projectionFields),
   };
 }

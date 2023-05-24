@@ -63,8 +63,15 @@ export interface FqlxFirst<T> {
 
 export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {}
 
-export interface FirstWhereMethods<T> extends ExecMethods<T> { }
+export type ProjectionFieldsInputType<T> = {[K in keyof T] : boolean | Partial<ProjectionFieldsInputType<T[K]>>}
 
+export interface ProjectionMethods<T> extends PromisifyExecMethods<T> {
+ 
+}
+
+export interface FirstWhereMethods<T> extends ExecMethods<T> { 
+  project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ProjectionMethods<T>
+}
 
 export interface FirstMethods<T> extends ExecMethods<T> { }
 
