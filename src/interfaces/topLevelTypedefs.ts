@@ -65,7 +65,7 @@ export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<
 
 export type ProjectionFieldsInputType<T> = {[K in keyof T] : boolean | Partial<ProjectionFieldsInputType<T[K]>>}
 
-export interface ProjectionMethods<T> extends PromisifyExecMethods<T> {
+export interface ProjectionMethods<T> extends ExecMethods<T> {
  
 }
 

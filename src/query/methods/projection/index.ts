@@ -16,8 +16,14 @@ const mapProjectionFields = <T>(
       const value = field[1];
 
       if (typeof value === 'object') {
+        if (!Array.isArray(value)) {
+          return `${key} { ${mapProjectionFields(
+            value as ProjectionFieldsInputType<T>
+          )} }`;
+        }
+
         return `${key} { ${mapProjectionFields(
-          value as ProjectionFieldsInputType<T>
+          value[0] as ProjectionFieldsInputType<T>
         )} }`;
       }
 
@@ -33,7 +39,8 @@ export default function projection<T>(
 ): ProjectionMethods<T> {
   const store = zustandStore.getStore();
 
-  const executor = async (): Promise<T> => {
+  // @ts-expect-error
+  const executor = async (): T => {
     const mappedFields = mapProjectionFields(projectionFields);
 
     const q = `${query} { ${mappedFields} }`;
@@ -43,122 +50,75 @@ export default function projection<T>(
       return store.getState().activeQuery[q] as T;
     }
 
-    try {
-      // Calling Fqlx API
-      const res = await callFqlxQuery(q);
+    // Calling Fqlx API
+    const req = await callFqlxQuery(q);
 
-      store.setState({
-        [collectionName]: {
-          data: res ? [res] : [],
-          after: null,
-          before: null,
-        },
-        fetchingPromise: {},
-        activeQuery: {
-          ...store.getState().activeQuery,
-          [q]: res || {},
-        },
-      } as ZustandState);
+    // Updating fetchingPromise in state
+    store.setState({
+      fetchingPromise: { current: req },
+    } as ZustandState);
 
-      return (store.getState()[collectionName]?.data[0] || {}) as T;
-    } catch (err) {
-      // @ts-expect-error
-      if (!err?.message?.includes(NETWORK_ERROR)) {
-        // Reset fetchingPromise in state
-        store.setState(({
+    let error = '';
+    let status = 'pending';
+
+    req
+      .then((res: { [key: string]: any }) => {
+        status = 'success';
+        // Storing API res in local state
+        store.setState({
           [collectionName]: {
-            data: [],
+            data: res ? [res] : [],
             after: null,
             before: null,
           },
+          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
-            [q]: false,
+            [q]: res || {},
+          },
+        } as ZustandState);
+
+        return (store.getState()[collectionName]?.data[0] || {}) as T;
+      })
+      .catch((err: { message: string }) => {
+        status = 'error';
+        error = err?.message;
+
+        if (!err?.message?.includes(NETWORK_ERROR)) {
+          // Reset fetchingPromise in state
+          store.setState(({
+            [collectionName]: {
+              data: [],
+              after: null,
+              before: null,
+            },
+            activeQuery: {
+              ...store.getState().activeQuery,
+              [q]: false,
+            },
+          } as unknown) as ZustandState);
+        }
+
+        store.setState(({
+          fetchingPromise: {},
+          activeQuery: {
+            ...store.getState().activeQuery,
+            [q]: {},
           },
         } as unknown) as ZustandState);
-      }
+      }) as T;
 
-      store.setState(({
-        fetchingPromise: {},
-        activeQuery: {
-          ...store.getState().activeQuery,
-          [q]: {},
-        },
-      } as unknown) as ZustandState);
-
-      // @ts-expect-error
-      throw new Error(err?.message) as T;
+    if (status === 'pending') {
+      throw req as T;
     }
 
-    // // Calling Fqlx API
-    // const req = await callFqlxQuery(q);
+    if (status === 'error') {
+      throw new Error(error) as T;
+    }
 
-    // // Updating fetchingPromise in state
-    // store.setState({
-    //   fetchingPromise: { current: req },
-    // } as ZustandState);
-
-    // let error = '';
-    // let status = 'pending';
-
-    // req
-    //   .then(res => {
-    //     status = 'success';
-    //     // Storing API res in local state
-    //     store.setState({
-    //       [collectionName]: {
-    //         data: res ? [res] : [],
-    //         after: null,
-    //         before: null,
-    //       },
-    //       fetchingPromise: {},
-    //       activeQuery: {
-    //         ...store.getState().activeQuery,
-    //         [q]: res || {},
-    //       },
-    //     } as ZustandState);
-
-    //     return (store.getState()[collectionName]?.data[0] || {}) as T;
-    //   })
-    //   .catch(err => {
-    //     status = 'error';
-    //     error = err?.message;
-
-    //     if (!err?.message?.includes(NETWORK_ERROR)) {
-    //       // Reset fetchingPromise in state
-    //       store.setState(({
-    //         [collectionName]: {
-    //           data: [],
-    //           after: null,
-    //           before: null,
-    //         },
-    //         activeQuery: {
-    //           ...store.getState().activeQuery,
-    //           [q]: false,
-    //         },
-    //       } as unknown) as ZustandState);
-    //     }
-
-    //     store.setState(({
-    //       fetchingPromise: {},
-    //       activeQuery: {
-    //         ...store.getState().activeQuery,
-    //         [q]: {},
-    //       },
-    //     } as unknown) as ZustandState);
-    //   }) as T;
-
-    // if (status === 'pending') {
-    //   throw req as T;
-    // }
-
-    // if (status === 'error') {
-    //   throw new Error(error) as T;
-    // }
-
-    // if (status === 'success') {
-    //   return (store.getState()[collectionName]?.data[0] || {}) as T;
-    // }
+    if (status === 'success') {
+      return (store.getState()[collectionName]?.data[0] || {}) as T;
+    }
   };
 
   return {
