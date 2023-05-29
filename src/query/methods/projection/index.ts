@@ -40,7 +40,7 @@ export default function projection<T>(
   const store = zustandStore.getStore();
 
   // @ts-expect-error
-  const executor = async (): T => {
+  const executor = (): T => {
     const mappedFields = mapProjectionFields(projectionFields);
 
     const q = `${query} { ${mappedFields} }`;
@@ -51,7 +51,7 @@ export default function projection<T>(
     }
 
     // Calling Fqlx API
-    const req = await callFqlxQuery(q);
+    const req = callFqlxQuery(q);
 
     // Updating fetchingPromise in state
     store.setState({
