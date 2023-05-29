@@ -5,6 +5,7 @@ import { CreateMethods } from '../interfaces/topLevelTypedefs';
 import { StateKeys } from '../zustand/interface';
 import zustandStore from '../zustand/store';
 import { callFqlxQuery } from '../client';
+import projection from './methods/projection';
 
 export class CreateActions<T> {
   protected collectionName: StateKeys;
@@ -44,6 +45,8 @@ export class CreateActions<T> {
 
     return {
       exec: executor,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 }

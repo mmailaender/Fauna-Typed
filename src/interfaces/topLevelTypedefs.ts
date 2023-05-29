@@ -20,7 +20,9 @@ export interface ExecMethods<T> {
   exec(): T;
 }
 
-export interface CreateMethods<T> extends PromisifyExecMethods<T> {}
+export interface CreateMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> {
+  
+}
 
 export type OrderMethodInput<T> = `asc(.${string & keyof T})` | `desc(.${string & keyof T})`
 
@@ -61,27 +63,55 @@ export interface FqlxFirst<T> {
   first(): FirstMethods<T>;
 }
 
-export interface WhereMethods<T> extends FqlxOrder<T>, ExecMethods<PaginateData<T>> {}
+export interface WhereMethods<T> extends FqlxOrder<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> {}
 
 export type ProjectionFieldsInputType<T> = {[K in keyof T] : boolean | Partial<ProjectionFieldsInputType<T[K]>>}
 
-export interface ProjectionMethods<T> extends ExecMethods<T> {
- 
+export interface ProjectionMethods<T> {
+ /**
+   * Projection allows you to select the fields to be returned.
+   * 
+   * @param projectionFields Fields you want to get as response.
+   * 
+   * @returns {ProjectionMethods<T>} Fields value for which you requested, If a requested field doesn’t exist in the projected object, the returned field value is set to null.
+   * 
+   * @example
+   * query.Address.all().project({ country: true }).exec();
+   * OR
+   * query.Address.all().project({ country: {code : true} }).exec();
+   * OR
+   * query.Address.all().project({ countries: [{code : true}] }).exec();
+   * OR
+   * query.Address.where((data) => data.country == "US").project({ country: true }).exec();
+   * OR
+   * query.Address.firstWhere((data) => data.country == "US").project({ country: true }).exec();
+   * OR
+   * query.Address.all().first().project({ country: true }).exec();
+   * OR
+   * query.Address.all().order(asc(.id)).project({ country: true }).exec();
+   * OR
+   * query.Address.byId('360427545614615075').project({ country: true }).exec();
+   * OR
+   * query.Address.byId('360427545614615075').delete().project({ country: true }).exec();
+   * OR
+   * query.Address.byId('360427545614615075').update({street: "Vijay Nagar Road"}).project({ country: true }).exec();
+   * 
+   * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/language/projection See more...}
+   */
+ project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ExecMethods<T>;
 }
 
-export interface FirstWhereMethods<T> extends ExecMethods<T> { 
-  project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ProjectionMethods<T>
-}
+export interface FirstWhereMethods<T> extends ProjectionMethods<T>, ExecMethods<T> { }
 
-export interface FirstMethods<T> extends ExecMethods<T> { }
+export interface FirstMethods<T> extends ProjectionMethods<T>, ExecMethods<T> { }
 
-export interface OrderMethods<T> extends  FqlxFirst<T>, ExecMethods<PaginateData<T>> { }
+export interface OrderMethods<T> extends  FqlxFirst<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> { }
 
-export interface DeleteMethods<T> extends PromisifyExecMethods<T> { }
+export interface DeleteMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> { }
 
-export interface UpdateMethods<T> extends PromisifyExecMethods<T> { }
+export interface UpdateMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> { }
 
-export interface AllMethods<T> extends FqlxOrder<T>, FqlxFirst<T>, ExecMethods<PaginateData<T>> {
+export interface AllMethods<T> extends FqlxOrder<T>, FqlxFirst<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> {
    /**
    * first where method get the first matching value from the Set.
    *
@@ -121,7 +151,7 @@ export interface PaginateData<T> {
   before?: string | null | undefined;
 }
 
-export interface ByIdMethods<T, U> extends PromisifyExecMethods<T> {
+export interface ByIdMethods<T, U> extends ProjectionMethods<T>, PromisifyExecMethods<T> {
   /**
    * The update() method updates the document with the object fields and returns the updated document.
    *

@@ -8,6 +8,7 @@ import {
 import zustandStore from '../zustand/store';
 import { StateKeys } from '../zustand/interface';
 import { callFqlxQuery } from '../client';
+import projection from './methods/projection';
 
 export class ByIdActions<T, U> {
   protected collectionName: StateKeys;
@@ -47,6 +48,8 @@ export class ByIdActions<T, U> {
       exec: executor,
       update: this.update,
       delete: this.delete,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -82,6 +85,8 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -112,6 +117,8 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 }

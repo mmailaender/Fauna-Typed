@@ -1,14 +1,14 @@
 import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
 import {
+  ExecMethods,
   ProjectionFieldsInputType,
-  ProjectionMethods,
 } from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
 
 const mapProjectionFields = <T>(
-  projectionFields: ProjectionFieldsInputType<T>
+  projectionFields: Partial<ProjectionFieldsInputType<T>>
 ): string => {
   return Object.entries(projectionFields)
     .map(field => {
@@ -35,8 +35,8 @@ const mapProjectionFields = <T>(
 export default function projection<T>(
   collectionName: string,
   query: string,
-  projectionFields: ProjectionFieldsInputType<T>
-): ProjectionMethods<T> {
+  projectionFields: Partial<ProjectionFieldsInputType<T>>
+): ExecMethods<T> {
   const store = zustandStore.getStore();
 
   // @ts-expect-error
@@ -66,11 +66,7 @@ export default function projection<T>(
         status = 'success';
         // Storing API res in local state
         store.setState({
-          [collectionName]: {
-            data: res ? [res] : [],
-            after: null,
-            before: null,
-          },
+          [collectionName]: res || {},
           fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
@@ -78,7 +74,7 @@ export default function projection<T>(
           },
         } as ZustandState);
 
-        return (store.getState()[collectionName]?.data[0] || {}) as T;
+        return (store.getState()[collectionName] || {}) as T;
       })
       .catch((err: { message: string }) => {
         status = 'error';
@@ -87,11 +83,7 @@ export default function projection<T>(
         if (!err?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
           store.setState(({
-            [collectionName]: {
-              data: [],
-              after: null,
-              before: null,
-            },
+            [collectionName]: {},
             activeQuery: {
               ...store.getState().activeQuery,
               [q]: false,
@@ -117,7 +109,7 @@ export default function projection<T>(
     }
 
     if (status === 'success') {
-      return (store.getState()[collectionName]?.data[0] || {}) as T;
+      return (store.getState()[collectionName] || {}) as T;
     }
   };
 

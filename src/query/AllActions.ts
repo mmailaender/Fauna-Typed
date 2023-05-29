@@ -14,6 +14,7 @@ import { StateKeys, ZustandState } from '../zustand/interface';
 import { callFqlxQuery } from '../client';
 import firstWhereMethod from './methods/firstWhere';
 import { NETWORK_ERROR } from '../error';
+import projection from './methods/projection';
 
 export class AllActions<T> {
   protected collectionName: StateKeys;
@@ -117,6 +118,8 @@ export class AllActions<T> {
       firstWhere: this.firstWhere,
       where: this.where,
       order: this.order,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -200,6 +203,8 @@ export class AllActions<T> {
 
     return {
       exec: executor,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -294,6 +299,8 @@ export class AllActions<T> {
     return {
       exec: executor,
       order: this.order,
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -397,6 +404,8 @@ export class AllActions<T> {
     return {
       exec: executor,
       first: this.first(query),
+      project: projectionFields =>
+        projection(this.collectionName as string, query, projectionFields),
     };
   };
 }
