@@ -123,7 +123,7 @@ const OwnedCars = (customerId) => {
 export default OwnedCars;
 ```
 
-### .exec() function
+### Execute query | .exec()
 FQL.X is following the same syntax as Typescript. e.g. `.map()` can be executed on `Fauna` or on `Browser/Edge/Node` side.  That means, we need to tell the app which part of the code should run on `Fauna` side and which code should run on `Browser/Edge/Node` side. <br><br>
 For that we use the
 ```js
@@ -131,3 +131,28 @@ For that we use the
 ```
 function. Put it at the end of your query, were you want to have a handover from `Fauna` to `Browser/Edge/Node` side. <br>
 > Everything **before** `.exec()` will run on `Fauna` side. Everything **after** `.exec()` will run on `Browser/Edge/Node` side.
+
+### Projection | .project()
+With projection you can define what data you want to return. With this you can avoid over- and under fetching. Also you can fetch child fields.
+
+```jsx
+query.Customer.first().cars.project({
+  plate = true,
+  brand = true,
+  owner = true,
+})
+.exec()
+```
+
+#### Fetch child fields
+```jsx
+query.Customer.first().cars.project({
+  plate = true,
+  brand = true,
+  owner = {
+    name = true,
+  },
+})
+.exec()
+```
+
