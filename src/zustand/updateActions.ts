@@ -20,7 +20,7 @@ export const handleUpdateDocument = <T>(
     });
 
     return ({
-      temp: [...state.temp, currentData],
+      temp: [...(state.temp || {}), currentData],
       [collection]: { data: updatedState },
     } as unknown) as ZustandState;
   });
