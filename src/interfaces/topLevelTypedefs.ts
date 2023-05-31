@@ -98,7 +98,7 @@ export interface ProjectionMethods<T> {
    * 
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/language/projection See more...}
    */
- project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ExecMethods<T>;
+ project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ExecMethods<PaginateData<T>>;
 }
 
 export interface FirstWhereMethods<T> extends ProjectionMethods<T>, ExecMethods<T> { }
