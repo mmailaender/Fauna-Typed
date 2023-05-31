@@ -20,7 +20,7 @@ export const handleUpdateDocument = <T>(
     });
 
     return ({
-      temp: [...state.temp, currentData],
+      temp: [...(state.temp || {}), currentData],
       [collection]: { data: updatedState },
     } as unknown) as ZustandState;
   });
@@ -31,7 +31,6 @@ export const handleUpdateDocumentSuccess = (
   id: string
 ) => {
   set((state: ZustandState) => {
-    console.log('handleUpdateDocumentSuccess==', { id, temp: state.temp });
     const filteredTemp = state.temp.filter(t => t.id !== id);
     return {
       temp: filteredTemp,
@@ -45,7 +44,6 @@ export const handleUpdateDocumentError = (
   collection: StateKeys
 ) => {
   set((state: ZustandState) => {
-    console.log({ temp: state.temp, id });
     const validStates = state[collection]?.data?.map((data: any) => {
       if (data.id === id) {
         return { ...state.temp.find(t => t?.id === id) };
