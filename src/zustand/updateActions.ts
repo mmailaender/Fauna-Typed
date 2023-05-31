@@ -45,16 +45,16 @@ export const handleUpdateDocumentError = (
   collection: StateKeys
 ) => {
   set((state: ZustandState) => {
+    console.log({ temp: state.temp, id });
     const validStates = state[collection]?.data?.map((data: any) => {
       if (data.id === id) {
-        console.log({ temp: state.temp, id });
         return { ...state.temp.find(t => t?.id === id) };
       } else {
         return data;
       }
     });
 
-    const filteredTemp = state.temp.filter(t => t.id !== id);
+    const filteredTemp = state.temp.filter(t => t?.id !== id);
     return ({
       temp: filteredTemp,
       [collection]: { data: validStates },
