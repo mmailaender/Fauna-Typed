@@ -29,7 +29,7 @@ export type ZustandState = Partial<InitialState> & {
   onUpdateFailed: (id: string, collection: StateKeys) => void;
   delete: (id: string, collection: StateKeys) => void;
   onDeleteFailed: (id: string, collection: StateKeys) => void;
-  onDeleteSuccess: (id: string) => void;
+  onDeleteSuccess: (id: string, collection: StateKeys) => void;
 } ;
 
 export type ZustandSetAction = (

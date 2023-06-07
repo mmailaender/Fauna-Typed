@@ -102,7 +102,9 @@ export class ByIdActions<T, U> {
         const res = await callFqlxQuery(query);
 
         // Deleting the document from temp state
-        this.store.getState().onDeleteSuccess(this.fqlxDocId);
+        this.store
+          .getState()
+          .onDeleteSuccess(this.fqlxDocId, this.collectionName);
 
         return res;
       } catch (error) {

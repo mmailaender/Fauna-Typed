@@ -1,20 +1,22 @@
 'use client';
 
 import { StateKeys, ZustandSetAction, ZustandState } from './interface';
+import { resetActiveQueriesByCollection } from './resetActiveQueryByCollection';
 
 export const handleCreateDocument = <T>(
   set: ZustandSetAction,
   inputData: T,
   collection: StateKeys
 ) => {
-  set(
-    (state: ZustandState) =>
-      ({
-        [collection]: {
-          data: [...(state[collection]?.data || []), inputData],
-        },
-      } as ZustandState)
-  );
+  set((state: ZustandState) => {
+    resetActiveQueriesByCollection(collection);
+
+    return {
+      [collection]: {
+        data: [...(state[collection]?.data || []), inputData],
+      },
+    } as ZustandState;
+  });
 };
 
 export const handleCreateDocumentSuccess = (
@@ -31,6 +33,8 @@ export const handleCreateDocumentSuccess = (
       return obj;
     });
 
+    resetActiveQueriesByCollection(collection);
+
     return {
       [collection]: { data: validData },
     } as ZustandState;
@@ -46,6 +50,9 @@ export const handleCreateDocumentFailed = (
     const validStates = state[collection]?.data?.filter(
       (obj: any) => obj.id !== id
     );
+
+    resetActiveQueriesByCollection(collection);
+
     return {
       [collection]: {
         data: validStates,

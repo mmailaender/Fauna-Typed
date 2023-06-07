@@ -45,8 +45,8 @@ export const createZustandWrapper = (): ZustandStore => {
             handleUpdateDocument<T>(set, id, inputData, collection);
           },
 
-          onUpdateSuccess: (id: string, _collection: StateKeys) => {
-            handleUpdateDocumentSuccess(set, id);
+          onUpdateSuccess: (id: string, collection: StateKeys) => {
+            handleUpdateDocumentSuccess(set, id, collection);
           },
 
           onUpdateFailed: (id: string, collection: StateKeys) => {
@@ -57,8 +57,8 @@ export const createZustandWrapper = (): ZustandStore => {
             handleDeleteDocument(set, id, collection);
           },
 
-          onDeleteSuccess: (id: string) => {
-            handleDeleteDocumentSuccess(set, id);
+          onDeleteSuccess: (id: string, collection: StateKeys) => {
+            handleDeleteDocumentSuccess(set, id, collection);
           },
 
           onDeleteFailed: (id: string, collection: StateKeys) => {

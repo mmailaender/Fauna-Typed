@@ -1,6 +1,7 @@
 'use client';
 
 import { StateKeys, ZustandSetAction, ZustandState } from './interface';
+import { resetActiveQueriesByCollection } from './resetActiveQueryByCollection';
 
 export const handleUpdateDocument = <T>(
   set: ZustandSetAction,
@@ -19,6 +20,8 @@ export const handleUpdateDocument = <T>(
       }
     });
 
+    resetActiveQueriesByCollection(collection);
+
     return ({
       temp: [...(state.temp || {}), currentData],
       [collection]: { data: updatedState },
@@ -28,10 +31,14 @@ export const handleUpdateDocument = <T>(
 
 export const handleUpdateDocumentSuccess = (
   set: ZustandSetAction,
-  id: string
+  id: string,
+  collection: StateKeys
 ) => {
   set((state: ZustandState) => {
     const filteredTemp = state.temp.filter(t => t.id !== id);
+
+    resetActiveQueriesByCollection(collection);
+
     return {
       temp: filteredTemp,
     } as ZustandState;
@@ -53,6 +60,9 @@ export const handleUpdateDocumentError = (
     });
 
     const filteredTemp = state.temp.filter(t => t?.id !== id);
+
+    resetActiveQueriesByCollection(collection);
+
     return ({
       temp: filteredTemp,
       [collection]: { data: validStates },
