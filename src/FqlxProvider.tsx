@@ -12,19 +12,24 @@ export const FqlxProvider = ({
   loader: React.ReactElement;
   children: React.ReactElement;
 }) => {
-  const { setFqlxSecret, fqlxSecret, setFqlxEndpoint } = useConfigStore(
-    (state: configState) => state
-  );
+  const {
+    setFqlxSecret,
+    fqlxSecret,
+    setFqlxEndpoint,
+    fqlxEndpoint,
+  } = useConfigStore((state: configState) => state);
 
   useEffect(() => {
     if (config.fqlxSecret && config.fqlxSecret !== fqlxSecret) {
       setFqlxSecret(config.fqlxSecret);
     }
+  }, [config.fqlxSecret]);
 
-    if (config?.endpoint) {
+  useEffect(() => {
+    if (config?.endpoint && config?.endpoint !== fqlxEndpoint) {
       setFqlxEndpoint(config.endpoint);
     }
-  }, []);
+  }, [config.endpoint]);
 
   if (!config.fqlxSecret) {
     throw new Error('Missing Fauna Secret');
