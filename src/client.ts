@@ -6,12 +6,13 @@ import { useConfigStore } from './configStore';
 class FqlxClient {
   private client: Client | undefined;
   private store = useConfigStore;
+  private secretToken: string = '';
 
   getClient(): Client {
-    if (!this.client) {
-      const secret = this.store.getState().fqlxSecret;
+    const secret = this.store.getState().fqlxSecret;
+    if (!this.client || this.secretToken !== secret) {
       const endpoint = this.store.getState().fqlxEndpoint;
-
+      this.secretToken = secret;
       console.log('secret in client=========', secret);
 
       if (secret) {
