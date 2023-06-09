@@ -12,6 +12,8 @@ class FqlxClient {
       const secret = this.store.getState().fqlxSecret;
       const endpoint = this.store.getState().fqlxEndpoint;
 
+      console.log('secret in client=========', secret);
+
       if (secret) {
         this.client = new Client({
           endpoint,
