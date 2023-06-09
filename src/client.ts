@@ -10,10 +10,11 @@ class FqlxClient {
 
   getClient(): Client {
     const secret = this.store.getState().fqlxSecret;
+
+    // Create new client if client not exist OR if secret change
     if (!this.client || this.secretToken !== secret) {
       const endpoint = this.store.getState().fqlxEndpoint;
       this.secretToken = secret;
-      console.log('secret in client=========', secret);
 
       if (secret) {
         this.client = new Client({

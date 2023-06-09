@@ -20,7 +20,6 @@ export const FqlxProvider = ({
   } = useConfigStore((state: configState) => state);
 
   useEffect(() => {
-    console.log({ newSecret: config.fqlxSecret });
     setFqlxSecret(config.fqlxSecret);
   }, [config.fqlxSecret]);
 
