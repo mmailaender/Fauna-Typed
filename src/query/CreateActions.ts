@@ -46,7 +46,11 @@ export class CreateActions<T> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, T>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 }

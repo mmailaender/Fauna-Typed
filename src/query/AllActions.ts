@@ -119,7 +119,11 @@ export class AllActions<T> {
       where: this.where,
       order: this.order,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, PaginateData<T>>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 
@@ -204,7 +208,11 @@ export class AllActions<T> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, T>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 
@@ -300,7 +308,11 @@ export class AllActions<T> {
       exec: executor,
       order: this.order,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, PaginateData<T>>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 
@@ -405,7 +417,11 @@ export class AllActions<T> {
       exec: executor,
       first: this.first(query),
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, PaginateData<T>>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 }

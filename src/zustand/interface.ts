@@ -30,6 +30,7 @@ export type ZustandState = Partial<InitialState> & {
   delete: (id: string, collection: StateKeys) => void;
   onDeleteFailed: (id: string, collection: StateKeys) => void;
   onDeleteSuccess: (id: string, collection: StateKeys) => void;
+  revalidateActiveQuery: () => void;
 } ;
 
 export type ZustandSetAction = (

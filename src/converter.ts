@@ -29,7 +29,7 @@ const createInterface = (key: string, fields: object) => {
       createInterface(fieldKey, fieldValue);
 
       queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-        `/**\n * @returns This return fqlx methods for the ${fieldKeyPascalCase} \n */ \n ${fieldKeyPascalCase}:  PaginateData<${fieldKeyPascalCase}> & ${fieldKeyPascalCase}Methods;\n`
+        `/**\n * @returns This return fqlx methods for the ${fieldKeyPascalCase} \n */ \n ${fieldKeyPascalCase}:  ${fieldKeyPascalCase}Methods;\n`
       );
     }
 
@@ -38,7 +38,9 @@ const createInterface = (key: string, fields: object) => {
       `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}: ${valueType};\n`
     );
 
-    if (fieldKey.toLowerCase() !== 'id') {
+    const fieldKeyInLowercase = fieldKey.toLowerCase();
+
+    if (!['id', 'ts'].includes(fieldKeyInLowercase)) {
       inputInterfaceKeyValue = inputInterfaceKeyValue.concat(
         `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}: ${valueType};\n`
       );
@@ -62,7 +64,7 @@ const generateTypeDefs = () => {
     const keyInPascalCase = getPascalCaseString(key);
 
     queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-      `/**\n * @returns This return fqlx methods for the ${keyInPascalCase} \n */ \n${keyInPascalCase}: PaginateData<${keyInPascalCase}> & ${keyInPascalCase}Methods;\n`
+      `/**\n * @returns This return fqlx methods for the ${keyInPascalCase} \n */ \n${keyInPascalCase}: ${keyInPascalCase}Methods;\n`
     );
     createInterface(key, schema[key as keyof typeof schema].fields);
   });
@@ -92,7 +94,9 @@ fs.writeFileSync(
     process.env?.PWD as string,
     `fqlx-generated/collectionsWithFields.ts`
   ),
-  `export const collectionsWithFields = ${JSON.stringify(getCollectionsWithFields(schema))}`,
+  `export const collectionsWithFields = ${JSON.stringify(
+    getCollectionsWithFields(schema)
+  )}`,
   {
     encoding: 'utf-8',
   }

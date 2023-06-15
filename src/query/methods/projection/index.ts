@@ -2,7 +2,6 @@ import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
 import {
   ExecMethods,
-  PaginateData,
   ProjectionFieldsInputType,
 } from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
@@ -33,22 +32,22 @@ const mapProjectionFields = <T>(
     .join(', ');
 };
 
-export default function projection<T>(
+export default function projection<T, RES_TYPE>(
   collectionName: string,
   query: string,
   projectionFields: Partial<ProjectionFieldsInputType<T>>
-): ExecMethods<PaginateData<T>> {
+): ExecMethods<RES_TYPE> {
   const store = zustandStore.getStore();
 
   // @ts-expect-error
-  const executor = (): PaginateData<T> => {
+  const executor = (): RES_TYPE => {
     const mappedFields = mapProjectionFields(projectionFields);
 
     const q = `${query} { ${mappedFields} }`;
     // Checking, query is already executed
     if (store.getState().activeQuery[q]) {
       // Return data from state
-      return (store.getState().activeQuery[q] as unknown) as PaginateData<T>;
+      return (store.getState().activeQuery[q] as unknown) as RES_TYPE;
     }
 
     // Calling Fqlx API
@@ -110,7 +109,7 @@ export default function projection<T>(
     }
 
     if (status === 'success') {
-      return (store.getState()[collectionName] || {}) as PaginateData<T>;
+      return (store.getState()[collectionName] || {}) as RES_TYPE;
     }
   };
 

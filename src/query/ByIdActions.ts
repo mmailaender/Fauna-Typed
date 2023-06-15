@@ -49,7 +49,7 @@ export class ByIdActions<T, U> {
       update: this.update,
       delete: this.delete,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, T>(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -86,7 +86,7 @@ export class ByIdActions<T, U> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, T>(this.collectionName as string, query, projectionFields),
     };
   };
 
@@ -120,7 +120,7 @@ export class ByIdActions<T, U> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection(this.collectionName as string, query, projectionFields),
+        projection<T, T>(this.collectionName as string, query, projectionFields),
     };
   };
 }

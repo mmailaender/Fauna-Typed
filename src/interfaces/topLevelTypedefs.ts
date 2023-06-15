@@ -20,7 +20,7 @@ export interface ExecMethods<T> {
   exec(): T;
 }
 
-export interface CreateMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> {
+export interface CreateMethods<T> extends ProjectionMethods<T, T>, PromisifyExecMethods<T> {
   
 }
 
@@ -63,17 +63,17 @@ export interface FqlxFirst<T> {
   first(): FirstMethods<T>;
 }
 
-export interface WhereMethods<T> extends FqlxOrder<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> {}
+export interface WhereMethods<T> extends FqlxOrder<T>, ProjectionMethods<T, PaginateData<T>>, ExecMethods<PaginateData<T>> {}
 
 export type ProjectionFieldsInputType<T> = {[K in keyof T] : boolean | Partial<ProjectionFieldsInputType<T[K]>>}
 
-export interface ProjectionMethods<T> {
+export interface ProjectionMethods<T, RES_TYPE> {
  /**
    * Projection allows you to select the fields to be returned.
    * 
    * @param projectionFields Fields you want to get as response.
    * 
-   * @returns {ProjectionMethods<T>} Fields value for which you requested, If a requested field doesn’t exist in the projected object, the returned field value is set to null.
+   * @returns Fields value for which you requested, If a requested field doesn’t exist in the projected object, the returned field value is set to null.
    * 
    * @example
    * query.Address.all().project({ country: true }).exec();
@@ -98,20 +98,20 @@ export interface ProjectionMethods<T> {
    * 
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/language/projection See more...}
    */
- project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ExecMethods<PaginateData<T>>;
+ project(projectionFields: Partial<ProjectionFieldsInputType<T>>): ExecMethods<RES_TYPE>;
 }
 
-export interface FirstWhereMethods<T> extends ProjectionMethods<T>, ExecMethods<T> { }
+export interface FirstWhereMethods<T> extends ProjectionMethods<T, T>, ExecMethods<T> { }
 
-export interface FirstMethods<T> extends ProjectionMethods<T>, ExecMethods<T> { }
+export interface FirstMethods<T> extends ProjectionMethods<T, T>, ExecMethods<T> { }
 
-export interface OrderMethods<T> extends  FqlxFirst<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> { }
+export interface OrderMethods<T> extends  FqlxFirst<T>, ProjectionMethods<T, PaginateData<T>>, ExecMethods<PaginateData<T>> { }
 
-export interface DeleteMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> { }
+export interface DeleteMethods<T> extends ProjectionMethods<T, T>, PromisifyExecMethods<T> { }
 
-export interface UpdateMethods<T> extends ProjectionMethods<T>, PromisifyExecMethods<T> { }
+export interface UpdateMethods<T> extends ProjectionMethods<T, T>, PromisifyExecMethods<T> { }
 
-export interface AllMethods<T> extends FqlxOrder<T>, FqlxFirst<T>, ProjectionMethods<T>, ExecMethods<PaginateData<T>> {
+export interface AllMethods<T> extends FqlxOrder<T>, FqlxFirst<T>, ProjectionMethods<T, PaginateData<T>>, ExecMethods<PaginateData<T>> {
    /**
    * first where method get the first matching value from the Set.
    *
@@ -151,7 +151,7 @@ export interface PaginateData<T> {
   before?: string | null | undefined;
 }
 
-export interface ByIdMethods<T, U> extends ProjectionMethods<T>, PromisifyExecMethods<T> {
+export interface ByIdMethods<T, U> extends ProjectionMethods<T, T>, PromisifyExecMethods<T> {
   /**
    * The update() method updates the document with the object fields and returns the updated document.
    *

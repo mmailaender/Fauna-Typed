@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import zustandStore from '../zustand/store';
 import { StateKeys, ZustandStore } from '../zustand/interface';
 import { AllActions } from './AllActions';
@@ -11,6 +11,11 @@ import { FirstWhereActions } from './FirstWhereActions';
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
   const storeStates = useStore(state => state);
+
+  // Stale and revalidating active query
+  useEffect(() => {
+    storeStates.revalidateActiveQuery();
+  }, []);
 
   if (storeStates.fetchingPromise?.current) {
     throw storeStates.fetchingPromise?.current;

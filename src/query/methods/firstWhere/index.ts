@@ -93,6 +93,6 @@ export default function firstWhere<T>(
   return {
     exec: executor,
     project: projectionFields =>
-      projection<T>(collectionName, query, projectionFields),
+      projection<T, T>(collectionName, query, projectionFields),
   };
 }
