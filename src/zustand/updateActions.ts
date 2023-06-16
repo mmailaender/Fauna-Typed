@@ -20,8 +20,6 @@ export const handleUpdateDocument = <T>(
       }
     });
 
-    resetActiveQueriesByCollection(collection);
-
     return ({
       temp: [...(state.temp || {}), currentData],
       [collection]: { data: updatedState },

@@ -21,8 +21,6 @@ export const handleDeleteDocument = (
       }
     );
 
-    resetActiveQueriesByCollection(collection);
-
     return ({
       temp: [...(state?.temp || {}), deletedItem],
       [collection]: { data: remainingItems },

@@ -1,7 +1,8 @@
+import { callFqlxQuery } from '../client';
 import { StateKeys, ZustandState } from './interface';
 import zustandStore from './store';
 
-export const resetActiveQueriesByCollection = (collection: StateKeys) => {
+export const resetActiveQueriesByCollection = async (collection: StateKeys) => {
   const store = zustandStore.getStore();
   const states = store.getState();
 
@@ -10,15 +11,22 @@ export const resetActiveQueriesByCollection = (collection: StateKeys) => {
 
   const activeQueriesKeys = Object.keys(activeQueryClone);
 
-  activeQueriesKeys.forEach(activeQueryKey => {
+  for (let i = 0; i < activeQueriesKeys.length; i++) {
+    const query = activeQueriesKeys[i];
+
     if (
-      activeQueryKey
+      query
         ?.toLocaleLowerCase()
         ?.includes(collection?.toString().toLocaleLowerCase())
     ) {
-      delete activeQueryClone[activeQueryKey];
+      try {
+        const res = await callFqlxQuery(query);
+        activeQueryClone[query] = res;
+      } catch (error) {
+        console.error(`Failed to run query: ${query}`);
+      }
     }
-  });
+  }
 
   store.setState({
     activeQuery: activeQueryClone,

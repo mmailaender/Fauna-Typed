@@ -9,7 +9,6 @@ export const handleCreateDocument = <T>(
   collection: StateKeys
 ) => {
   set((state: ZustandState) => {
-    resetActiveQueriesByCollection(collection);
 
     return {
       [collection]: {
