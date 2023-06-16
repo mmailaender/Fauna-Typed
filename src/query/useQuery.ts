@@ -12,9 +12,9 @@ export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
   const storeStates = useStore(state => state);
 
-  // Stale and revalidating active query
+  // Reset active query
   useEffect(() => {
-    storeStates.revalidateActiveQuery();
+    storeStates.resetActiveQuery();
   }, []);
 
   if (storeStates.fetchingPromise?.current) {

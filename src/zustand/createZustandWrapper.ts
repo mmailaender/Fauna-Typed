@@ -65,7 +65,9 @@ export const createZustandWrapper = (): ZustandStore => {
             handleDeleteDocumentError(set, id, collection);
           },
 
-          revalidateActiveQuery: () => {set(() => ({activeQuery: {}}) as ZustandState)}
+          resetActiveQuery: () => {
+            set(() => ({ activeQuery: {} } as ZustandState));
+          },
         } as ZustandState),
       { name: 'fauna-react' }
     )

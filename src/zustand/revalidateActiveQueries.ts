@@ -2,7 +2,7 @@ import { callFqlxQuery } from '../client';
 import { StateKeys, ZustandState } from './interface';
 import zustandStore from './store';
 
-export const resetActiveQueriesByCollection = async (collection: StateKeys) => {
+export const revalidateActiveQueries = async (collection: StateKeys) => {
   const store = zustandStore.getStore();
   const states = store.getState();
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { StateKeys, ZustandSetAction, ZustandState } from './interface';
-import { resetActiveQueriesByCollection } from './resetActiveQueryByCollection';
+import { revalidateActiveQueries } from './revalidateActiveQueries';
 
 export const handleDeleteDocument = (
   set: ZustandSetAction,
@@ -36,7 +36,7 @@ export const handleDeleteDocumentSuccess = (
   set((state: ZustandState) => {
     const filteredTemp = state.temp.filter(t => t.id !== id);
 
-    resetActiveQueriesByCollection(collection);
+    revalidateActiveQueries(collection);
 
     return {
       temp: filteredTemp,
@@ -63,7 +63,7 @@ export const handleDeleteDocumentError = (
       updatedCollection.splice(index, 0, deletedItem);
     }
 
-    resetActiveQueriesByCollection(collection);
+    revalidateActiveQueries(collection);
 
     return ({
       temp: state.temp.filter((data: any) => data.id !== id),

@@ -2,7 +2,7 @@ import { StoreApi, UseBoundStore } from 'zustand';
 
 export type ZustandStore = UseBoundStore<StoreApi<ZustandState>>;
 
-export type StateKeys = keyof {[key: string]: string};
+export type StateKeys = keyof { [key: string]: string };
 
 export type StateValues = {
   data: { [key: string]: any }[];
@@ -17,11 +17,7 @@ export type ZustandState = Partial<InitialState> & {
   fetchingPromise: { current?: Promise<any> };
   activeQuery: { [key: string]: boolean };
   create: <T>(inputData: T, collection: StateKeys) => void;
-  onCreateSuccess: (
-    id: string,
-    resId: string,
-    collection: StateKeys
-  ) => void;
+  onCreateSuccess: (id: string, resId: string, collection: StateKeys) => void;
   onCreateFailed: (id: string, collection: StateKeys) => void;
   getStateById: <T>(id: string, collection: StateKeys) => T;
   update: <T>(id: string, inputData: T, collection: StateKeys) => void;
@@ -30,8 +26,8 @@ export type ZustandState = Partial<InitialState> & {
   delete: (id: string, collection: StateKeys) => void;
   onDeleteFailed: (id: string, collection: StateKeys) => void;
   onDeleteSuccess: (id: string, collection: StateKeys) => void;
-  revalidateActiveQuery: () => void;
-} ;
+  resetActiveQuery: () => void;
+};
 
 export type ZustandSetAction = (
   partial:
