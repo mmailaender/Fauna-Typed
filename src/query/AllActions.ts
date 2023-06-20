@@ -311,7 +311,7 @@ export class AllActions<T> {
       map: (callbackFn) =>
         map<T>(
           this.collectionName as string,
-          `${query}.${callbackFn.toString()}`
+          `${query}.map(${callbackFn.toString()})`
         ),
       project: (projectionFields) =>
         projection<T, PaginateData<T>>(
