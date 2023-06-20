@@ -1,17 +1,16 @@
 import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
 import {
-  BaseMapMethod,
+  BaseDistinctMethod,
   PaginateData,
 } from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
-import distinct from '../distinct';
 
-export default function map<T>(
+export default function distinct<T>(
   collectionName: string,
   query: string
-): BaseMapMethod<T> {
+): BaseDistinctMethod<T> {
   const store = zustandStore.getStore();
 
   // @ts-expect-error
@@ -87,6 +86,5 @@ export default function map<T>(
 
   return {
     exec: executor,
-    distinct: () => distinct(collectionName, query),
   };
 }
