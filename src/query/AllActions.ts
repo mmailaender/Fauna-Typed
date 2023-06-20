@@ -15,6 +15,7 @@ import { callFqlxQuery } from '../client';
 import firstWhereMethod from './methods/firstWhere';
 import { NETWORK_ERROR } from '../error';
 import projection from './methods/projection';
+import map from './methods/map';
 
 export class AllActions<T> {
   protected collectionName: StateKeys;
@@ -34,9 +35,9 @@ export class AllActions<T> {
       // Checking, query is already executed
       if (this.store.getState().activeQuery[query]) {
         // Return data from state
-        return (this.store.getState().activeQuery[
+        return this.store.getState().activeQuery[
           query
-        ] as unknown) as PaginateData<T>;
+        ] as unknown as PaginateData<T>;
       }
 
       // Calling Fqlx API
@@ -51,7 +52,7 @@ export class AllActions<T> {
       let status = 'pending';
 
       req
-        .then(res => {
+        .then((res) => {
           status = 'success';
 
           const resData = {
@@ -69,13 +70,13 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(err => {
+        .catch((err) => {
           status = 'error';
           error = err?.message;
 
           if (!err?.message?.includes(NETWORK_ERROR)) {
             // Update value of query as inactive in state
-            this.store.setState(({
+            this.store.setState({
               activeQuery: {
                 ...this.store.getState().activeQuery,
                 [query]: false,
@@ -85,18 +86,18 @@ export class AllActions<T> {
                 after: null,
                 before: null,
               },
-            } as unknown) as ZustandState);
+            } as unknown as ZustandState);
 
             error = err;
           }
 
-          this.store.setState(({
+          this.store.setState({
             fetchingPromise: {},
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: { data: [] },
             },
-          } as unknown) as ZustandState);
+          } as unknown as ZustandState);
         });
 
       if (status === 'pending') {
@@ -118,7 +119,7 @@ export class AllActions<T> {
       firstWhere: this.firstWhere,
       where: this.where,
       order: this.order,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
@@ -151,7 +152,7 @@ export class AllActions<T> {
       let status = 'pending';
 
       req
-        .then(res => {
+        .then((res) => {
           status = 'success';
           // Storing API res in local state
           this.store.setState({
@@ -165,13 +166,13 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(err => {
+        .catch((err) => {
           status = 'error';
           error = err?.message;
 
           if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
-            this.store.setState(({
+            this.store.setState({
               [this.collectionName]: {
                 data: [],
               },
@@ -179,16 +180,16 @@ export class AllActions<T> {
                 ...this.store.getState().activeQuery,
                 [query]: false,
               },
-            } as unknown) as ZustandState);
+            } as unknown as ZustandState);
           }
 
-          this.store.setState(({
+          this.store.setState({
             fetchingPromise: {},
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: {},
             },
-          } as unknown) as ZustandState);
+          } as unknown as ZustandState);
         });
 
       if (status === 'pending') {
@@ -200,14 +201,14 @@ export class AllActions<T> {
       }
 
       if (status === 'success') {
-        return ((this.store.getState()[this.collectionName]?.data[0] ||
-          {}) as unknown) as T;
+        return (this.store.getState()[this.collectionName]?.data[0] ||
+          {}) as unknown as T;
       }
     };
 
     return {
       exec: executor,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -227,9 +228,9 @@ export class AllActions<T> {
       // Checking, query is already executed
       if (this.store.getState().activeQuery[query]) {
         // Return data from state
-        return (this.store.getState().activeQuery[
+        return this.store.getState().activeQuery[
           query
-        ] as unknown) as PaginateData<T>;
+        ] as unknown as PaginateData<T>;
       }
 
       // Calling Fqlx API
@@ -244,7 +245,7 @@ export class AllActions<T> {
       let status = 'pending';
 
       req
-        .then(res => {
+        .then((res) => {
           status = 'success';
 
           const resData = {
@@ -262,13 +263,13 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(err => {
+        .catch((err) => {
           status = 'error';
           error = err?.message;
 
           if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
-            this.store.setState(({
+            this.store.setState({
               [this.collectionName]: {
                 data: [],
                 after: null,
@@ -279,16 +280,16 @@ export class AllActions<T> {
                 ...this.store.getState().activeQuery,
                 [query]: false,
               },
-            } as unknown) as ZustandState);
+            } as unknown as ZustandState);
           }
 
-          this.store.setState(({
+          this.store.setState({
             fetchingPromise: {},
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: { data: [] },
             },
-          } as unknown) as ZustandState);
+          } as unknown as ZustandState);
         });
 
       if (status === 'pending') {
@@ -307,7 +308,12 @@ export class AllActions<T> {
     return {
       exec: executor,
       order: this.order,
-      project: projectionFields =>
+      map: (callbackFn) =>
+        map<T>(
+          this.collectionName as string,
+          `${query}.${callbackFn.toString()}`
+        ),
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
@@ -337,9 +343,9 @@ export class AllActions<T> {
       // Checking, query is already executed
       if (this.store.getState().activeQuery[query]) {
         // Return data from state
-        return (this.store.getState().activeQuery[
+        return this.store.getState().activeQuery[
           query
-        ] as unknown) as PaginateData<T>;
+        ] as unknown as PaginateData<T>;
       }
 
       // Calling Fqlx API
@@ -354,7 +360,7 @@ export class AllActions<T> {
       let status = 'pending';
 
       req
-        .then(res => {
+        .then((res) => {
           status = 'success';
 
           const resData = {
@@ -372,13 +378,13 @@ export class AllActions<T> {
             },
           } as ZustandState);
         })
-        .catch(err => {
+        .catch((err) => {
           status = 'error';
           error = err?.message;
 
           if (!err?.message?.includes(NETWORK_ERROR)) {
             // Reset fetchingPromise in state
-            this.store.setState(({
+            this.store.setState({
               [this.collectionName]: {
                 data: [],
                 after: null,
@@ -388,15 +394,15 @@ export class AllActions<T> {
                 ...this.store.getState().activeQuery,
                 [query]: false,
               },
-            } as unknown) as ZustandState);
+            } as unknown as ZustandState);
 
-            this.store.setState(({
+            this.store.setState({
               fetchingPromise: {},
               activeQuery: {
                 ...this.store.getState().activeQuery,
                 [query]: {},
               },
-            } as unknown) as ZustandState);
+            } as unknown as ZustandState);
           }
         });
 
@@ -416,7 +422,7 @@ export class AllActions<T> {
     return {
       exec: executor,
       first: this.first(query),
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
