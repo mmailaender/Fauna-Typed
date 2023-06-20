@@ -87,6 +87,6 @@ export default function map<T>(
 
   return {
     exec: executor,
-    distinct: () => distinct(collectionName, query),
+    distinct: () => distinct(collectionName, `${query}.distinct()`),
   };
 }
