@@ -74,6 +74,22 @@ export interface CountMethod<T>  extends ExecMethods<PaginateData<T>> {
 
 export interface BaseCountMethod<T> extends ExecMethods<PaginateData<T>> {}
 
+export interface PaginateMethod<T = {}> {
+  /**
+   * The paginate() method returns the unique elements in the array.
+   *
+   * @returns Unique elements in the array.
+   *
+   * @example
+   * query.Set.paginate("cursor")
+   *
+   * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/paginate See more...}
+   */
+  paginate(cursor: string): BasePaginateMethod<T>;
+}
+
+export interface BasePaginateMethod<T> extends PromisifyExecMethods<PaginateData<T>> {}
+
 export interface MapMethod<T> {
   /**
    * Create an Array by executing a function for each Array element.
@@ -231,6 +247,10 @@ export interface AllMethods<T>
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/where#signature See more...}
    */
   where(inputCondition: ((data: T) => boolean) | string): WhereMethods<T>;
+}
+
+export interface SetMethods
+  extends PaginateMethod {
 }
 
 export interface PaginateData<T> {
