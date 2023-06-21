@@ -1,16 +1,16 @@
 import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
 import {
-  BaseDistinctMethod,
+  BaseCountMethod,
   PaginateData,
 } from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
 
-export default function distinct<T>(
+export default function count<T>(
   collectionName: string,
   query: string
-): BaseDistinctMethod<T> {
+): BaseCountMethod<T> {
   const store = zustandStore.getStore();
 
   // @ts-expect-error

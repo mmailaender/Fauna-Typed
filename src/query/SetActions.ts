@@ -3,11 +3,10 @@
 import { SetMethods } from '../interfaces/topLevelTypedefs';
 import paginate from './methods/paginate';
 
-export class SetActions<T> {
-  public set = (): SetMethods<T> => {
+export class SetActions {
+  public set = (): SetMethods => {
     return {
-      paginate: (cursor) => paginate(cursor)
+      paginate: cursor => paginate(cursor),
     };
   };
 }
-
