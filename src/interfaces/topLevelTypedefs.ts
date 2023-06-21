@@ -74,7 +74,7 @@ export interface CountMethod<T>  extends ExecMethods<PaginateData<T>> {
 
 export interface BaseCountMethod<T> extends ExecMethods<PaginateData<T>> {}
 
-export interface PaginateMethod<T = {}> {
+export interface PaginateMethod<T> {
   /**
    * The paginate() method returns the unique elements in the array.
    *
@@ -249,8 +249,8 @@ export interface AllMethods<T>
   where(inputCondition: ((data: T) => boolean) | string): WhereMethods<T>;
 }
 
-export interface SetMethods
-  extends PaginateMethod {
+export interface SetMethods<T>
+  extends PaginateMethod<T> {
 }
 
 export interface PaginateData<T> {
