@@ -34,7 +34,7 @@ export const useQuery = <T>(): T => {
         get(_target: { [key: string]: any }, collectionName: string) {
           switch (collectionName) {
             case 'Set':
-              return new SetActions().set;
+              return new SetActions().set();
 
             default:
               createStateInStore(collectionName);

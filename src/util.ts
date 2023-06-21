@@ -12,7 +12,8 @@ export const topLevelInterfaces = `
     ExecMethods,
     PromisifyExecMethods,
     UpdateMethods,
-    FirstWhereMethods
+    FirstWhereMethods,
+    SetMethods,
   } from 'fqlx-client'
   \n`;
 
