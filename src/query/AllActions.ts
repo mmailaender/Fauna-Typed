@@ -16,6 +16,7 @@ import firstWhereMethod from './methods/firstWhere';
 import { NETWORK_ERROR } from '../error';
 import projection from './methods/projection';
 import map from './methods/map';
+import count from './methods/count';
 
 export class AllActions<T> {
   protected collectionName: StateKeys;
@@ -319,6 +320,7 @@ export class AllActions<T> {
           query,
           projectionFields
         ),
+      count: () => count(this.collectionName as string, `${query}.count()`),
     };
   };
 
