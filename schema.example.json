@@ -1,24 +1,36 @@
 {
-    "Order": {
-      "fields": {
+  "Order": {
+    "fields": {
+      "id": "string",
+      "name": "string | unknown",
+      "age": "int | string",
+      "address": {
         "id": "string",
-        "name": "string | unknown",
-        "age": "int | string",
-        "address": {
-          "id": "string",
-          "street": "string",
-          "city": "string",
-          "state": "string",
-          "country": "string",
-          "postCode": "int | string"
-        }
+        "street": "string",
+        "city": "string",
+        "state": "string",
+        "country": "string",
+        "postCode": "int | string"
       }
     },
-    "Product": {
-      "fields": { "id": "string", "manufacturerProductId": "string" }
+    "constraints": {
+      "required": ["age", "name", "address.city", "address.country"]
+    }
+  },
+  "Product": {
+    "fields": {
+      "id": "string",
+      "manufacturerProductId": "string",
+      "name": "string"
     },
-    "Test": {
-      "fields": { "id": "string", "firstName": "string", "lastName": "string" }
+    "constraints": {
+      "required": ["manufacturerProductId", "name"]
+    }
+  },
+  "Test": {
+    "fields": { "id": "string", "firstName": "string", "lastName": "string" },
+    "constraints": {
+      "required": []
     }
   }
-  
+}
