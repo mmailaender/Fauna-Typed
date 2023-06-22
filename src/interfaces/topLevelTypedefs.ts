@@ -74,7 +74,7 @@ export interface CountMethod {
 
 export interface BaseCountMethod<T> extends ExecMethods<T> {}
 
-export interface PaginateMethod<T> {
+export interface PaginateMethod {
   /**
    * The paginate() method returns the unique elements in the array.
    *
@@ -85,7 +85,7 @@ export interface PaginateMethod<T> {
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/paginate See more...}
    */
-  paginate(cursor: string): BasePaginateMethod<T>;
+  paginate<T>(cursor: string): BasePaginateMethod<T>;
 }
 
 export interface BasePaginateMethod<T> extends PromisifyExecMethods<PaginateData<T>> {}
@@ -249,8 +249,8 @@ export interface AllMethods<T>
   where(inputCondition: ((data: T) => boolean) | string): WhereMethods<T>;
 }
 
-export interface SetMethods<T>
-  extends PaginateMethod<T> {
+export interface SetMethods
+  extends PaginateMethod {
 }
 
 export interface PaginateData<T> {
