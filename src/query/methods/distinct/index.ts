@@ -25,9 +25,9 @@ export default function distinct<T>(
     const req = callFqlxQuery(query);
 
     // Updating fetchingPromise in state
-    store.setState({
-      fetchingPromise: { current: req },
-    } as ZustandState);
+    // store.setState({
+    //   fetchingPromise: { current: req },
+    // } as ZustandState);
 
     let error = '';
     let status = 'pending';

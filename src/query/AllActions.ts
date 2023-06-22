@@ -45,9 +45,9 @@ export class AllActions<T> {
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({
-        fetchingPromise: { current: req },
-      } as ZustandState);
+      // this.store.setState({
+      //   fetchingPromise: { current: req },
+      // } as ZustandState);
 
       let error = '';
       let status = 'pending';
@@ -145,9 +145,9 @@ export class AllActions<T> {
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({
-        fetchingPromise: { current: req },
-      } as ZustandState);
+      // this.store.setState({
+      //   fetchingPromise: { current: req },
+      // } as ZustandState);
 
       let error = '';
       let status = 'pending';
@@ -238,9 +238,9 @@ export class AllActions<T> {
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({
-        fetchingPromise: { current: req },
-      } as ZustandState);
+      // this.store.setState({
+      //   fetchingPromise: { current: req },
+      // } as ZustandState);
 
       let error = '';
       let status = 'pending';
@@ -354,9 +354,9 @@ export class AllActions<T> {
       const req = callFqlxQuery(query);
 
       // Updating fetchingPromise in state
-      this.store.setState({
-        fetchingPromise: { current: req },
-      } as ZustandState);
+      // this.store.setState({
+      //   fetchingPromise: { current: req },
+      // } as ZustandState);
 
       let error = '';
       let status = 'pending';

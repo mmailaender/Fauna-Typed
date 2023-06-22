@@ -54,9 +54,9 @@ export default function projection<T, RES_TYPE>(
     const req = callFqlxQuery(q);
 
     // Updating fetchingPromise in state
-    store.setState({
-      fetchingPromise: { current: req },
-    } as ZustandState);
+    // store.setState({
+    //   fetchingPromise: { current: req },
+    // } as ZustandState);
 
     let error = '';
     let status = 'pending';
