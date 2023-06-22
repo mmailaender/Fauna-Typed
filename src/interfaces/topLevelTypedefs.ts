@@ -56,7 +56,7 @@ export interface BaseMapMethod<T>
   extends ExecMethods<PaginateData<T>>,
     DistinctMethod<T> {}
 
-export interface CountMethod<T>  extends ExecMethods<PaginateData<T>> {
+export interface CountMethod {
   /**
    * The count() method returns the unique elements in the array.
    *
@@ -69,10 +69,10 @@ export interface CountMethod<T>  extends ExecMethods<PaginateData<T>> {
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/count See more...}
    */
-  count(): BaseCountMethod<T>;
+  count(): BaseCountMethod<number | string>;
 }
 
-export interface BaseCountMethod<T> extends ExecMethods<PaginateData<T>> {}
+export interface BaseCountMethod<T> extends ExecMethods<T> {}
 
 export interface PaginateMethod<T> {
   /**
@@ -159,7 +159,7 @@ export interface WhereMethods<T>
   extends FqlxOrder<T>,
     MapMethod<T>,
     ProjectionMethods<T, PaginateData<T>>,
-    ExecMethods<PaginateData<T>>, CountMethod<T> {}
+    ExecMethods<PaginateData<T>>, CountMethod {}
 
 export type ProjectionFieldsInputType<T> = {
   [K in keyof T]: boolean | Partial<ProjectionFieldsInputType<T[K]>>;

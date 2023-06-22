@@ -1,9 +1,6 @@
 import { callFqlxQuery } from '../../../client';
 import { NETWORK_ERROR } from '../../../error';
-import {
-  BaseCountMethod,
-  PaginateData,
-} from '../../../interfaces/topLevelTypedefs';
+import { BaseCountMethod } from '../../../interfaces/topLevelTypedefs';
 import { ZustandState } from '../../../zustand/interface';
 import zustandStore from '../../../zustand/store';
 
@@ -14,11 +11,11 @@ export default function count<T>(
   const store = zustandStore.getStore();
 
   // @ts-expect-error
-  const executor = (): PaginateData<T> => {
+  const executor = (): T => {
     // Checking, query is already executed
     if (store.getState().activeQuery[query]) {
       // Return data from state
-      return store.getState().activeQuery[query] as unknown as PaginateData<T>;
+      return store.getState().activeQuery[query] as T;
     }
 
     // Calling Fqlx API
@@ -45,7 +42,7 @@ export default function count<T>(
           },
         } as ZustandState);
 
-        return (res || {}) as PaginateData<T>;
+        return (res || {}) as T;
       })
       .catch((err: { message: string }) => {
         status = 'error';
@@ -53,22 +50,22 @@ export default function count<T>(
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
           // Reset fetchingPromise in state
-          store.setState({
+          store.setState(({
             [collectionName]: {},
             activeQuery: {
               ...store.getState().activeQuery,
               [query]: false,
             },
-          } as unknown as ZustandState);
+          } as unknown) as ZustandState);
         }
 
-        store.setState({
+        store.setState(({
           fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: {},
           },
-        } as unknown as ZustandState);
+        } as unknown) as ZustandState);
       }) as T;
 
     if (status === 'pending') {
@@ -80,7 +77,7 @@ export default function count<T>(
     }
 
     if (status === 'success') {
-      return (store.getState()[collectionName] || {}) as PaginateData<T>;
+      return (store.getState()[collectionName] || {}) as T;
     }
   };
 

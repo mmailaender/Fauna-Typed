@@ -10,7 +10,7 @@ import zustandStore from '../../../zustand/store';
 export default function paginate<T>(cursor: string): BasePaginateMethod<T> {
   const executor = async (): Promise<PaginateData<T>> => {
     const store = zustandStore.getStore();
-    const query = `Set.paginate(${cursor})`;
+    const query = `Set.paginate("${cursor}")`;
 
     // Checking, query is already executed
     if (store.getState().activeQuery[query]) {
