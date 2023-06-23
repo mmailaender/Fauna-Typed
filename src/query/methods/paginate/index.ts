@@ -35,7 +35,6 @@ export default function paginate<T>(cursor: string): BasePaginateMethod<T> {
     } catch (err) {
       // @ts-expect-error
       if (!err?.message?.includes(NETWORK_ERROR)) {
-        // Reset fetchingPromise in state
         store.setState(({
           activeQuery: {
             ...store.getState().activeQuery,

@@ -53,11 +53,6 @@ export default function projection<T, RES_TYPE>(
     // Calling Fqlx API
     const req = callFqlxQuery(q);
 
-    // Updating fetchingPromise in state
-    // store.setState({
-    //   fetchingPromise: { current: req },
-    // } as ZustandState);
-
     let error = '';
     let status = 'pending';
 
@@ -67,7 +62,6 @@ export default function projection<T, RES_TYPE>(
         // Storing API res in local state
         store.setState({
           [collectionName]: res || {},
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [q]: res || {},
@@ -81,7 +75,6 @@ export default function projection<T, RES_TYPE>(
         error = err?.message;
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
-          // Reset fetchingPromise in state
           store.setState(({
             [collectionName]: {},
             activeQuery: {
@@ -92,7 +85,6 @@ export default function projection<T, RES_TYPE>(
         }
 
         store.setState(({
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [q]: {},

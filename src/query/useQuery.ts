@@ -18,10 +18,6 @@ export const useQuery = <T>(): T => {
     storeStates.resetActiveQuery();
   }, []);
 
-  // if (storeStates.fetchingPromise?.current) {
-  //   throw storeStates.fetchingPromise?.current;
-  // }
-
   const createStateInStore = (collectionName: StateKeys) => {
     if (!storeStates[collectionName]?.data) {
       storeStates[collectionName] = { data: [] };

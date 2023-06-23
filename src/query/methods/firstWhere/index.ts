@@ -22,11 +22,6 @@ export default function firstWhere<T>(
     // Calling Fqlx API
     const req = callFqlxQuery(query);
 
-    // Updating fetchingPromise in state
-    // store.setState({
-    //   fetchingPromise: { current: req },
-    // } as ZustandState);
-
     let error = '';
     let status = 'pending';
 
@@ -40,7 +35,6 @@ export default function firstWhere<T>(
             after: null,
             before: null,
           },
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: res || {},
@@ -54,7 +48,6 @@ export default function firstWhere<T>(
         error = err?.message;
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
-          // Reset fetchingPromise in state
           store.setState(({
             [collectionName]: {
               data: [],
@@ -69,7 +62,6 @@ export default function firstWhere<T>(
         }
 
         store.setState(({
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: {},

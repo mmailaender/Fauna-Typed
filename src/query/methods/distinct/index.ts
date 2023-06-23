@@ -24,11 +24,6 @@ export default function distinct<T>(
     // Calling Fqlx API
     const req = callFqlxQuery(query);
 
-    // Updating fetchingPromise in state
-    // store.setState({
-    //   fetchingPromise: { current: req },
-    // } as ZustandState);
-
     let error = '';
     let status = 'pending';
 
@@ -38,7 +33,6 @@ export default function distinct<T>(
         // Storing API res in local state
         store.setState({
           [collectionName]: res || {},
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: res || {},
@@ -52,7 +46,6 @@ export default function distinct<T>(
         error = err?.message;
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
-          // Reset fetchingPromise in state
           store.setState({
             [collectionName]: {},
             activeQuery: {
@@ -63,7 +56,6 @@ export default function distinct<T>(
         }
 
         store.setState({
-          fetchingPromise: {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: {},
