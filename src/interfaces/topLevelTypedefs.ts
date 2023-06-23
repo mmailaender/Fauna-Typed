@@ -106,7 +106,7 @@ export interface MapMethod<T> {
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/builtin_functions/array/map#description See more...}
    */
   map(
-    callbackFn: (data: T | string) => string | boolean | number | Partial<T>
+    callbackFn: ((data: T) => string | boolean | number | Partial<T>) | string
   ): BaseMapMethod<T>;
 }
 
