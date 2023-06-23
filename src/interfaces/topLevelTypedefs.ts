@@ -46,7 +46,7 @@ export interface DistinctMethod<T> extends ExecMethods<PaginateData<T>> {
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/builtin_functions/array/distinct#description See more...}
    */
-  distinct(): BaseDistinctMethod<T>;
+  distinct<DISTINCT_TYPE>(): BaseDistinctMethod<DISTINCT_TYPE>;
 }
 
 export interface BaseDistinctMethod<T> extends ExecMethods<PaginateData<T>> {}
@@ -106,7 +106,7 @@ export interface MapMethod<T> {
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/builtin_functions/array/map#description See more...}
    */
   map(
-    callbackFn: (data: T) => string | boolean | number | Partial<T>
+    callbackFn: (data: T | string) => string | boolean | number | Partial<T>
   ): BaseMapMethod<T>;
 }
 
