@@ -236,7 +236,7 @@ export class AllActions<T> {
           };
           // Storing API res in local state
           this.store.setState({
-            [this.collectionName]: resData,
+            // [this.collectionName]: resData,
             activeQuery: {
               ...this.store.getState().activeQuery,
               [query]: resData,
@@ -249,11 +249,11 @@ export class AllActions<T> {
 
           if (!err?.message?.includes(NETWORK_ERROR)) {
             this.store.setState(({
-              [this.collectionName]: {
-                data: [],
-                after: null,
-                before: null,
-              },
+              // [this.collectionName]: {
+              //   data: [],
+              //   after: null,
+              //   before: null,
+              // },
               activeQuery: {
                 ...this.store.getState().activeQuery,
                 [query]: false,

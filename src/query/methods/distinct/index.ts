@@ -34,7 +34,7 @@ export default function distinct<T>(
         status = 'success';
         // Storing API res in local state
         store.setState({
-          [collectionName]: res || {},
+          // [collectionName]: res || {},
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: res || {},
@@ -49,7 +49,7 @@ export default function distinct<T>(
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
           store.setState(({
-            [collectionName]: {},
+            // [collectionName]: {},
             activeQuery: {
               ...store.getState().activeQuery,
               [query]: false,
