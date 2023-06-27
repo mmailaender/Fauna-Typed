@@ -8,10 +8,10 @@ export default function count<T>(
   collectionName: string,
   query: string
 ): BaseCountMethod<T> {
-  const store = zustandStore.getStore();
-
   // @ts-expect-error
   const executor = (): T => {
+    const store = zustandStore.getStore();
+
     // Checking, query is already executed
     if (store.getState().activeQuery[query]) {
       // Return data from state

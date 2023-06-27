@@ -37,10 +37,9 @@ export default function projection<T, RES_TYPE>(
   query: string,
   projectionFields: Partial<ProjectionFieldsInputType<T>>
 ): ExecMethods<RES_TYPE> {
-  const store = zustandStore.getStore();
-
   // @ts-expect-error
   const executor = (): RES_TYPE => {
+    const store = zustandStore.getStore();
     const mappedFields = mapProjectionFields(projectionFields);
 
     const q = `${query} { ${mappedFields} }`;

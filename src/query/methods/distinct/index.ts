@@ -11,14 +11,16 @@ export default function distinct<T>(
   collectionName: string,
   query: string
 ): BaseDistinctMethod<T> {
-  const store = zustandStore.getStore();
-
   // @ts-expect-error
   const executor = (): PaginateData<T> => {
+    const store = zustandStore.getStore();
+
     // Checking, query is already executed
     if (store.getState().activeQuery[query]) {
       // Return data from state
-      return store.getState().activeQuery[query] as unknown as PaginateData<T>;
+      return (store.getState().activeQuery[query] as unknown) as PaginateData<
+        T
+      >;
     }
 
     // Calling Fqlx API
@@ -46,21 +48,21 @@ export default function distinct<T>(
         error = err?.message;
 
         if (!err?.message?.includes(NETWORK_ERROR)) {
-          store.setState({
+          store.setState(({
             [collectionName]: {},
             activeQuery: {
               ...store.getState().activeQuery,
               [query]: false,
             },
-          } as unknown as ZustandState);
+          } as unknown) as ZustandState);
         }
 
-        store.setState({
+        store.setState(({
           activeQuery: {
             ...store.getState().activeQuery,
             [query]: {},
           },
-        } as unknown as ZustandState);
+        } as unknown) as ZustandState);
       }) as T;
 
     if (status === 'pending') {

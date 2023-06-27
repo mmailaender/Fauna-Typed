@@ -9,11 +9,11 @@ export default function firstWhere<T>(
   collectionName: string,
   query: string
 ): FirstWhereMethods<T> {
-  const store = zustandStore.getStore();
-
   // @ts-expect-error
   const executor = (): T => {
-    //     // Checking, query is already executed
+    const store = zustandStore.getStore();
+
+    // Checking, query is already executed
     if (store.getState().activeQuery[query]) {
       // Return data from state
       return store.getState().activeQuery[query] as T;
