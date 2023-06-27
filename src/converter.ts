@@ -67,10 +67,10 @@ const createInterface = (key: string, value: Value, keyPath: string = '') => {
 
     const fieldKeyInLowercase = fieldKey.toLowerCase();
 
-    if (!['id', 'ts'].includes(fieldKeyInLowercase)) {
+    if (!['ts'].includes(fieldKeyInLowercase)) {
       inputInterfaceKeyValue = inputInterfaceKeyValue.concat(
         `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}${
-          isRequired ? '' : '?'
+          fieldKeyInLowercase === 'id' ? '?' : isRequired ? '' : '?'
         }: ${valueType};\n`
       );
     }
