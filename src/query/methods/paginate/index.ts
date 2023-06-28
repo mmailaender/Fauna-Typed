@@ -1,10 +1,14 @@
-import { BasePaginateMethod } from '../../../interfaces/topLevelTypedefs';
-import { executor } from '../../executor';
+import {
+  BasePaginateMethod,
+  PaginateData,
+} from '../../../interfaces/topLevelTypedefs';
+import { promisedExecutor } from '../../executor';
 
 export default function paginate<T>(cursor: string): BasePaginateMethod<T> {
   const paginateQuery = `Set.paginate("${cursor}")`;
 
   return {
-    exec: () => executor(paginateQuery),
+    exec: async () =>
+      await promisedExecutor<Promise<PaginateData<T>>>(paginateQuery),
   };
 }

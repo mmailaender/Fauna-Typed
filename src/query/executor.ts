@@ -66,3 +66,47 @@ export const executor = <T>(query: string): T => {
 
   return result as T;
 };
+
+export const promisedExecutor = async <T>(query: string): Promise<T> => {
+  const store = zustandStore.getStore();
+
+  const activeQueryValue = store.getState().activeQuery[query];
+  // Checking, query is already executed
+  if (!isNaN(activeQueryValue) || activeQueryValue) {
+    // Return data from state
+    return activeQueryValue as T;
+  }
+
+  try {
+    // Calling Fqlx API
+    const res = await callFqlxQuery(query);
+
+    store.setState({
+      activeQuery: {
+        ...store.getState().activeQuery,
+        [query]: res || {},
+      },
+    } as ZustandState);
+
+    return res;
+  } catch (err) {
+    // @ts-expect-error
+    if (!err?.message?.includes(NETWORK_ERROR)) {
+      store.setState(({
+        activeQuery: {
+          ...store.getState().activeQuery,
+          [query]: false,
+        },
+      } as unknown) as ZustandState);
+    }
+
+    store.setState(({
+      activeQuery: {
+        ...store.getState().activeQuery,
+        [query]: {},
+      },
+    } as unknown) as ZustandState);
+
+    throw new Error(JSON.stringify(err));
+  }
+};
