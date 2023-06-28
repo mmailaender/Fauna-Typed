@@ -1,6 +1,7 @@
 # Motivation
 
-Fauna provides with FQL.X a typescipt like languange and offers build in typesafety with Schema enforcement (TODO: Link). This client streamlines the typesafe experience between Fauna and your React project by 
+Fauna provides with FQL.X a typescipt like languange and offers build in typesafety with Schema enforcement (TODO: Link). This client streamlines the typesafe experience between Fauna and your React project by
+
 - syncing the types from Fauna to your Typescript project
 - transform and compose your typessafe functions on the fly to FQL.X post Requests
 
@@ -10,8 +11,8 @@ Fauna provides with FQL.X a typescipt like languange and offers build in typesaf
 - State Management built in for Optimistic Response
 - [TODO] Isomorphic (Code can run on Fauna or in Typescript runtime)
 
-
 # Getting Started
+
 ## Install
 
 ```bash
@@ -19,11 +20,13 @@ pnpm install github:mmailaender/Fauna-React
 pnpm install ts-node
 ```
 
-## Create schema 
+## Create schema
+
 1. Create `fqlx.schema.json` file on root level (same level like `package.json`)
 2. And add your schema into the file:
 
 Example schema
+
 ```json
 {
   "Car": {
@@ -31,12 +34,18 @@ Example schema
       "plate": "string",
       "brand": "string",
       "owner": "Customer"
+    },
+    "constraints": {
+      "required": []
     }
   },
   "Customer": {
     "fields": {
       "name": "string",
-      "cars": "[Cars]"
+      "cars": "Cars[]"
+    },
+    "constraints": {
+      "required": ["name"]
     }
   }
 }
@@ -52,11 +61,13 @@ Example schema
 ```
 
 ## Generate TS interfaces
+
 ```
 pnpm fqlx:generate
 ```
 
 You should see the following folder structure as output
+
 ```
 |- fqlx-generated
 | |- collectionsWithFields.ts
@@ -68,6 +79,7 @@ You should see the following folder structure as output
 Wrap your App with the `<FqlxProvider>`
 
 ### Nextjs
+
 ```tsx
 import { FqlxProvider } from 'fqlx-client';
 import './globals.css';
@@ -97,10 +109,10 @@ export default function RootLayout({
 
 ### FqlxProvider
 
-| Property   | Mandatory? | Description | Example |
-|------------|------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------|
-| fqlxSecret | ✔️         | The secret to authenticate with Fauna. Recommended to use an <br> accessToken from your users, that you received after user login | `fqlxSecret: useAuth()` |
-| loader     | 🗙          | You can provide a skeleton loader component that displays <br> automatically that component during suspense.                      | `loader: {<Skeleton />}` |
+| Property   | Mandatory? | Description                                                                                                                                                         | Example                                             |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| fqlxSecret | ✔️         | The secret to authenticate with Fauna. Recommended to use an <br> accessToken from your users, that you received after user login                                   | `fqlxSecret: useAuth()`                             |
+| loader     | 🗙          | You can provide a skeleton loader component that displays <br> automatically that component during suspense.                                                        | `loader: {<Skeleton />}`                            |
 | endpoint   | 🗙          | Specify the Fauna endpoint. Default is Fauna cloud `https://db.fauna.com`. If you're not a Fauna Beta tester, or using the Fauna Docker version you don't need this | `endpoint: new URL('https://db.fauna-preview.com')` |
 
 ## Use Client
@@ -124,15 +136,20 @@ export default OwnedCars;
 ```
 
 ### Execute query | .exec()
-FQL.X is following the same syntax as Typescript. e.g. `.map()` can be executed on `Fauna` or on `Browser/Edge/Node` side.  That means, we need to tell the app which part of the code should run on `Fauna` side and which code should run on `Browser/Edge/Node` side. <br><br>
+
+FQL.X is following the same syntax as Typescript. e.g. `.map()` can be executed on `Fauna` or on `Browser/Edge/Node` side. That means, we need to tell the app which part of the code should run on `Fauna` side and which code should run on `Browser/Edge/Node` side. <br><br>
 For that we use the
+
 ```js
 .exec()
 ```
+
 function. Put it at the end of your query, were you want to have a handover from `Fauna` to `Browser/Edge/Node` side. <br>
+
 > Everything **before** `.exec()` will run on `Fauna` side. Everything **after** `.exec()` will run on `Browser/Edge/Node` side.
 
 ### Projection | .project()
+
 With projection you can define what data you want to return. With this you can avoid over- and under fetching. Also you can fetch child fields.
 
 ```jsx
@@ -145,6 +162,7 @@ query.Customer.first().cars.project({
 ```
 
 #### Fetch child fields
+
 ```jsx
 query.Customer.first().cars.project({
   plate = true,
@@ -155,4 +173,3 @@ query.Customer.first().cars.project({
 })
 .exec()
 ```
-

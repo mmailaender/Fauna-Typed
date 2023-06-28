@@ -5,12 +5,23 @@ import { topLevelInterfaces, createTypedefsMethods } from './util';
 import { getSchema } from './schema';
 import { getCollectionsWithFields } from './collectionsWithFields';
 
+interface Value {
+  fields: {
+    [key: string]: string;
+  };
+  constraints: {
+    required: string[];
+  };
+}
+
 const schema = getSchema();
 
 let typeSchema = '';
 let queryInterfaceKeyValue = '';
 
-const createInterface = (key: string, fields: object) => {
+const createInterface = (key: string, value: Value, keyPath: string = '') => {
+  const fields = value?.fields || {};
+  const requiredFields = value?.constraints?.required || [];
   const keyInPascalCase = getPascalCaseString(key);
   const fieldsEntries = Object.entries(fields);
 
@@ -20,29 +31,47 @@ const createInterface = (key: string, fields: object) => {
   fieldsEntries.forEach(fieldEntry => {
     const fieldValue = fieldEntry[1];
     const fieldKey = fieldEntry[0];
+    const mappedKeyPath = keyPath ? `${keyPath}.${fieldKey}` : fieldKey;
 
-    const fieldKeyPascalCase = getPascalCaseString(fieldKey);
+    const isRequired = requiredFields.some(
+      requiredField => requiredField === mappedKeyPath
+    );
+
+    // TODO: uncomment if need to add object method in Query
+    // const fieldKeyPascalCase = getPascalCaseString(fieldKey);
     const valueType = getKeyType(fieldValue, fieldKey);
 
     // Creating interface for embedded objects
     if (typeof fieldValue === 'object') {
-      createInterface(fieldKey, fieldValue);
-
-      queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-        `/**\n * @returns This return fqlx methods for the ${fieldKeyPascalCase} \n */ \n ${fieldKeyPascalCase}:  ${fieldKeyPascalCase}Methods;\n`
+      createInterface(
+        fieldKey,
+        {
+          fields: fieldValue,
+          constraints: value.constraints,
+        },
+        mappedKeyPath
       );
+
+      // TODO: uncomment if need to add object method in Query
+      // queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
+      //   `/**\n * @returns This return fqlx methods for the ${fieldKeyPascalCase} \n */ \n ${fieldKeyPascalCase}:  ${fieldKeyPascalCase}Methods;\n`
+      // );
     }
 
     // schema key value
     mainInterfaceKeyValue = mainInterfaceKeyValue.concat(
-      `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}: ${valueType};\n`
+      `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}${
+        isRequired ? '' : '?'
+      }: ${valueType};\n`
     );
 
     const fieldKeyInLowercase = fieldKey.toLowerCase();
 
-    if (!['id', 'ts'].includes(fieldKeyInLowercase)) {
+    if (!['ts'].includes(fieldKeyInLowercase)) {
       inputInterfaceKeyValue = inputInterfaceKeyValue.concat(
-        `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}: ${valueType};\n`
+        `/**\n * ${fieldKey} for the ${keyInPascalCase}\n */\n ${fieldKey}${
+          fieldKeyInLowercase === 'id' ? '?' : isRequired ? '' : '?'
+        }: ${valueType};\n`
       );
     }
   });
@@ -66,7 +95,7 @@ const generateTypeDefs = () => {
     queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
       `/**\n * @returns This return fqlx methods for the ${keyInPascalCase} \n */ \n${keyInPascalCase}: ${keyInPascalCase}Methods;\n`
     );
-    createInterface(key, schema[key as keyof typeof schema].fields);
+    createInterface(key, schema[key as keyof typeof schema]);
   });
 
   typeSchema = typeSchema.concat(`export interface Query {
