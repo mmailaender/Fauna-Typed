@@ -34,6 +34,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-**/fqlx-generated/*
+# **/fqlx-generated/*
 
-**/fqlx.schema.json
+# **/fqlx.schema.json
