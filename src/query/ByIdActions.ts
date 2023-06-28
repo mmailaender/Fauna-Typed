@@ -28,16 +28,6 @@ export class ByIdActions<T, U> {
         // Calling Fqlx API
         const res = await callFqlxQuery(query);
 
-        // Storing API res in local state
-        // this.store.setState({
-        //   [this.collectionName]: {
-        //     data: res ? [res] : [],
-        //     after: null,
-        //     before: null,
-        //   },
-        // });
-        // return this.store.getState()[this.collectionName] as unknown as T;
-
         return res;
       } catch (error) {
         throw error;
@@ -49,7 +39,11 @@ export class ByIdActions<T, U> {
       update: this.update,
       delete: this.delete,
       project: projectionFields =>
-        projection<T, T>(this.collectionName as string, query, projectionFields),
+        projection<T, T>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 
@@ -86,7 +80,11 @@ export class ByIdActions<T, U> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection<T, T>(this.collectionName as string, query, projectionFields),
+        projection<T, T>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 
@@ -120,7 +118,11 @@ export class ByIdActions<T, U> {
     return {
       exec: executor,
       project: projectionFields =>
-        projection<T, T>(this.collectionName as string, query, projectionFields),
+        projection<T, T>(
+          this.collectionName as string,
+          query,
+          projectionFields
+        ),
     };
   };
 }

@@ -9,18 +9,15 @@ import {
   OrderMethods,
   OrderMethodInput,
 } from '../interfaces/topLevelTypedefs';
-import zustandStore from '../zustand/store';
-import { StateKeys, ZustandState } from '../zustand/interface';
-import { callFqlxQuery } from '../client';
+import { StateKeys } from '../zustand/interface';
 import firstWhereMethod from './methods/firstWhere';
-import { NETWORK_ERROR } from '../error';
 import projection from './methods/projection';
 import map from './methods/map';
 import count from './methods/count';
+import { executor } from './executor';
 
 export class AllActions<T> {
   protected collectionName: StateKeys;
-  private store = zustandStore.getStore();
   private whereQuery = '';
 
   constructor(collectionName: StateKeys) {
@@ -31,84 +28,8 @@ export class AllActions<T> {
   public all = (): AllMethods<T> => {
     const query = `${this.collectionName}.all()`;
 
-    // @ts-expect-error
-    const executor = (): PaginateData<T> => {
-      // Checking, query is already executed
-      if (this.store.getState().activeQuery[query]) {
-        // Return data from state
-        return (this.store.getState().activeQuery[
-          query
-        ] as unknown) as PaginateData<T>;
-      }
-
-      // Calling Fqlx API
-      const req = callFqlxQuery(query);
-
-      let error = '';
-      let status = 'pending';
-
-      req
-        .then(res => {
-          status = 'success';
-
-          const resData = {
-            data: res?.data,
-            after: res?.after,
-            before: res?.before,
-          };
-          // Storing API res in local state
-          this.store.setState({
-            [this.collectionName]: resData,
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: resData,
-            },
-          } as ZustandState);
-        })
-        .catch(err => {
-          status = 'error';
-          error = err?.message;
-
-          if (!err?.message?.includes(NETWORK_ERROR)) {
-            // Update value of query as inactive in state
-            this.store.setState(({
-              activeQuery: {
-                ...this.store.getState().activeQuery,
-                [query]: false,
-              },
-              [this.collectionName]: {
-                data: [],
-                after: null,
-                before: null,
-              },
-            } as unknown) as ZustandState);
-
-            error = err;
-          }
-
-          this.store.setState(({
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: { data: [] },
-            },
-          } as unknown) as ZustandState);
-        });
-
-      if (status === 'pending') {
-        throw req as T;
-      }
-
-      if (status === 'error') {
-        throw new Error(error) as T;
-      }
-
-      if (status === 'success') {
-        return this.store.getState()[this.collectionName] as PaginateData<T>;
-      }
-    };
-
     return {
-      exec: executor,
+      exec: () => executor(query),
       first: this.first(query),
       firstWhere: this.firstWhere,
       where: this.where,
@@ -126,74 +47,8 @@ export class AllActions<T> {
   public first = (queryPrefix: string) => (): FirstMethods<T> => {
     const query = `${queryPrefix}.first()`;
 
-    // @ts-expect-error
-    const executor = (): T => {
-      // Checking, query is already executed
-      if (this.store.getState().activeQuery[query]) {
-        // Return data from state
-        return this.store.getState().activeQuery[query] as T;
-      }
-
-      // Calling Fqlx API
-      const req = callFqlxQuery(query);
-
-      let error = '';
-      let status = 'pending';
-
-      req
-        .then(res => {
-          status = 'success';
-          // Storing API res in local state
-          this.store.setState({
-            [this.collectionName]: {
-              data: res ? [res] : [],
-            },
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: res || {},
-            },
-          } as ZustandState);
-        })
-        .catch(err => {
-          status = 'error';
-          error = err?.message;
-
-          if (!err?.message?.includes(NETWORK_ERROR)) {
-            this.store.setState(({
-              [this.collectionName]: {
-                data: [],
-              },
-              activeQuery: {
-                ...this.store.getState().activeQuery,
-                [query]: false,
-              },
-            } as unknown) as ZustandState);
-          }
-
-          this.store.setState(({
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: {},
-            },
-          } as unknown) as ZustandState);
-        });
-
-      if (status === 'pending') {
-        throw req as T;
-      }
-
-      if (status === 'error') {
-        throw new Error(error) as T;
-      }
-
-      if (status === 'success') {
-        return ((this.store.getState()[this.collectionName]?.data[0] ||
-          {}) as unknown) as T;
-      }
-    };
-
     return {
-      exec: executor,
+      exec: () => executor(query),
       project: projectionFields =>
         projection<T, T>(
           this.collectionName as string,
@@ -209,94 +64,18 @@ export class AllActions<T> {
     const query = `${this.collectionName}.all().where(${condition})`;
     this.whereQuery = condition;
 
-    // @ts-expect-error
-    const executor = (): PaginateData<T> => {
-      // Checking, query is already executed
-      if (this.store.getState().activeQuery[query]) {
-        // Return data from state
-        return (this.store.getState().activeQuery[
-          query
-        ] as unknown) as PaginateData<T>;
-      }
-
-      // Calling Fqlx API
-      const req = callFqlxQuery(query);
-
-      let error = '';
-      let status = 'pending';
-
-      req
-        .then(res => {
-          status = 'success';
-
-          const resData = {
-            data: res?.data,
-            after: res?.after,
-            before: res?.before,
-          };
-          // Storing API res in local state
-          this.store.setState({
-            // [this.collectionName]: resData,
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: resData,
-            },
-          } as ZustandState);
-        })
-        .catch(err => {
-          status = 'error';
-          error = err?.message;
-
-          if (!err?.message?.includes(NETWORK_ERROR)) {
-            this.store.setState(({
-              // [this.collectionName]: {
-              //   data: [],
-              //   after: null,
-              //   before: null,
-              // },
-              activeQuery: {
-                ...this.store.getState().activeQuery,
-                [query]: false,
-              },
-            } as unknown) as ZustandState);
-          }
-
-          this.store.setState(({
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: { data: [] },
-            },
-          } as unknown) as ZustandState);
-        });
-
-      if (status === 'pending') {
-        throw req as T;
-      }
-
-      if (status === 'error') {
-        throw new Error(error) as T;
-      }
-
-      if (status === 'success') {
-        return this.store.getState()[this.collectionName] as PaginateData<T>;
-      }
-    };
-
     return {
-      exec: executor,
+      exec: () => executor(query),
       order: this.order,
       map: callbackFn =>
-        map<T>(
-          this.collectionName as string,
-          `${query}.map(${callbackFn.toString()})`
-        ),
+        map<T>(this.collectionName as string, query, callbackFn),
       project: projectionFields =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
           projectionFields
         ),
-      count: () => count(this.collectionName as string, `${query}.count()`),
+      count: () => count(this.collectionName as string, query),
     };
   };
 
@@ -316,81 +95,8 @@ export class AllActions<T> {
       ? `${this.collectionName}.all().where(${this.whereQuery}).order(${orderInput})`
       : `${this.collectionName}.all().order(${orderInput})`;
 
-    // @ts-expect-error
-    const executor = (): PaginateData<T> => {
-      // Checking, query is already executed
-      if (this.store.getState().activeQuery[query]) {
-        // Return data from state
-        return (this.store.getState().activeQuery[
-          query
-        ] as unknown) as PaginateData<T>;
-      }
-
-      // Calling Fqlx API
-      const req = callFqlxQuery(query);
-
-      let error = '';
-      let status = 'pending';
-
-      req
-        .then(res => {
-          status = 'success';
-
-          const resData = {
-            data: res?.data,
-            after: res?.after,
-            before: res?.before,
-          };
-          // Storing API res in local state
-          this.store.setState({
-            [this.collectionName]: resData,
-            activeQuery: {
-              ...this.store.getState().activeQuery,
-              [query]: resData,
-            },
-          } as ZustandState);
-        })
-        .catch(err => {
-          status = 'error';
-          error = err?.message;
-
-          if (!err?.message?.includes(NETWORK_ERROR)) {
-            this.store.setState(({
-              [this.collectionName]: {
-                data: [],
-                after: null,
-                before: null,
-              },
-              activeQuery: {
-                ...this.store.getState().activeQuery,
-                [query]: false,
-              },
-            } as unknown) as ZustandState);
-
-            this.store.setState(({
-              activeQuery: {
-                ...this.store.getState().activeQuery,
-                [query]: {},
-              },
-            } as unknown) as ZustandState);
-          }
-        });
-
-      if (status === 'pending') {
-        throw req as T;
-      }
-
-      if (status === 'error') {
-        throw new Error(error) as T;
-      }
-
-      if (status === 'success') {
-        return this.store.getState()[this.collectionName] as PaginateData<T>;
-      }
-    };
-
     return {
-      exec: executor,
+      exec: () => executor(query),
       first: this.first(query),
       project: projectionFields =>
         projection<T, PaginateData<T>>(
