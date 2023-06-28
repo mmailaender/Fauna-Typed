@@ -6,10 +6,11 @@ import zustandStore from '../zustand/store';
 export const executor = <T>(query: string): T => {
   const store = zustandStore.getStore();
 
+  const activeQueryValue = store.getState().activeQuery[query];
   // Checking, query is already executed
-  if (store.getState().activeQuery[query]) {
+  if (!isNaN(activeQueryValue) || activeQueryValue) {
     // Return data from state
-    return store.getState().activeQuery[query] as T;
+    return activeQueryValue as T;
   }
 
   // Calling Fqlx API

@@ -14,7 +14,7 @@ export type InitialState = Record<StateKeys, StateValues>;
 
 export type ZustandState = Partial<InitialState> & {
   temp: { [key: string]: any }[];
-  activeQuery: { [key: string]: boolean };
+  activeQuery: { [key: string]: any };
   create: <T>(inputData: T, collection: StateKeys) => void;
   onCreateSuccess: (id: string, resId: string, collection: StateKeys) => void;
   onCreateFailed: (id: string, collection: StateKeys) => void;
