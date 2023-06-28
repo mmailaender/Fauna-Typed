@@ -7,7 +7,6 @@ export default function map<T>(
   query: string,
   callbackFn: string | ((data: T) => string | number | boolean | Partial<T>)
 ): BaseMapMethod<T> {
-  console.log('callbackFn', callbackFn.toString());
   const mapQuery = `${query}.map(${callbackFn.toString()})`;
 
   return {
