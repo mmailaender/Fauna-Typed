@@ -6,5 +6,5 @@ import { useQuery } from 'fqlx-client';
 export default function Home() {
   const query = useQuery<Query>();
 
-  return <div>ksjhdkjsdh</div>;
+  return <div>Fqlx Next.JS Example</div>;
 }
