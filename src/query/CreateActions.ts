@@ -16,7 +16,9 @@ export class CreateActions<T> {
   }
 
   public create = (inputData: T): CreateMethods<T> => {
-    const query = `${this.collectionName}.create(${JSON.stringify(inputData)})`;
+    const input =
+      typeof inputData === 'string' ? inputData : JSON.stringify(inputData);
+    const query = `${this.collectionName}.create(${input})`;
 
     const executor = async (): Promise<T> => {
       // Creating unique id to perform optimistic operation

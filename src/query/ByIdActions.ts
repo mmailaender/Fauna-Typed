@@ -48,9 +48,9 @@ export class ByIdActions<T, U> {
   };
 
   public update = (inputData: U): UpdateMethods<T> => {
-    const query = `${this.collectionName}.byId("${
-      this.fqlxDocId
-    }").update(${JSON.stringify(inputData)})`;
+    const input =
+      typeof inputData === 'string' ? inputData : JSON.stringify(inputData);
+    const query = `${this.collectionName}.byId("${this.fqlxDocId}").update(${input})`;
 
     const executor = async (): Promise<T> => {
       try {

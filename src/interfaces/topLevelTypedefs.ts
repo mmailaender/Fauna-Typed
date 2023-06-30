@@ -265,7 +265,7 @@ export interface ByIdMethods<T, U>
   /**
    * The update() method updates the document with the object fields and returns the updated document.
    *
-   * @param {U} input input is object with fields that needs to be updated
+   * @param {U | string} input input is object with fields or string of data that needs to be updated
    *
    * @returns returns document with updated fields.
    *
@@ -276,12 +276,21 @@ export interface ByIdMethods<T, U>
    *  state: "Madhya Pradesh",
    *  country: "India",
    *  postCode: "452010"
-   * }
-   * }).exec()
+   *  }).exec()
+   * 
+   * OR
+   * 
+   * query.Address.byId('360427545614615075').update(`{
+   *  street: "Vijay Nagar Road",
+   *  city: "Indore",
+   *  state: "Madhya Pradesh",
+   *  country: "India",
+   *  postCode: "452010"
+   * }`).exec()
    *
    * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/document/update#description See more...}
    */
-  update(input: U): UpdateMethods<T>;
+  update(input: (U | string)): UpdateMethods<T>;
 
   /**
    * delete method delete the document.
