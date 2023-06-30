@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fqlx:convert": "ts-node ./node_modules/fqlx-client/src/converter.ts"
+    "fqlx:convert": "ts-node node_modules/fqlx-client/src/converter.ts"
   },
   "dependencies": {
     "@types/node": "20.3.2",
@@ -20,6 +20,7 @@
     "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "ts-node": "10.9.1",
     "typescript": "5.1.3"
   }
 }
