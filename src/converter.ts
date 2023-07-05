@@ -99,6 +99,7 @@ const generateTypeDefs = () => {
   });
 
   typeSchema = typeSchema.concat(`export interface Query {
+    Set: SetMethods;
     ${queryInterfaceKeyValue}
   }`);
 };

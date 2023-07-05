@@ -25,8 +25,6 @@ export const createZustandWrapper = (): ZustandStore => {
     persist(
       (set, get) =>
         ({
-          // temp: [],
-          fetchingPromise: {},
           activeQuery: {},
           create: <T>(inputData: T, collection: StateKeys) => {
             handleCreateDocument<T>(set, inputData, collection);

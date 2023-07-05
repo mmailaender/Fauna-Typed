@@ -12,7 +12,8 @@ export const topLevelInterfaces = `
     ExecMethods,
     PromisifyExecMethods,
     UpdateMethods,
-    FirstWhereMethods
+    FirstWhereMethods,
+    SetMethods,
   } from 'fqlx-client'
   \n`;
 
@@ -64,7 +65,7 @@ export const createTypedefsMethods = (
       /**
        * create method creates a ${key} document in the collection with the provided property values.
        * 
-       * @param {${key}Input} input - will be the ${key} which you want to add.
+       * @param {${key}Input | string} input - will be the ${key} which you want to add.
          ${params}
        *
        * @returns {CreateMethods<${key}>} return new document.
@@ -72,10 +73,13 @@ export const createTypedefsMethods = (
        * @example
        * query.${key}.create({ ${exampleText} 
        * }).exec()
+       * OR
+       * query.${key}.create(\`{ ${exampleText} 
+       * }\`).exec()
        * 
        * @see {@link https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/collection/instance-create#signature See more...}
        */
-    create(input: ${key}Input): CreateMethods<${key}>;
+    create(input: (${key}Input | string)): CreateMethods<${key}>;
 
       /**
        * byId method get a ${key} document by its document ID.
