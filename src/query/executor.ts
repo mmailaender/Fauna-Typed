@@ -9,12 +9,23 @@ export const executor = <T>(query: string): T => {
   const activeQueryValue = store.getState().activeQuery[query];
   // Checking, query is already executed
   if (!isNaN(activeQueryValue) || activeQueryValue) {
+    if (activeQueryValue instanceof Promise) {
+      throw activeQueryValue;
+    }
+
     // Return data from state
     return activeQueryValue as T;
   }
 
   // Calling Fqlx API
   const req = callFqlxQuery(query);
+
+  store.setState({
+    activeQuery: {
+      ...store.getState().activeQuery,
+      [query]: req,
+    },
+  } as ZustandState);
 
   let result = '';
   let status = 'pending';
