@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import zustandStore from '../zustand/store';
 import { StateKeys, ZustandStore } from '../zustand/interface';
 import { AllActions } from './AllActions';
@@ -12,11 +12,6 @@ import { SetActions } from './SetActions';
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
   const storeStates = useStore(state => state);
-
-  // Reset active query
-  useEffect(() => {
-    storeStates.resetActiveQuery();
-  }, []);
 
   const createStateInStore = (collectionName: StateKeys) => {
     if (!storeStates[collectionName]?.data) {

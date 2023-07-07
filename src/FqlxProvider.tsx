@@ -2,6 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { configState, useConfigStore } from './configStore';
+import fqlxStore from './zustand/store';
+import { ZustandStore } from './zustand/interface';
 
 export const FqlxProvider = ({
   config,
@@ -18,6 +20,8 @@ export const FqlxProvider = ({
     setFqlxEndpoint,
     fqlxEndpoint,
   } = useConfigStore((state: configState) => state);
+  const useFqlxStore: ZustandStore = fqlxStore.getStore();
+  const fqlxState = useFqlxStore(state => state);
 
   useEffect(() => {
     setFqlxSecret(config.fqlxSecret);
@@ -28,6 +32,11 @@ export const FqlxProvider = ({
       setFqlxEndpoint(config.endpoint);
     }
   }, [config.endpoint]);
+
+  // Reset active query
+  useEffect(() => {
+    fqlxState.resetActiveQuery();
+  }, []);
 
   if (!config.fqlxSecret) {
     throw new Error('Missing Fauna Secret');
