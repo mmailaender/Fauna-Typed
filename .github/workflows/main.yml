@@ -2,31 +2,30 @@ name: CI
 on: [push]
 jobs:
   build:
-    name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['10.x', '12.x', '14.x']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest
+    name: Build, lint, test and publish to NPM
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '18'
 
       - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: pnpm test --ci --coverage
 
       - name: Build
-        run: yarn build
+        run: pnpm build
+
+      - name: NPM Publish
+        uses: JS-DevTools/npm-publish@v2.2.1
+        with:
+          # The NPM access token to use when publishing
+          token: ${{ secrets.NPM_SECRET }}
