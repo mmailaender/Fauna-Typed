@@ -35,7 +35,7 @@
     "trailingComma": "es5"
   },
   "name": "fauna-typed",
-  "author": "Madhav",
+  "author": "Micha Mailaender",
   "module": "dist/fauna-typed.esm.js",
   "size-limit": [
     {
