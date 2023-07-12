@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   typescript: 5.0.2
 
@@ -15,8 +11,8 @@ dependencies:
     specifier: 8.1.3
     version: 8.1.3
   fauna:
-    specifier: github:Dechea/fauna-js
-    version: github.com/Dechea/fauna-js/7fb8157c4d346e3ae8f3ddd9e702846cff433358
+    specifier: ^0.9.1
+    version: 0.9.1
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -3976,6 +3972,10 @@ packages:
     dependencies:
       reusify: 1.0.4
     dev: true
+
+  /fauna@0.9.1:
+    resolution: {integrity: sha512-NajDX8YjzvFz5ok4STQiT7+d/M7Xc7cByh9z91h9SERoUAGrq0dlhRLGq9+mPbs5KYrwo/P82N24bBg6hI/2aA==}
+    dev: false
 
   /fb-watchman@2.0.2:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
@@ -8451,10 +8451,6 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  github.com/Dechea/fauna-js/7fb8157c4d346e3ae8f3ddd9e702846cff433358:
-    resolution: {tarball: https://codeload.github.com/Dechea/fauna-js/tar.gz/7fb8157c4d346e3ae8f3ddd9e702846cff433358}
-    name: '@fauna/fauna'
-    version: 0.1.0
-    prepare: true
-    requiresBuild: true
-    dev: false
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
