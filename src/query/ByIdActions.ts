@@ -26,7 +26,7 @@ export class ByIdActions<T, U> {
     const executor = async (): Promise<T> => {
       try {
         // Calling Fqlx API
-        const res = await callFqlxQuery(query);
+        const res: any = await callFqlxQuery(query);
 
         return res;
       } catch (error) {
@@ -59,7 +59,7 @@ export class ByIdActions<T, U> {
           .getState()
           .update(this.fqlxDocId, inputData, this.collectionName);
 
-        const res = await callFqlxQuery(query);
+        const res: any = await callFqlxQuery(query);
 
         // Removing stored document form local state temp
         this.store
@@ -97,7 +97,7 @@ export class ByIdActions<T, U> {
         this.store.getState().delete(this.fqlxDocId, this.collectionName);
 
         // Calling Fqlx API
-        const res = await callFqlxQuery(query);
+        const res: any = await callFqlxQuery(query);
 
         // Deleting the document from temp state
         this.store

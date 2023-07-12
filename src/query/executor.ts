@@ -33,7 +33,7 @@ export const executor = <T>(query: string): T => {
   req
     .then(res => {
       status = 'success';
-      result = res;
+      result = res as string;
 
       // Storing API res in local state
       store.setState({
@@ -90,7 +90,7 @@ export const promisedExecutor = async <T>(query: string): Promise<T> => {
 
   try {
     // Calling Fqlx API
-    const res = await callFqlxQuery(query);
+    const res: any = await callFqlxQuery(query);
 
     store.setState({
       activeQuery: {
