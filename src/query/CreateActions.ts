@@ -31,7 +31,7 @@ export class CreateActions<T> {
         this.store.getState().create(inputDataWithUid, this.collectionName);
 
         // Calling Fqlx API
-        const res = await callFqlxQuery(query);
+        const res: any = await callFqlxQuery(query);
 
         // Updating document id in local state
         this.store.getState().onCreateSuccess(uid, res.id, this.collectionName);
