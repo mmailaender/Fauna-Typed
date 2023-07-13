@@ -36,7 +36,7 @@ export class CreateActions<T> {
         // Updating document id in local state
         this.store.getState().onCreateSuccess(uid, res.id, this.collectionName);
 
-        return res;
+        return res as T;
       } catch (error) {
         // Removing added document from local state
         this.store.getState().onCreateFailed(uid, this.collectionName);
@@ -47,7 +47,7 @@ export class CreateActions<T> {
 
     return {
       exec: executor,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,

@@ -34,7 +34,7 @@ export class AllActions<T> {
       firstWhere: this.firstWhere,
       where: this.where,
       order: this.order,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
@@ -49,7 +49,7 @@ export class AllActions<T> {
 
     return {
       exec: () => executor(query),
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -67,9 +67,9 @@ export class AllActions<T> {
     return {
       exec: () => executor(query),
       order: this.order,
-      map: callbackFn =>
+      map: (callbackFn) =>
         map<T>(this.collectionName as string, query, callbackFn),
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,
@@ -98,7 +98,7 @@ export class AllActions<T> {
     return {
       exec: () => executor(query),
       first: this.first(query),
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, PaginateData<T>>(
           this.collectionName as string,
           query,

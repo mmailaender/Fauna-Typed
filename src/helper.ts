@@ -23,7 +23,7 @@ export const getKeyType = (value: any, fieldKey: string) => {
     return getPascalCaseString(fieldKey);
   }
 
-  return value
+  return (value || '')
     .split('|')
     .map((s: string) => types[s.trim() as keyof typeof types] || s)
     .join(' | ');

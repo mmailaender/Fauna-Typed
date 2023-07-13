@@ -49,7 +49,7 @@ export interface DistinctMethod<T> extends ExecMethods<PaginateData<T>> {
   distinct<DISTINCT_TYPE>(): BaseDistinctMethod<DISTINCT_TYPE>;
 }
 
-export interface BaseDistinctMethod<T> extends ExecMethods<PaginateData<T>> {}
+export type BaseDistinctMethod<T> = ExecMethods<PaginateData<T>>
 
 
 export interface BaseMapMethod<T>
@@ -72,7 +72,7 @@ export interface CountMethod {
   count(): BaseCountMethod<number | string>;
 }
 
-export interface BaseCountMethod<T> extends ExecMethods<T> {}
+export type BaseCountMethod<T> = ExecMethods<T>
 
 export interface PaginateMethod {
   /**
@@ -88,7 +88,7 @@ export interface PaginateMethod {
   paginate<T>(cursor: string): BasePaginateMethod<T>;
 }
 
-export interface BasePaginateMethod<T> extends PromisifyExecMethods<PaginateData<T>> {}
+export type BasePaginateMethod<T> = PromisifyExecMethods<PaginateData<T>>
 
 export interface MapMethod<T> {
   /**
@@ -249,9 +249,7 @@ export interface AllMethods<T>
   where(inputCondition: ((data: T) => boolean) | string): WhereMethods<T>;
 }
 
-export interface SetMethods
-  extends PaginateMethod {
-}
+export type SetMethods = PaginateMethod
 
 export interface PaginateData<T> {
   data: T[];

@@ -24,21 +24,17 @@ export class ByIdActions<T, U> {
     const query = `${this.collectionName}.byId("${this.fqlxDocId}")`;
 
     const executor = async (): Promise<T> => {
-      try {
-        // Calling Fqlx API
-        const res: any = await callFqlxQuery(query);
+      // Calling Fqlx API
+      const res = await callFqlxQuery(query);
 
-        return res;
-      } catch (error) {
-        throw error;
-      }
+      return res as T;
     };
 
     return {
       exec: executor,
       update: this.update,
       delete: this.delete,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -59,14 +55,14 @@ export class ByIdActions<T, U> {
           .getState()
           .update(this.fqlxDocId, inputData, this.collectionName);
 
-        const res: any = await callFqlxQuery(query);
+        const res = await callFqlxQuery(query);
 
         // Removing stored document form local state temp
         this.store
           .getState()
           .onUpdateSuccess(this.fqlxDocId, this.collectionName);
 
-        return res;
+        return res as T;
       } catch (error) {
         // Undo changes from temp state
         this.store
@@ -79,7 +75,7 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -97,14 +93,14 @@ export class ByIdActions<T, U> {
         this.store.getState().delete(this.fqlxDocId, this.collectionName);
 
         // Calling Fqlx API
-        const res: any = await callFqlxQuery(query);
+        const res = await callFqlxQuery(query);
 
         // Deleting the document from temp state
         this.store
           .getState()
           .onDeleteSuccess(this.fqlxDocId, this.collectionName);
 
-        return res;
+        return res as T;
       } catch (error) {
         // Adding back the deleted document
         this.store
@@ -117,7 +113,7 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
-      project: projectionFields =>
+      project: (projectionFields) =>
         projection<T, T>(
           this.collectionName as string,
           query,

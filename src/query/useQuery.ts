@@ -11,7 +11,7 @@ import { SetActions } from './SetActions';
 
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
-  const storeStates = useStore(state => state);
+  const storeStates = useStore((state) => state);
 
   const createStateInStore = (collectionName: StateKeys) => {
     if (!storeStates[collectionName]?.data) {
@@ -54,7 +54,6 @@ export const useQuery = <T>(): T => {
           }
         },
       }) as T,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [storeStates]
   );
 };
