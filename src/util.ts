@@ -14,7 +14,7 @@ export const topLevelInterfaces = `
     UpdateMethods,
     FirstWhereMethods,
     SetMethods,
-  } from 'fqlx-client'
+  } from 'fauna-typed'
   \n`;
 
 export const createTypedefsMethods = (

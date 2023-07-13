@@ -1,6 +1,6 @@
 'use client';
 
-import { FqlxProvider } from 'fqlx-client';
+import { FqlxProvider } from 'fauna-typed';
 
 const FAUNA_ENDPOINT = 'https://db.fauna.com';
 

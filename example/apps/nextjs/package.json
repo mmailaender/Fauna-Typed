@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fqlx:convert": "ts-node node_modules/fqlx-client/src/converter.ts"
+    "fqlx:convert": "ts-node node_modules/fauna-typed/src/converter.ts"
   },
   "dependencies": {
     "@types/node": "20.3.2",
@@ -16,7 +16,7 @@
     "@types/react-dom": "18.2.6",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
-    "fqlx-client": "file:../../..",
+    "fauna-typed": "file:../../..",
     "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",

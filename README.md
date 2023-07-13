@@ -5,7 +5,7 @@ Fauna provides with FQL.X a typescipt like languange and offers build in typesaf
 - syncing the types from Fauna to your Typescript project
 - transform and compose your typessafe functions on the fly to FQL.X post Requests
 
-![image](https://github.com/mmailaender/Fauna-React/assets/87228994/5260ec7e-9ae5-453f-a996-9fdaaff70cdf)
+![image](https://github.com/mmailaender/Fauna-Typed/assets/87228994/5260ec7e-9ae5-453f-a996-9fdaaff70cdf)
 
 - Typesafe
 - State Management built in for Optimistic Response
@@ -16,7 +16,7 @@ Fauna provides with FQL.X a typescipt like languange and offers build in typesaf
 ## Install
 
 ```bash
-pnpm install github:mmailaender/Fauna-React
+pnpm install github:mmailaender/Fauna-Typed
 pnpm install ts-node
 ```
 
@@ -56,7 +56,7 @@ Example schema
 ```
 "scripts": {
     ...,
-    "fqlx:generate": "ts-node node_modules/fqlx-client/src/converter.ts"
+    "fqlx:generate": "ts-node node_modules/fauna-typed/src/converter.ts"
 },
 ```
 
@@ -81,7 +81,7 @@ Wrap your App with the `<FqlxProvider>`
 ### Nextjs
 
 ```tsx
-import { FqlxProvider } from 'fqlx-client';
+import { FqlxProvider } from 'fauna-typed';
 import './globals.css';
 import dynamic from 'next/dynamic';
 
@@ -118,7 +118,7 @@ export default function RootLayout({
 ## Use Client
 
 ```tsx
-import { useQuery as query } from 'fqlx-client';
+import { useQuery as query } from 'fauna-typed';
 
 const OwnedCars = (customerId) => {
   return ({
