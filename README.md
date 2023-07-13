@@ -16,7 +16,7 @@ Fauna provides with FQL.X a typescript-like language, and offers built-in type-s
 ## Install
 
 ```bash
-pnpm install github:mmailaender/Fauna-React
+pnpm install fauna-typed
 pnpm install ts-node
 ```
 
