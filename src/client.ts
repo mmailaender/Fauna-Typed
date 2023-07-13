@@ -1,6 +1,6 @@
 'use client';
 
-import { Client, Query } from 'fauna';
+import { Client } from 'fauna';
 import { useConfigStore } from './configStore';
 
 class FqlxClient {
@@ -32,9 +32,7 @@ const fqlxClient = new FqlxClient();
 
 export const callFqlxQuery = async (query: string) => {
   try {
-    return await (
-      await fqlxClient.getClient().query(({ query } as unknown) as Query)
-    ).data;
+    return await (await fqlxClient.getClient().query({ query })).data;
   } catch (error) {
     throw error;
   }
