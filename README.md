@@ -177,3 +177,10 @@ query.Customer.first().cars.project({
 })
 .exec()
 ```
+> Unfortunately, we have not yet found a way to eliminate the `= true` appendix as part of the projection. If you know how to achieve this, we're happy to get your input (Contributions are also more as welcome). We're looking for something like that: .project({
+  plate,
+  brand,
+  owner = {
+    name,
+  },
+}
