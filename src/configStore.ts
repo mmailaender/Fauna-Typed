@@ -12,7 +12,7 @@ export interface configState {
 
 export const useConfigStore = create<configState>(set => ({
   fqlxSecret: '',
-  fqlxEndpoint: new URL(endpoints.preview),
+  fqlxEndpoint: new URL(endpoints.default),
   setFqlxSecret: (secret: string) => set(() => ({ fqlxSecret: secret })),
   setFqlxEndpoint: (endpoint: URL) => set(() => ({ fqlxEndpoint: endpoint })),
 }));
