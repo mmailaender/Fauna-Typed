@@ -14,7 +14,7 @@ export default function FqlxClientProvider({
   return (
     <FqlxProvider
       config={{
-        fqlxSecret: '',
+        fqlxSecret: 'fnAFDgD5f9AAzGOyo_Ag3S1q9RCx__j6EXTXDCCO',
         endpoint: new URL(FAUNA_ENDPOINT),
       }}
       loader={<div>Loading...</div>}

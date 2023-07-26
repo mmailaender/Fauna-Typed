@@ -10,6 +10,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log('Abort signal', AbortSignal.timeout(200));
   return (
     <html lang="en">
       <body>

@@ -1,0 +1,19 @@
+# Logs
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Build
+dist/
+
+# Dependency directories
+node_modules/
+
+# Serverless directories
+.serverless/
+
+# Emacs
+*~
+*#
+/reports
+/.vscode
