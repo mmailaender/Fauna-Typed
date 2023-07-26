@@ -18,8 +18,8 @@ dependencies:
     specifier: 6.8.0
     version: 6.8.0
   fauna:
-    specifier: file:./fauna-js-main
-    version: file:fauna-js-main
+    specifier: ^0.9.3
+    version: 0.9.3
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -3915,6 +3915,10 @@ packages:
     dependencies:
       reusify: 1.0.4
     dev: true
+
+  /fauna@0.9.3:
+    resolution: {integrity: sha512-dIEcaHZ6JVVqWBBF5CVuCJfIFWLOVD7BPvtSdDjO1OUwXrd2ynmJ1Viv5nRlS1IMMRma8yNZz4lnw7YdQrvlBA==}
+    dev: false
 
   /fb-watchman@2.0.2:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
@@ -8341,9 +8345,4 @@ packages:
     dependencies:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
-  file:fauna-js-main:
-    resolution: {directory: fauna-js-main, type: directory}
-    name: fauna
     dev: false
