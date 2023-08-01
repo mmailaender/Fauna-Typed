@@ -115,7 +115,7 @@ export default function RootLayout({
 
 | Property   | Mandatory? | Description                                                                                                                                                                      | Example                                             |
 | ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| faunaecret | ✔️         | The secret to authenticate with Fauna. Recommended to use an <br> accessToken from your users, that you received after user login                                                | `faunaSecret: useAuth()`                             |
+| faunaSecret | ✔️         | The secret to authenticate with Fauna. Recommended to use an <br> accessToken from your users, that you received after user login                                                | `faunaSecret: useAuth()`                             |
 | loader     | 🗙          | You can provide a skeleton loader component that displays <br> automatically that component during suspense.                                                                     | `loader: {<Skeleton />}`                            |
 | endpoint   | 🗙          | Specify the Fauna endpoint. The default is Fauna cloud `https://db.fauna.com`. If you're not a Fauna Beta tester or using the Fauna Docker version, you probably don't need this | `endpoint: new URL('https://db.fauna-preview.com')` |
 
