@@ -10,7 +10,41 @@ export const executor = <T>(query: string): T => {
   // Checking, query is already executed
   if (!isNaN(activeQueryValue) || activeQueryValue) {
     if (activeQueryValue instanceof Promise) {
-      throw activeQueryValue;
+      let queryStatus = 'pending';
+      let queryResult = null;
+
+      activeQueryValue
+        .then(data => {
+          queryStatus = 'success';
+          queryResult = data;
+
+          store.setState({
+            activeQuery: {
+              ...store.getState().activeQuery,
+              [query]: data,
+            },
+          } as ZustandState);
+        })
+        .catch(err => {
+          queryStatus = 'error';
+
+          store.setState({
+            activeQuery: {
+              ...store.getState().activeQuery,
+              [query]: false,
+            },
+          } as ZustandState);
+
+          throw new Error(`Error from cahce promise: Error: ${err}`);
+        });
+
+      if (queryStatus === 'pending') {
+        throw activeQueryValue;
+      }
+
+      if (queryStatus === 'success') {
+        return queryResult as T;
+      }
     }
 
     // Return data from state
