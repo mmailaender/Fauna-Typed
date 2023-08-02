@@ -1,9 +1,9 @@
 {
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "dist/index.js",
-  "repository": { 
-    "type": "git", 
-    "url": "https://github.com/mmailaender/Fauna-Typed.git" 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmailaender/Fauna-Typed.git"
   },
   "typings": "dist/index.d.ts",
   "files": [
