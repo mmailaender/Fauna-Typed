@@ -51,6 +51,9 @@ Example schema
     "constraints": {
       "required": ["name"]
     }
+  },
+  "Function": {
+    "getOrdersByCustomer": "( name: string ): Set<Order>"
   }
 }
 ```
