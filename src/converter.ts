@@ -88,18 +88,36 @@ const createInterface = (key: string, value: Value, keyPath: string = '') => {
 
 const generateTypeDefs = () => {
   const schemaKeys = Object.keys(schema);
+  let typedFunctionString = '';
 
   schemaKeys.forEach((key: string) => {
-    const keyInPascalCase = getPascalCaseString(key);
+    if (key === 'Functions') {
+      // Creating functions type defs...
+      Object.entries(schema[key as keyof typeof schema]).forEach(
+        ([functionName, functionBody]) => {
+          typedFunctionString = typedFunctionString.concat(
+            `${functionName}: ${functionBody};\n`
+          );
+        }
+      );
 
-    queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
-      `/**\n * @returns This return fqlx methods for the ${keyInPascalCase} \n */ \n${keyInPascalCase}: ${keyInPascalCase}Methods;\n`
-    );
-    createInterface(key, schema[key as keyof typeof schema]);
+      typeSchema = typeSchema.concat(``);
+    } else {
+      const keyInPascalCase = getPascalCaseString(key);
+      queryInterfaceKeyValue = queryInterfaceKeyValue.concat(
+        `/**\n * @returns This return fqlx methods for the ${keyInPascalCase} \n */ \n${keyInPascalCase}: ${keyInPascalCase}Methods;\n`
+      );
+      createInterface(key, schema[key as keyof typeof schema]);
+    }
   });
 
-  typeSchema = typeSchema.concat(`export interface Query {
+  typeSchema = typeSchema.concat(`export interface Functions {
+    ${typedFunctionString}
+  }; \n\n
+  
+  export interface Query {
     Set: SetMethods;
+    Functions: Functions;
     ${queryInterfaceKeyValue}
   }`);
 };

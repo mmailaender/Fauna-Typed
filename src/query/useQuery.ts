@@ -8,10 +8,11 @@ import { CreateActions } from './CreateActions';
 import { ByIdActions } from './ByIdActions';
 import { FirstWhereActions } from './FirstWhereActions';
 import { SetActions } from './SetActions';
+import { FunctionsActions } from './FunctionsActions';
 
 export const useQuery = <T>(): T => {
   const useStore: ZustandStore = zustandStore.getStore();
-  const storeStates = useStore((state) => state);
+  const storeStates = useStore(state => state);
 
   const createStateInStore = (collectionName: StateKeys) => {
     if (!storeStates[collectionName]?.data) {
@@ -26,6 +27,9 @@ export const useQuery = <T>(): T => {
           switch (collectionName) {
             case 'Set':
               return new SetActions().set();
+            case 'Functions':
+              // @ts-expect-error
+              return new FunctionsActions<Pick<T, 'Functions'>>().call();
 
             default:
               createStateInStore(collectionName);

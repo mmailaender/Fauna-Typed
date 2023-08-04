@@ -30,12 +30,18 @@ const getFields = (fields: { [key: string]: any }): Field[] => {
 export const getCollectionsWithFields = (
   schema: GetCollectionsWithFieldsArgs
 ): CollectionsWithFieldsType[] => {
-  return Object.keys(schema).map(collectionName => {
-    const fields = schema[collectionName as keyof typeof schema].fields;
+  const collectionsWithFields: CollectionsWithFieldsType[] = [];
 
-    return {
-      name: collectionName,
-      fields: getFields(fields),
-    };
+  Object.keys(schema).forEach(collectionName => {
+    if (collectionName !== 'Functions') {
+      const fields = schema[collectionName as keyof typeof schema].fields;
+
+      collectionsWithFields.push({
+        name: collectionName,
+        fields: getFields(fields),
+      });
+    }
   });
+
+  return collectionsWithFields;
 };
