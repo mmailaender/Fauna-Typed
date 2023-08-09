@@ -17,7 +17,7 @@ export const revalidateActiveQueries = async (collection: StateKeys) => {
     if (
       query
         ?.toLocaleLowerCase()
-        ?.includes(collection?.toString().toLocaleLowerCase())
+        ?.startsWith(collection?.toString().toLocaleLowerCase())
     ) {
       try {
         const res = await callFqlxQuery(query);
