@@ -45,3 +45,41 @@ export const getCollectionsWithFields = (
 
   return collectionsWithFields;
 };
+
+export const createInitialDataFromFields = (
+  data: { name: string; fields: { name: string; type: string }[] }[]
+) => {
+  const initialData: { [key: string]: any } = {};
+
+  data.forEach(({ name }) => {
+    initialData[name] = {};
+  });
+
+  data.forEach(({ name: keyName, fields }) => {
+    fields.forEach(({ name: fieldName, type: fieldType }) => {
+      let val = undefined;
+
+      switch (true) {
+        case fieldType === 'string':
+          val = '';
+          break;
+
+        case fieldType === 'number':
+          val = 0;
+          break;
+
+        case fieldType.endsWith('[]'):
+          val = [initialData?.[fieldType.slice(0, -2)]];
+          break;
+
+        default:
+          val = initialData?.[fieldType];
+          break;
+      }
+
+      initialData[keyName][fieldName] = val;
+    });
+  });
+
+  return initialData;
+};

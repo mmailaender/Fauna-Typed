@@ -3,7 +3,10 @@ import path from 'path';
 import { getKeyType, getPascalCaseString } from './helper';
 import { topLevelInterfaces, createTypedefsMethods } from './util';
 import { getSchema } from './schema';
-import { getCollectionsWithFields } from './collectionsWithFields';
+import {
+  createInitialDataFromFields,
+  getCollectionsWithFields,
+} from './collectionsWithFields';
 
 interface Value {
   fields: {
@@ -144,6 +147,19 @@ fs.writeFileSync(
   ),
   `export const collectionsWithFields = ${JSON.stringify(
     getCollectionsWithFields(schema)
+  )}`,
+  {
+    encoding: 'utf-8',
+  }
+);
+
+fs.writeFileSync(
+  path.resolve(
+    process.env?.PWD as string,
+    `node_modules/fauna-typed/src/fqlx-generated/collectionsWithFields.json`
+  ),
+  `${JSON.stringify(
+    createInitialDataFromFields(getCollectionsWithFields(schema))
   )}`,
   {
     encoding: 'utf-8',
