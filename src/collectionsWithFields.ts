@@ -58,6 +58,12 @@ export const createInitialDataFromFields = (
   data.forEach(({ name: keyName, fields }) => {
     fields.forEach(({ name: fieldName, type: fieldType }) => {
       let val = undefined;
+      let arr = false;
+
+      if (fieldType.endsWith('[]')) {
+        fieldType = fieldType.slice(0, -2);
+        arr = true;
+      }
 
       switch (true) {
         case fieldType === 'string':
@@ -68,13 +74,17 @@ export const createInitialDataFromFields = (
           val = 0;
           break;
 
-        case fieldType.endsWith('[]'):
-          val = [initialData?.[fieldType.slice(0, -2)]];
+        case fieldType === 'boolean':
+          val = false;
           break;
 
         default:
           val = initialData?.[fieldType];
           break;
+      }
+
+      if (arr) {
+        val = [val];
       }
 
       initialData[keyName][fieldName] = val;
