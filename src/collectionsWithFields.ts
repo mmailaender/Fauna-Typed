@@ -51,11 +51,9 @@ export const createInitialDataFromFields = (
 ) => {
   const initialData: { [key: string]: any } = {};
 
-  data.forEach(({ name }) => {
-    initialData[name] = {};
-  });
-
   data.forEach(({ name: keyName, fields }) => {
+    initialData[keyName] = initialData[keyName] ?? {};
+
     fields.forEach(({ name: fieldName, type: fieldType }) => {
       let val = undefined;
       let arr = false;
@@ -79,7 +77,8 @@ export const createInitialDataFromFields = (
           break;
 
         default:
-          val = initialData?.[fieldType];
+          initialData[fieldType] = initialData[fieldType] ?? {};
+          val = initialData[fieldType];
           break;
       }
 
