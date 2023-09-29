@@ -4,3 +4,4 @@ export { FqlxProvider } from './FqlxProvider';
 export { getCollectionsWithFields } from './collectionsWithFields';
 export { resetActiveQueries } from './zustand/resetActiveQueries';
 export { revalidateActiveQueries } from './zustand/revalidateActiveQueries';
+export { useLocalStorage } from './hooks/useLocalStorage';
