@@ -11,7 +11,9 @@ export const useLocalStorage = (
   const [value, setValue] = useTsLocalStorage(storageKey, initialValue);
 
   useEffect(() => {
-    setValue(initialValue);
+    if (localStorage.getItem(storageKey) === null) {
+      setValue(initialValue);
+    }
   }, []);
 
   return { value, setValue };
