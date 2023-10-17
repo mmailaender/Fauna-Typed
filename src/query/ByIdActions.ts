@@ -34,7 +34,7 @@ export class ByIdActions<T, U> {
       exec: executor,
       update: this.update,
       delete: this.delete,
-      project: (projectionFields) =>
+      project: projectionFields =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -46,7 +46,7 @@ export class ByIdActions<T, U> {
   public update = (inputData: U): UpdateMethods<T> => {
     const input =
       typeof inputData === 'string' ? inputData : JSON.stringify(inputData);
-    const query = `${this.collectionName}.byId("${this.fqlxDocId}").update(${input})`;
+    const query = `${this.collectionName}.byId("${this.fqlxDocId}")!.update(${input})`;
 
     const executor = async (): Promise<T> => {
       try {
@@ -75,7 +75,7 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
-      project: (projectionFields) =>
+      project: projectionFields =>
         projection<T, T>(
           this.collectionName as string,
           query,
@@ -113,7 +113,7 @@ export class ByIdActions<T, U> {
 
     return {
       exec: executor,
-      project: (projectionFields) =>
+      project: projectionFields =>
         projection<T, T>(
           this.collectionName as string,
           query,
